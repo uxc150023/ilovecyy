@@ -3,7 +3,7 @@
  * by cyy zb
  * 2018 12 13
  */
-var commonConfig = {
+let commonConfig = {
     ENV: 'test',
     path: {
         dev: '/mock/', // 本地开发环境
@@ -21,7 +21,7 @@ var commonConfig = {
     /**
      * 页面跳转配置
      */
-     page: {
+    page: {
         'formDemo': 'demo/formDemo.html', // demo
     },
 
