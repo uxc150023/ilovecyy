@@ -8,6 +8,6 @@ import { baseUrl } from '@/config/env'
  */
 export const userLoging = (params) => axios.post(baseUrl + 'learn/useLogin/UserLoging', params)
 
-export const currentprice = () => axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+// export const currentprice = () => axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
 
 

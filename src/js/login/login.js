@@ -1,40 +1,14 @@
 import commonAction from "@/js/commonAction"
 import store from '@/vuex/store.js'
 import {currentprice, userLoging} from '@/service/getdata.js'
+import headTop from '@/components/header/head'
 
 export default {
     data() {
-        var checkAge = (rule, value, callback) => {
-            if (!value) {
-                return callback(new Error('年龄不能为空'));
-            }
-            if (!Number.isInteger(value)) {
-                callback(new Error('请输入数字值'));
-            } else {
-                if (value < 18) {
-                    callback(new Error('必须年满18岁'));
-                } else {
-                    callback();
-                }
-            }
-        };
-        /**
-         * 校验输入的密码
-         */
-        var validatePass = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请输入密码'));
-            } else {
-                if (this.ruleForm2.checkPass !== '') {
-                    this.$refs.ruleForm2.validateField('checkPass');
-                }
-                callback();
-            }
-        };
         /**
          * 校验手机号码
          */
-        var validatePass3 = (rule, value, callback) => {
+        var validatePhoneNum = (rule, value, callback) => {
             var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
             if(value === ''){
                 callback(new Error('请输入手机号码'));
@@ -44,47 +18,48 @@ export default {
                 callback();
             }
         };
+        /**
+         * 校验输入的密码
+         */
+        var validatePass = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入密码'));
+            } else {
+                callback();
+            }
+        };
         return {
             activeName: 'login_per',
             form: '',
-            ruleForm2: {
+            ruleFormPer: {
                 phoneNum: '', //手机号码
                 pass: '',
-                age: ''
             },
-            rules2: {
+            ruleFormOrg: {
+                name: '',
+                pass: '',
+            },
+            rules: {
                 phoneNum: [
-                    { validator: validatePass3, trigger: 'blur' }
+                    { validator: validatePhoneNum, trigger: 'blur' }
                 ],
                 pass: [
                     { validator: validatePass, trigger: 'blur' }
-                ],
-                age: [
-                    { validator: checkAge, trigger: 'blur' }
                 ]
             }
         };
     },
+    mounted: {
+        
+    },
+    components: {
+        headTop,
+    },
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
-                /**
-                 * 登陆
-                 */
-                let params = {
-                    "simis_valid": "FALSE",
-                    "logname": '18017607670',
-                    "code": '',
-                    "password": '11111111',
-                    "img_cod": '',
-                    'user_type': 'org',
-                    'img_vaild': ''
-                }
-                userLoging(params).then(res => {
-                    console.log(res.data);
-                })
                 if (valid) {
-                    alert('submit!');
+                    this.login(this.ruleFormPer.phoneNum, this.ruleFormPer.pass, 'per');
                 } else {
                     console.log('error submit!!');
                     return false;
@@ -96,6 +71,35 @@ export default {
         },
         handleClick(){
 
+        },
+        /**
+         * 登陆
+         */
+        login(phoneNum, pass, type) {
+            let params = {
+                "simis_valid": "FALSE",
+                "logname": phoneNum,
+                "code": '',
+                "password": pass,
+                "img_cod": '',
+                'user_type': type,
+                'img_vaild': ''
+            }
+            userLoging(params).then(res => {
+                console.log(res.data);
+                if(res.data.code === 200){
+                    this.$message({
+                        message: '登陆成功',
+                        type: 'success'
+                    });
+                    this.$router.push({ name: 'Myworld'})
+                }else{
+                    this.$message({
+                        message: res.data.message,
+                        type: 'warning'
+                    });
+                }
+            })
         },
     }
 }
