@@ -12,30 +12,26 @@ let commonConfig = {
     },
 
     /**
-     * 接口配置
-     */
-    setting: {
-        CRETIFY_PRE: 'apply/user_authentication',//用户认证
-    },
-
-    /**
-     * 页面跳转配置
-     */
-    page: {
-        'formDemo': 'demo/formDemo.html', // demo
-    },
-
-    /**
      * 本地缓存键值配置
      */
     sessionStore: {
         username: 'username',   //登录用户名，个人是手机号，公司是用户名
+        loginStatus: 'loginStatus',  //是否登录
+        userid: 'userid',    //登录用户的userid
+        webinfo: 'webinfo',  //抢注学网的网名网址和网名id
+        per_or_org: 'per_or_org',   //是个人还是公司
+        new_stuname: 'new_stuname', //新学名
+        subsidyAgree: 'subsidyAgree',//同意优惠协议
+        userInfo: 'userInfo', //用户信息
+        pubwebinfo: 'pubwebinfo', //用户在公众端的学网信息
+        meetId: 'meetId', //会议主键
+        // sdktoken: 'sdktoken', //网易
+        // uid: 'uid', //网易
+        searchInfo: 'searchInfo', //学搜跳转页面
+        live_num: 'live_num', //直播分会场序号
+        meetinfo: 'meetinfo', //会议id及各类信息存储
+        isAdmin: 'isAdmin'
     }
 }
 
-/**
- * 数据请求
- */
-var CGI = {
-
-}
+export default commonConfig

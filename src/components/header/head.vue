@@ -1,16 +1,17 @@
 <template>
     <div class="header">
-        <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
-            <el-radio-button label="wdxw">我的学网</el-radio-button>
-            <el-radio-button label="xqxy">学群学友</el-radio-button>
-            <el-radio-button label="tj">推介</el-radio-button>
-            <el-radio-button label="ls">理事</el-radio-button>
-            <el-radio-button label="yhzx">用户中心</el-radio-button>
-            <el-radio-button label="cws">财务室</el-radio-button>
-            <el-radio-button label="zlg">资料馆</el-radio-button>
-            <el-radio-button label="zc">注册</el-radio-button>
-            <el-radio-button label="dl">登陆</el-radio-button>
-        </el-radio-group>
+        <el-row>
+            <el-button @click="gopage('Mystunet')">我的学网</el-button>
+            <el-button @click="gopage('MyGroupFriend')">学群学友</el-button>
+            <el-button @click="gopage('Recome')">推介</el-button>
+            <el-button @click="gopage('Director')">理事</el-button>
+            <el-button @click="gopage('Uercenter')">用户中心</el-button>
+            <el-button @click="gopage('Financial')">财务室</el-button>
+            <el-button @click="gopage('Archive')">资料馆</el-button>
+            <el-button @click="gopage('Setting')">设置</el-button>
+            <el-button @click="gopage('Register')">注册</el-button>
+            <el-button @click="gopage('Login')">登陆</el-button>
+        </el-row>
     </div>
 </template>
 
@@ -18,45 +19,49 @@
 export default {
     data() {
         return {
-            tabPosition: 'wdxw'
+            tabPosition: 'wdxw',
+            loginStatus: '',//是否登陆
         };
     },
+
     methods: {
-        handleClick(tab, event) {
-            console.log(tab, event);
-        }
+        gopage(page) {
+            this.$router.push({ name: page })
+            this.$router.push({ name: page })
+            this.$router.push({ name: page })
+            this.$router.push({ name: page })
+            this.$router.push({ name: page })
+            this.$router.push({ name: page })
+            this.$router.push({ name: page })
+            this.$router.push({ name: page })
+            this.$router.push({ name: page })
+        },
+
     }
 };
 
 </script>
 
 <style lang="scss">
+    @import 'src/style/theme-base';
     .header {
         text-align: right;
         height: 46px;
         background-image: linear-gradient(90deg, #59ace7 0%, #5578ea 50%, #5254eb 84%, #5044ec 100%);
-        .el-radio-group {
-            margin: 0;
-            label {
-                .el-radio-button__inner {
-                    font-size: 18px;
-                    color: #fff;
-                    background-color: transparent;
-                    border: none;
-                    height: 46px;
-                }
-                .is-active {
-                    .el-radio-button__inner {
-                        background-color: #fff !important;
-                    }
-                }
-            }
-        }
-        .el-tabs__nav {
-            width: 100%;
-            .l-tabs__item {
-                font-size: 18px;
+        font-size: 0;
+        .el-row {
+            button {
+                margin: 0;
+                background-color: transparent;
                 color: #fff;
+                border: 0;
+                padding: 0 15px;
+                font-size: 18px;
+                line-height: 46px;
+                border-radius: 0;
+            }
+            button:hover {
+                background-color: rgba(255, 255, 255, 0.4);
             }
         }
     }

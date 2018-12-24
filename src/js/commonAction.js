@@ -3,6 +3,8 @@
  * by cyy zb
  * 2018 12 13
  */
+import commonConfig from "./config"
+
 let commonAction = {
     /**
      * @param  获取URL传参并转化为数组，支持指定参数获取

@@ -1,9 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Index from '@/views/index'
-import Login from '@/views/login/login'
-import Myworld from '@/views/myworld/myworld'
+import Index 		 from '@/views/index'
+import Login 		 from '@/views/login/login'
+import Myworld 		 from '@/views/myworld/myworld'
+import Mystunet 	 from '@/views/mystunet/mystunet'
+import MyGroupFriend from '@/views/mygroupfriend/myGroupFriend'
+import Recome 		 from '@/views/recome/recome'
+import Director      from '@/views/director/director'
+import Uercenter 	 from '@/views/uercenter/uercenter'
+import Financial  	 from '@/views/financial/financial'
+import Archive 		 from '@/views/archive/archive'
+import Setting 		 from '@/views/setting/setting'
+import Register 	 from '@/views/register/register'
 
 Vue.use(Router)
 
@@ -15,15 +24,71 @@ export default new Router({
 			name: 'Index',
 			component: Index
 		},
+		/*登陆*/
 		{
 			path: '/login',
 			name: 'Login',
 			component: Login
 		},
+		/*我世界*/
 		{
 			path: '/myworld',
 			name: 'Myworld',
 			component: Myworld
+		},
+		/*我的学网*/
+		{
+			path: '/mystunet',
+			name: 'Mystunet',
+			component: Mystunet
+		},
+		/*学群学友*/
+		{
+			path: '/myGroupFriend',
+			name: 'MyGroupFriend',
+			component: MyGroupFriend
+		},
+		/*推介*/
+		{
+			path: '/recome',
+			name: 'Recome',
+			component: Recome
+		},
+		/*理事*/
+		{
+			path: '/director',
+			name: 'Director',
+			component: Director
+		},
+		/*用户中心*/
+		{
+			path: '/uercenter',
+			name: 'Uercenter',
+			component: Uercenter
+		},
+		/*财务室*/
+		{
+			path: '/financial',
+			name: 'Financial',
+			component: Financial
+		},
+		/*资料馆*/
+		{
+			path: '/archive',
+			name: 'Archive',
+			component: Archive
+		},
+		/*设置*/
+		{
+			path: '/setting',
+			name: 'Setting',
+			component: Setting
+		},
+		/*注册*/
+		{
+			path: '/register',
+			name: 'Register',
+			component: Register
 		}
 	]
 })

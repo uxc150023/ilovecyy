@@ -1,9 +1,8 @@
 <template>
     <div class="myworld">
-        <head-top head-title="" go-back='true'></head-top>
-        <div class="myworld-head">
-            <head-top head-title="" go-back='true'></head-top>
-        </div>
+        <app-headtop></app-headtop>
+        <div class="myworld-head"></div>
+        <app-myworldbanner v-bind:banners="banners"></app-myworldbanner>
     </div>
 </template>
 
@@ -17,7 +16,7 @@
     .myworld {
         .myworld-head {
             height: 200px;
-            background-color: #0092ff;
+            background-color: #ddd;
             width: 100%;
         }
     }
