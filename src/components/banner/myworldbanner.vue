@@ -9,17 +9,17 @@
 <script>
     // import store from '@/vuex/store.js'
     export default {
+        data() {
+            return {
+                tabPosition: 'home',
+            }
+        },
         name: 'users',
         props:{
             banners:{
                 type:Array,
                 required:true
             }
-        },
-        data() {
-            return {
-                tabPosition: 'home',
-            };
         },
         methods: {
             handleClick(tab, event) {
