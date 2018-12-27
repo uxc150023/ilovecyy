@@ -213,5 +213,12 @@ export default {
             commonAction.removeStorage("userid");
             commonAction.removeStorage("username");
         },
+
+        /**
+         * 重置密码
+         */
+        resetPass() {
+            this.$router.push({ name: 'ResetPass' })
+        },
     }
 }

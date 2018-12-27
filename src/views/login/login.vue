@@ -10,11 +10,13 @@
                         <el-form-item label="密码：" prop="pass">      
                             <el-input type="password" v-model="ruleFormPer.pass" autocomplete="off" placeholder="请输入密码" ></el-input>
                         </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" @click="submitForm('ruleFormPer')" @keyup.enter.native="submitForm('ruleFormPer')">提交</el-button>
-                            <el-button @click="resetForm('ruleFormPer')">重置</el-button>
-                        </el-form-item>
                     </el-form>
+                    <el-button class="width-320" type="primary" @click="submitForm('ruleFormPer')" @keyup.enter.native="submitForm('ruleFormPer')">登 陆</el-button>
+
+                    <el-row class="width-320 margin-auto">
+                        <el-button class="float-left" type="text" @click="resetPass()">重置密码</el-button>
+                        <el-button class="float-right" type="text" @click="regiter()">注册</el-button>
+                    </el-row>
                 </el-tab-pane>
 
                 <el-tab-pane label="单位或其他用户登录" name="login_org">
@@ -52,52 +54,10 @@
 </template>
 
 <script>
-import Login from '@/js/login/login.js';
-export default Login
-
+    import Login from '@/js/login/login.js';
+    export default Login
 </script>
 
 <style lang="scss">
-$background: red;
-
-.login {
-    text-align: center;
-
-    .login_content {
-        width: 550px;
-        height: 400px;
-        margin: 0 auto;
-        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-        margin-bottom: 90px;
-        border-radius: 8px;
-        position: relative;
-        background-color: #fff;
-        padding: 30px 30px;
-        .el-input {
-        	// width: 100px;
-        }
-        .el-tabs__nav {
-            width: 100%;
-        }
-
-        .el-tabs__active-bar {
-            width: 50% !important;
-        }
-
-        .el-tabs__item {
-            width: 50%;
-            font-size: 24px;
-        }
-
-        .el-tab-pane {
-            text-align: center;
-        }
-    }
-
-    .demo-input-suffix {
-        width: 300px;
-        margin: auto;
-    }
-}
-
+    @import '../../style/theme-base';
 </style>

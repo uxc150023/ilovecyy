@@ -13,6 +13,7 @@ import Financial  	 from '@/views/financial/financial'
 import Archive 		 from '@/views/archive/archive'
 import Setting 		 from '@/views/setting/setting'
 import Register 	 from '@/views/register/register'
+import ResetPass     from '@/views/login/resetPass'
 
 Vue.use(Router)
 
@@ -89,6 +90,12 @@ export default new Router({
 			path: '/register',
 			name: 'Register',
 			component: Register
+		},
+		/*重置密码*/
+		{
+			path: '/resetPass',
+			name: 'ResetPass',
+			component: ResetPass
 		}
 	]
 })
