@@ -1,14 +1,16 @@
 import commonAction from "@/js/commonAction"
 import store from '@/vuex/store.js'
-import {GETMYWORLDINFO } from '@/service/getdata.js'
+import {_getUrl, _getData} from '@/service/getdata.js'
 import headTop from '@/components/header/head'
+import modal from '@/components/modal/modal'
 import myworldbanner from '@/components/banner/myworldbanner'
 
 export default {
     data() {
         return {
             stunetId: commonAction.getStorage("webinfo").stunet_id,
-            banners:[]
+            banners:[],
+            dialogVisible: [false]   /*向子组件传值，因为子组件也需要修改这个值，所以要用数组或者对象的方式 传值*/
         };
     },
 
@@ -18,8 +20,10 @@ export default {
 
     components: {
         "app-headtop":headTop,
-        "app-myworldbanner": myworldbanner
+        "app-myworldbanner": myworldbanner,
+        "app-modal":modal,
     },
+
     methods: {
         init(){
             var params = {
@@ -28,13 +32,13 @@ export default {
                 "type": 1
             }
             /*查询学会信息*/
-            GETMYWORLDINFO(params).then(res => {
-                console.log(res.data)
-                this.banners = res.data.data.stunetMenuConfigs
-                // store.commit('setMyworldBanner', res.data.data.stunetBanners);
-                
-                console.log(store.state.myworldbanner);
+            _getData(_getUrl('STUORGINFO'), params, res => {
+                this.banners = res.data.stunetMenuConfigs
             })
+        },
+
+        showSetting(param){
+            this.dialogVisible = [true];
         }
     }
 }

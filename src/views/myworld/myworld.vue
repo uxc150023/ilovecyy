@@ -1,8 +1,11 @@
 <template>
     <div class="myworld">
-        <app-headtop></app-headtop>
+        <app-headtop v-on:showSetting="showSetting()"></app-headtop>
         <div class="myworld-head"></div>
         <app-myworldbanner v-bind:banners="banners"></app-myworldbanner>
+        <app-modal v-bind:dialogVisible="dialogVisible">
+            <div>123123123123</div>
+        </app-modal>
     </div>
 </template>
 

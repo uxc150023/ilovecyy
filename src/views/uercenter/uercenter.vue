@@ -9,7 +9,7 @@
 <script>
 	import commonAction from "@/js/commonAction"
 	import store from '@/vuex/store.js'
-	import {GETMYWORLDINFO } from '@/service/getdata.js'
+	import {_getUrl, _getData} from '@/service/getdata.js'
 	import headTop from '@/components/header/head'
 	import myworldbanner from '@/components/banner/myworldbanner'
 	export default {
@@ -36,10 +36,8 @@
 	                "type": 1
 	            }
 	            /*查询学会信息*/
-	            GETMYWORLDINFO(params).then(res => {
-	                console.log(res.data)
-	                this.banners = res.data.data.stunetMenuConfigs
-	                console.log(store.state.myworldbanner);
+	            _getData(_getUrl('STUORGINFO'), params, res => {
+	                this.banners = res.data.stunetMenuConfigs
 	            })
 	        }
 	    }

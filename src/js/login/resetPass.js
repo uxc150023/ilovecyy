@@ -11,9 +11,9 @@ export default {
  	mounted() {
 
     },
-
+    
     created() {
-        this.keyupSubmit();
+        
     },
 
     methods: {

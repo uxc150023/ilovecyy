@@ -2,6 +2,9 @@
 
 > A Vue.js project
 
+所有全局 方法都用_function 命名
+
+
 ## Build Setup
 
 ``` bash

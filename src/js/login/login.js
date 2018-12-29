@@ -1,7 +1,7 @@
 import commonAction from "@/js/commonAction"
 import store from '@/vuex/store.js'
 import GVerify from './pngcode.js'
-import {USERLOGING, ISLIVORDERS, VALIDATECODE } from '@/service/getdata.js'
+import {_getUrl, _getData} from '@/service/getdata.js'
 
 export default {
     data() {
@@ -102,12 +102,12 @@ export default {
                 "logname": this.ruleFormPer.phoneNum,
                 "code": '',
                 "password": this.ruleFormPer.pass,
-                "img_cod": this.imgcode,
+                "img_vaildcod": this.imgcode,
                 'user_type': type,
                 'img_vaild': this.img_vaild
             }
-            USERLOGING(params).then(res => {
-                if (res.data.code === 200) {
+            _getData(_getUrl('USERLOGING'),params, res =>{
+                if (res.code === 200) {
                     this.$message({
                         message: '登陆成功',
                         type: 'success'
@@ -115,27 +115,25 @@ export default {
                     // store.commit('setUserId', res.data.data.userid);
                     this.storeSession(res);
                     let paramsa = {
-                        userid: res.data.data.userid
+                        userid: res.data.userid
                     }
                     /*判断用户是否存在未完成订单*/
-                    ISLIVORDERS(paramsa).then( res => {
+                    _getData(_getUrl('ISLIVORDERS'), paramsa, res => {
                         commonAction.setStorage('webinfo', {
-                            stunet_name: res.data.data.stunet_name,
-                            stunet_url: res.data.data.stunet_url,
-                            stunet_id: res.data.data.stunet_id,
-                            userid: store.state.userId
+                            stunet_name: res.data.stunet_name,
+                            stunet_url: res.data.stunet_url,
+                            stunet_id: res.data.stunet_id,
+                            userid: res.data.userId
                         });
-                        // console.log(res.data.data)
-                        // store.commit('setMyworldBanner', res.data.data.stunetBanners)
                         this.$router.push({ name: 'Myworld' })
                     })
-                } else if (res.data.code === 315) { //登陆频繁
+                } else if (res.code === 315) { //登陆频繁
                     this.showpngcode = true
-                } else if (res.data.code === 316) { //异地登陆
+                } else if (res.code === 316) { //异地登陆
                     
                 }else {
                     this.$message({
-                        message: res.data.message,
+                        message: res.message,
                         type: 'warning'
                     });
                 }
@@ -200,10 +198,10 @@ export default {
          */
         storeSession (res) {
             commonAction.setStorage("loginStatus", "TRUE");     //存储登录状态
-            commonAction.setStorage("username", res.data.data.username);     //存储用户名，个人是手机号，公司是机构名
-            commonAction.setStorage("userid",  res.data.data.userid);     //存储userid
-            commonAction.setStorage("new_stuname",  res.data.data.new_stuname);     //存储userid
-            commonAction.setStorage("isAdmin",  res.data.data.admin);     //存储状态
+            commonAction.setStorage("username", res.data.username);     //存储用户名，个人是手机号，公司是机构名
+            commonAction.setStorage("userid",  res.data.userid);     //存储userid
+            commonAction.setStorage("new_stuname",  res.data.new_stuname);     //存储userid
+            commonAction.setStorage("isAdmin",  res.data.admin);     //存储状态
         },
         /**
          * 抹除登录信息
