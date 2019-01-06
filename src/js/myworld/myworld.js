@@ -15,6 +15,7 @@ export default {
     },
 
     mounted() {
+        console.log('===', this)
         this.init()
     },
 
@@ -33,11 +34,13 @@ export default {
             }
             /*查询学会信息*/
             _getData(_getUrl('STUORGINFO'), params, res => {
+                console.log('---', this)
                 this.banners = res.data.stunetMenuConfigs
             })
         },
 
         showSetting(param){
+            alert(123123)
             this.dialogVisible = [true];
         }
     }

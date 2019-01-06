@@ -4,6 +4,8 @@
 
 所有全局 方法都用_function 命名
 
+图片裁剪 使用cropper js    npm install cropper js --save -dev
+
 
 ## Build Setup
 

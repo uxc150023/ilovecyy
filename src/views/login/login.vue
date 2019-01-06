@@ -2,8 +2,8 @@
     <div class="login">
         <div class="login_content">
             <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="个人登录" name="login_per">
-                    <el-form :model="ruleFormPer" status-icon :rules="rules" ref="ruleFormPer" label-width="100px" class="demo-ruleForm">
+                <el-tab-pane label="个人登录" name="ruleFormPer">
+                    <el-form :model="ruleFormPer" status-icon :rules="rules_per" ref="ruleFormPer" label-width="100px" class="demo-ruleForm">
                         <el-form-item label="个人手机：" prop="phoneNum">
                             <el-input type="tel" v-model="ruleFormPer.phoneNum" autocomplete="off" placeholder="请输入个人手机"></el-input>
                         </el-form-item>
@@ -11,27 +11,24 @@
                             <el-input type="password" v-model="ruleFormPer.pass" autocomplete="off" placeholder="请输入密码" ></el-input>
                         </el-form-item>
                     </el-form>
-                    <el-button class="width-320" type="primary" @click="submitForm('ruleFormPer')" @keyup.enter.native="submitForm('ruleFormPer')">登 陆</el-button>
-
-                    <el-row class="width-320 margin-auto">
-                        <el-button class="float-left" type="text" @click="resetPass()">重置密码</el-button>
-                        <el-button class="float-right" type="text" @click="regiter()">注册</el-button>
-                    </el-row>
                 </el-tab-pane>
 
-                <el-tab-pane label="单位或其他用户登录" name="login_org">
-                    <div class="demo-input-suffix">
-                        <el-form ref="form" :model="ruleFormOrg" label-width="80px">
-                            <el-form-item label="新学名：">
-                                <el-input v-model="ruleFormOrg.name" placeholder="新学名"></el-input>
-                            </el-form-item>
-                            <el-form-item label="密码：">
-                                <el-input type="password" v-model="ruleFormOrg.pass" placeholder="密码或手机验证码"></el-input>
-                            </el-form-item>
-                        </el-form>
-                    </div>
+                <el-tab-pane label="单位或其他用户登录" name="ruleFormOrg">
+                    <el-form :model="ruleFormOrg" status-icon :rules="rules_org" ref="ruleFormOrg" label-width="100px" class="demo-ruleForm">
+                        <el-form-item label="用户名：" prop="name">
+                            <el-input type="tel" v-model="ruleFormOrg.name" autocomplete="off" placeholder="请输入用户名"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码：" prop="pass">      
+                            <el-input type="password" v-model="ruleFormOrg.pass" autocomplete="off" placeholder="请输入密码" ></el-input>
+                        </el-form-item>
+                    </el-form>
                 </el-tab-pane>
             </el-tabs>
+            <el-button class="width-320" type="primary" @click="submitForm()" @keyup.enter.native="submitForm()">登 陆</el-button>
+            <el-row class="width-320 margin-auto">
+                <el-button class="float-left" type="text" @click="resetPass()">重置密码</el-button>
+                <el-button class="float-right" type="text" @click="regiter()">注册</el-button>
+            </el-row>
         </div>
 
 

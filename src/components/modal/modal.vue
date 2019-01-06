@@ -30,7 +30,7 @@ export default {
     props: ['dialogVisible'],
 
     mounted(){
-        this.insertion();
+        
     },
 
     methods: {

@@ -137,6 +137,16 @@ let commonAction = {
     },
 
     /**
+     * 校验是否全由数字组成 
+     * @return {[type]}
+     */
+    isDigit: (s) => { 
+        var patrn=/^[0-9]{1,20}$/; 
+        if (!patrn.exec(s)) return false 
+        return true 
+    }
+
+    /**
      * 弹层
      */
     

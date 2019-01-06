@@ -11,7 +11,7 @@ import Director      from '@/views/director/director'
 import Uercenter 	 from '@/views/uercenter/uercenter'
 import Financial  	 from '@/views/financial/financial'
 import Archive 		 from '@/views/archive/archive'
-import Setting 		 from '@/views/setting/setting'
+import Mtsetting 		 from '@/views/setting/mtsetting'
 import Register 	 from '@/views/register/register'
 import ResetPass     from '@/views/login/resetPass'
 
@@ -81,9 +81,9 @@ export default new Router({
 		},
 		/*设置*/
 		{
-			path: '/setting',
-			name: 'Setting',
-			component: Setting
+			path: '/mtsetting',
+			name: 'Mtsetting',
+			component: Mtsetting
 		},
 		/*注册*/
 		{

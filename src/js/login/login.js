@@ -8,7 +8,7 @@ export default {
         /**
          * 校验手机号码
          */
-        var validatePhoneNum = (rule, value, callback) => {
+        var v_phone = (rule, value, callback) => {
             var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
             if (value === '') {
                 callback(new Error('请输入手机号码'));
@@ -21,7 +21,7 @@ export default {
         /**
          * 校验输入的密码
          */
-        var validatePass = (rule, value, callback) => {
+        var v_pass = (rule, value, callback) => {
             if (value === '') {
                 callback(new Error('请输入密码'));
             } else {
@@ -29,26 +29,35 @@ export default {
             }
         };
         return {
-            activeName: 'login_per',
+            activeName: 'ruleFormPer',
             form: '',
             showpngcode: false, //显示图形验证码
-            imgcode: '', //图形验证码
+            imgcode: '',        //图形验证码
             img_vaild: 'FALSE', //是否是图形验证码登陆
             ruleFormPer: {
-                phoneNum: '', //手机号码
+                phoneNum: '',   //手机号码
                 pass: '',
             },
             ruleFormOrg: {
                 name: '',
                 pass: '',
             },
+            loginType: 'ruleFormPer',   //登陆类型
             verifyCode: '',
-            rules: {
+            rules_per: {
                 phoneNum: [
-                    { validator: validatePhoneNum, trigger: 'blur' }
+                    { required: true, validator: v_phone, trigger: 'blur' }
                 ],
                 pass: [
-                    { validator: validatePass, trigger: 'blur' }
+                    { required: true, validator: v_pass, trigger: 'blur' }
+                ]
+            },
+            rules_org: {
+                name: [
+                    { required: true,  message: '请输入用户名', trigger: 'blur' }
+                ],
+                pass: [
+                    { required: true,  message: '请输入密码', trigger: 'blur' }
                 ]
             }
         };
@@ -62,10 +71,15 @@ export default {
     },
 
     methods: {
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
+        submitForm() {
+            this.$refs[this.loginType].validate((valid) => {
                 if (valid) {
-                    this.login('per');
+                    if(this.loginType === 'ruleFormPer'){
+                        this.login('per', this.ruleFormPer.phoneNum, this.ruleFormPer.pass);
+                    }else{
+                        this.login('org', this.ruleFormOrg.name, this.ruleFormOrg.pass);
+                    }
+                    
                 } else {
                     console.log('error submit!!');
                     return false;
@@ -75,8 +89,12 @@ export default {
         resetForm(formName) {
             this.$refs[formName].resetFields();
         },
-        handleClick() {
-
+        /**
+         * @return {tab点击}
+         */
+        handleClick(tab, even) {
+            this.loginType = tab.name;
+            console.log(tab.name);
         },
         /**
          * 绑定enter事件
@@ -93,16 +111,16 @@ export default {
         /**
          * 登陆
          */
-        login(type) {
+        login(type, logname, pass) {
             if(this.showpngcode === false){
                 this.img_vaild = 'FALSE'
             }
             let params = {
                 "simis_valid": "FALSE",
-                "logname": this.ruleFormPer.phoneNum,
+                "logname": logname,
                 "code": '',
-                "password": this.ruleFormPer.pass,
-                "img_vaildcod": this.imgcode,
+                "password": pass,
+                // "img_vaildcod": this.imgcode,
                 'user_type': type,
                 'img_vaild': this.img_vaild
             }
@@ -207,9 +225,7 @@ export default {
          * 抹除登录信息
          */
         removeSession () {
-            commonAction.removeStorage("loginStatus");
-            commonAction.removeStorage("userid");
-            commonAction.removeStorage("username");
+            sessionStorage.clear();
         },
 
         /**

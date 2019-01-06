@@ -1,7 +1,10 @@
 <template>
     <div class="myworld">
         <app-headtop v-on:showSetting="showSetting()"></app-headtop>
-        <div class="myworld-head"></div>
+        <div class="myworld-head">
+            <img src="../../images/snow.gif">
+            <p>xxxxxxx</p>
+        </div>
         <app-myworldbanner v-bind:banners="banners"></app-myworldbanner>
         <app-modal v-bind:dialogVisible="dialogVisible">
             <div>123123123123</div>
@@ -19,7 +22,7 @@
     .myworld {
         .myworld-head {
             height: 200px;
-            background-color: #ddd;
+            background-color: #7FFF8EFF;
             width: 100%;
         }
     }

@@ -16,7 +16,8 @@
 		data() {
 	        return {
 	        	stunetId: commonAction.getStorage("webinfo").stunet_id,
-	        	banners: []
+	        	banners: [],
+	        	str_array: []
 	        }
 	    },
 	    mounted() {
