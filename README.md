@@ -4,7 +4,20 @@
 
 所有全局 方法都用_function 命名
 
-图片裁剪 使用cropper js    npm install cropper js --save -dev
+图片裁剪 使用vue-cropper      npm install vue-cropper --save -dev
+	用法：
+		import Cutimgdialog from '@/components/cutImg/cutimgdialog'
+		
+		components: {
+	        'app-cutimgdialog': Cutimgdialog
+	    },
+
+富文本编辑器： vue-quill-editor、quill
+	参考地址：url: https://blog.csdn.net/senmage/article/details/82388728
+	用法：import Quilleditor from '@/components/quilleditor/quilleditor'
+		components: {
+	        'app-quilleditor':Quilleditor
+	    },
 
 
 ## Build Setup

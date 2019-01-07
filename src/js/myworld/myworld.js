@@ -40,7 +40,6 @@ export default {
         },
 
         showSetting(param){
-            alert(123123)
             this.dialogVisible = [true];
         }
     }
