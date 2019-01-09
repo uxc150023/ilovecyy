@@ -2,7 +2,7 @@
     <div>
         <div class="banner">
             <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-                <el-tab-pane v-for="(item, index) in banners" :label="item.name" v-if="item.isDelete === 0" :name="item.code"></el-tab-pane>
+                <el-tab-pane v-for="(item, index) in banners" :key='index' :label="item.name" v-if="item.isDelete === 0" :name="item.code"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="content">
@@ -16,7 +16,13 @@
     export default {
         data() {
             return {
-                activeName: 'home',
+                activeName: '',
+                routers: {//匹配路由
+                    'myhome':       'home',
+                    'myread':       'read',
+                    'mywrite':      'write',
+                    'mymeetting':   'hy'
+                }
             }
         },
         name: 'users',
@@ -25,9 +31,15 @@
         },
         methods: {
             handleClick(tab) {
-                console.log(tab)
                 this.$router.push({ name: tab.name })
             }
+        },
+        created(){
+            /*设置tab焦点*/
+            this.activeName = this.routers[location.href.split('/')[location.href.split('/').length - 1]];
+        },
+        mounted(){
+            
         }
     };
 
@@ -57,6 +69,6 @@
     }
     .content {
         padding-left: 15px;
-        background-color: #fafafa;
+        // background-color: #fafafa;
     }
 </style>
