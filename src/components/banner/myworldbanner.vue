@@ -17,11 +17,17 @@
         data() {
             return {
                 activeName: '',
-                routers: {//匹配路由
-                    'myhome':       'home',
-                    'myread':       'read',
-                    'mywrite':      'write',
-                    'mymeeting':   'hy'
+                navmenus: { //匹配路由
+                    'home':     'home',
+                    'read':     'read',
+                    'write':    'write',
+                    'meeting':  'hy'
+                },
+                routers: {  //匹配路由
+                    'home':     'Worldhome',
+                    'read':     'Worldread',
+                    'write':    'Worldwrite',
+                    'hy':       'Worldmeeting'
                 }
             }
         },
@@ -31,12 +37,12 @@
         },
         methods: {
             handleClick(tab) {
-                this.$router.push({ name: tab.name })
+                this.$router.push({ name: this.routers[tab.name] })
             }
         },
         created(){
             /*设置tab焦点*/
-            this.activeName = this.routers[location.href.split('/')[location.href.split('/').length - 1]];
+            this.activeName = this.navmenus[location.href.split('/')[location.href.split('/').length - 1]];
         },
         mounted(){
             

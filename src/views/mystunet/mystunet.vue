@@ -1,7 +1,10 @@
 <template>
     <div class="mystunet">
         <app-headtop></app-headtop>
-        <div class="mystunet-head"></div>
+        <div class="mystunet_head">
+        	<img src="../../images/snow.gif">
+            <p>xxxxxxx</p>
+        </div>
         <app-myworldbanner v-bind:banners="banners"></app-myworldbanner>
     </div>
 </template>
@@ -45,6 +48,12 @@
 </script>
 
 <style lang="scss">
-	
+	.mystunet {
+        .mystunet_head {
+            height: 200px;
+            background-color: #ddd;
+            width: 100%;
+        }
+    }
 
 </style>

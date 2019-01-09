@@ -1,24 +1,35 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Index 		 from '@/views/index'
-import Login 		 from '@/views/login/login'
-import Myworld 		 from '@/views/myworld/myworld'
-import Mymeeting     from '@/views/myworld/mymeeting'
-import Myhome  	     from '@/views/myworld/myhome'
-import Myread  	     from '@/views/myworld/myread'
-import Mywrite  	 from '@/views/myworld/mywrite'
+import Index 		 	from '@/views/index'
+import Login 		 	from '@/views/login/login'
 
-import Mystunet 	 from '@/views/mystunet/mystunet'
-import MyGroupFriend from '@/views/mygroupfriend/myGroupFriend'
-import Recome 		 from '@/views/recome/recome'
-import Director      from '@/views/director/director'
-import Uercenter 	 from '@/views/uercenter/uercenter'
-import Financial  	 from '@/views/financial/financial'
-import Archive 		 from '@/views/archive/archive'
-import Mtsetting     from '@/views/setting/mtsetting'
-import Register 	 from '@/views/register/register'
-import ResetPass     from '@/views/login/resetPass'
+import Myworld 			from '@/views/myworld/myworld'		//我世界
+import Worldhome  	   	from '@/views/myworld/home'		//我世界 - 首页
+import Worldread  	   	from '@/views/myworld/read'		//我世界 - 我读
+import Worldwrite  		from '@/views/myworld/write'		//我世界 - 我写
+import Worldmeeting		from '@/views/myworld/meeting'	//我世界 - 会议
+
+import Mystunet 		from '@/views/mystunet/mystunet'	//学会
+import Stuhome 	   		from '@/views/mystunet/home'		//学会 - 首页
+import Stuprofile  		from '@/views/mystunet/profile'		//学会 - 概况
+import Stuleader		from '@/views/mystunet/leader'		//学会 - 领导
+import Stumember		from '@/views/mystunet/member'		//学会 - 学员
+import Stumeeting		from '@/views/mystunet/meeting'		//学会 - 会议
+import Stuforum	 		from '@/views/mystunet/forum' 		//学会 - 论坛
+import Stushare			from '@/views/mystunet/share' 		//学会 - 文献共享
+import Stuinitiation	from '@/views/mystunet/initiation' 		//学会 - 入会管理
+import Stucertify		from '@/views/mystunet/certify' 	//学会 - 证书管理
+
+import MyGroupFriend 	from '@/views/mygroupfriend/myGroupFriend'
+import Recome 		 	from '@/views/recome/recome'
+import Director      	from '@/views/director/director'
+import Uercenter 	 	from '@/views/uercenter/uercenter'
+import Financial  	 	from '@/views/financial/financial'
+import Archive 		 	from '@/views/archive/archive'
+import Mtsetting     	from '@/views/setting/mtsetting'
+import Register 	 	from '@/views/register/register'
+import ResetPass     	from '@/views/login/resetPass'
 
 Vue.use(Router)
 
@@ -41,19 +52,31 @@ export default new Router({
 			path: '/myworld',
 			name: 'Myworld',
 			component: Myworld,
-			redirect: '/myworld/myhome', //重定向
+			redirect: '/myworld/home', //重定向
             children: [
-            	{ path: '/myworld/myhome', 		name: 'home',	component: Myhome },
-            	{ path: '/myworld/myread', 		name: 'read',	component: Myread },
-            	{ path: '/myworld/mywrite', 	name: 'write',	component: Mywrite },
-                { path: '/myworld/mymeeting', 	name: 'hy',		component: Mymeeting }
+            	{ path: '/myworld/home', 		name: 'Worldhome',		component: Worldhome },
+            	{ path: '/myworld/read', 		name: 'Worldread',		component: Worldread },
+            	{ path: '/myworld/write', 		name: 'Worldwrite',		component: Worldwrite },
+                { path: '/myworld/meeting', 	name: 'Worldmeeting',	component: Worldmeeting }
             ]
 		},
 		/*我的学网*/
 		{
 			path: '/mystunet',
 			name: 'Mystunet',
-			component: Mystunet
+			component: Mystunet,
+			redirect: '/mystunet/home', //重定向
+			children: [
+				{ path: '/mystunet/home', 		name: 'home',			component: Stuhome 		},
+				{ path: '/mystunet/profile', 	name: 'profile',		component: Stuprofile 	},
+				{ path: '/mystunet/leader', 	name: 'leader',			component: Stuleader 	},
+				{ path: '/mystunet/member', 	name: 'member',			component: Stumember 	},
+				{ path: '/mystunet/meeting', 	name: 'meeting',		component: Stumeeting 	},
+				{ path: '/mystunet/forum', 		name: 'forum',			component: Stuforum	 	},
+				{ path: '/mystunet/share', 		name: 'share',			component: Stushare 	},
+				{ path: '/mystunet/initiation', name: 'initiation',		component: Stuinitiation},
+				{ path: '/mystunet/certify', 	name: 'certify',		component: Stucertify 	},
+			]
 		},
 		/*学群学友*/
 		{

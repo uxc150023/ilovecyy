@@ -143,7 +143,12 @@ export default {
                             stunet_id: res.data.stunet_id,
                             userid: res.data.userId
                         });
-                        this.$router.push({ name: 'Myworld' })
+                        if(type === 'per'){
+                            this.$router.push({ name: 'hy' })
+                        }else{
+                            this.$router.push({ name: 'Mystunet' })
+                        }
+                        
                     })
                 } else if (res.code === 315) { //登陆频繁
                     this.showpngcode = true
