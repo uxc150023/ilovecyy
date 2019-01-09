@@ -1,8 +1,13 @@
 <template>
-    <div class="banner">
-        <el-radio-group v-model="tabPosition">
-            <el-radio-button :label="item.code" v-for="(item, index) in banners" :key="index" v-if="item.isDelete === 0">{{item.name}}</el-radio-button>
-        </el-radio-group>
+    <div>
+        <div class="banner">
+            <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+                <el-tab-pane v-for="(item, index) in banners" :label="item.name" v-if="item.isDelete === 0" :name="item.code"></el-tab-pane>
+            </el-tabs>
+        </div>
+        <div class="content">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
@@ -11,19 +16,17 @@
     export default {
         data() {
             return {
-                tabPosition: 'home',
+                activeName: 'home',
             }
         },
         name: 'users',
         props:{
-            banners:{
-                type:Array,
-                required:true
-            }
+            banners:{}
         },
         methods: {
-            handleClick(tab, event) {
-                console.log(tab, event);
+            handleClick(tab) {
+                console.log(tab)
+                this.$router.push({ name: tab.name })
             }
         }
     };
@@ -33,20 +36,27 @@
 <style lang="scss">
     .banner {
         background-color: #0092ff;
-        text-align: left;
-        padding-left: 30px;
-        .el-radio-group {
-
-            .is-active {
-                background-color: #2954aa;
-            }
-            .el-radio-button {
-                .el-radio-button__inner {
-                    background-color: transparent;
-                    border: 0;
-                    color: #fff;
+        text-align: center;
+        .el-tabs {
+            .el-tabs__header {
+                margin: 0;
+                border: none;
+                height: 40px;
+                .el-tabs__nav {
+                    border: none;
+                    .el-tabs__item {
+                        border: none;
+                        color: #fff;
+                    }
+                    .el-tabs__item.is-active {
+                        background-color: #2954aa;
+                    }
                 }
             }
         }
+    }
+    .content {
+        padding-left: 15px;
+        background-color: #fafafa;
     }
 </style>

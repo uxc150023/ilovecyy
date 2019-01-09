@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Index 		 from '@/views/index'
 import Login 		 from '@/views/login/login'
 import Myworld 		 from '@/views/myworld/myworld'
+import hy       	 from '@/views/myworld/mymeeting'
 import Mystunet 	 from '@/views/mystunet/mystunet'
 import MyGroupFriend from '@/views/mygroupfriend/myGroupFriend'
 import Recome 		 from '@/views/recome/recome'
@@ -35,7 +36,11 @@ export default new Router({
 		{
 			path: '/myworld',
 			name: 'Myworld',
-			component: Myworld
+			component: Myworld,
+            children: [
+                // { path: '/mymeeting', redirect: '/Home/login' },
+                { path: '/myworld/mymeeting', name: 'hy', component: hy },
+            ]
 		},
 		/*我的学网*/
 		{
@@ -96,6 +101,12 @@ export default new Router({
 			path: '/resetPass',
 			name: 'ResetPass',
 			component: ResetPass
-		}
+		},
+        /*我世界--会议*/
+        // {
+        //     path: '/mymeeting',
+        //     name: 'hy',
+        //     component: hy
+        // },
 	]
 })

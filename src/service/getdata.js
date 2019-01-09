@@ -1,7 +1,6 @@
 import axios from 'axios'
-import { baseUrl } from '@/config/env'
-import { Loading } from 'element-ui';
-
+import {baseUrl} from '@/config/env'
+import {Loading} from 'element-ui'
 
 /*接口地址配置*/
 let postUrl = {
@@ -229,7 +228,6 @@ let postUrl = {
     SGENMYI: 'learn/ProGenra/SGenMyI', //作品推广历史与效果 查询 我的
     SGENFRI: 'learn/ProGenra/SGenFrI', //助推历史与效果 查询 朋友的
 
-
     //资料室
     SLIBRARYAL: 'learn/LibraryS/SLibraryAl', //资料室 -- 显示
     SLMESSAGE: 'learn/LibraryS/SLMessage', //资料室 -- 我的学聊 -- 展开
@@ -279,7 +277,7 @@ let postUrl = {
     MEET_SAVE: 'learn/meeting/save', //保存会议信息接口
     UPMUSIC: 'learn/musicupload/multiupload', //上传音频文件接口
     SAVE_INVITE_LIST: 'learn/meeting/saveInviteList', //保存拟邀名单接口
-    INVITED_LIST: "learn/join/invitedList", //拟邀名单
+    INVITED_LIST: 'learn/join/invitedList', //拟邀名单
     GET_ALOADPAGEADMITS: 'learn/admit/loadPageAdmits', // 入会管理分页
     SET_USUCCORDERS: 'learn/StuNSite/USuccOrderS', //创建学网状态 改成358
     GET_JOININFO: 'learn/join/getJoinInfo', //邀请函件
@@ -290,7 +288,7 @@ let postUrl = {
     UPDATE_PAPER: 'learn/mpaper/updatePaper', //更新论文接口：(入选操作等)
     GET_CERTINFO: 'learn/mcert/certInfo', //查询某会议某用户的证书信息接口
     SAVE_MINFO: 'learn/meeting/saveMInfo', //更新会议基础信息
-    SAVE_CERTINFO: "learn/mcert/saveCertInfo", //保存会议证书主任和时间
+    SAVE_CERTINFO: 'learn/mcert/saveCertInfo', //保存会议证书主任和时间
     SAVE_SHUTTLE: 'learn/shuttle/save', //保存用户往返安排
     SAVEJOININFO: 'learn/join/saveJoinInfo', //报名参会接口
     SELECTMYJOIN: 'learn/join/selectMyJoin', //查询用户参会信息接口
@@ -406,23 +404,22 @@ let postUrl = {
     SCHSY_GRODE: 'learn/SchGShow/SchSYGroDe', //首页时序音序 -- 显示同属学群
 
     SACHOMEW: 'learn/Account/SACHomeW', //获取充值单号和余额
-    TOPUPSTUM: "/learn/Account/TopUpStuM", //充值
-    SEXPIMCMC: "/learn/Account/SExpImcMC", //所有
-    SINCOMEMC: "/learn/Account/SIncomeMC", //赚取
-    STOPDETAILMC: "/learn/Account/STopDetailMC", //充值
-    SEXPENDMC: "/learn/Account/SExpendMC", //支出
-    SUPYOLLON: "/learn/Account/SUpYollon", //设置收款账户
-    SERVTIC: "/learn/Account/ServTic", //学单密西
-    SINWITHDRAWB: "/learn/Account/SInWithdrawB", //生成提现订单
-    WITHDRAW: "/learn/Account/Withdraw", //提现
-    UPORGEIV: "/learn/UseBom/UpOrGeiv", //退还
-    SERVTICPAY: "/learn/Account/ServTicPay", //学单支付
+    TOPUPSTUM: '/learn/Account/TopUpStuM', //充值
+    SEXPIMCMC: '/learn/Account/SExpImcMC', //所有
+    SINCOMEMC: '/learn/Account/SIncomeMC', //赚取
+    STOPDETAILMC: '/learn/Account/STopDetailMC', //充值
+    SEXPENDMC: '/learn/Account/SExpendMC', //支出
+    SUPYOLLON: '/learn/Account/SUpYollon', //设置收款账户
+    SERVTIC: '/learn/Account/ServTic', //学单密西
+    SINWITHDRAWB: '/learn/Account/SInWithdrawB', //生成提现订单
+    WITHDRAW: '/learn/Account/Withdraw', //提现
+    UPORGEIV: '/learn/UseBom/UpOrGeiv', //退还
+    SERVTICPAY: '/learn/Account/ServTicPay', //学单支付
     GET_NEWS_OFFLINE: 'learn/Payment/NewSOffline', //线下支付查询
     COMMIT_NEWINFOOLINE: 'learn/Payment/NewInOffline', //线下支付发送
     SEINVOICE: 'learn/Account/SeInvoice', //发票列表
     SEINVODE: 'learn/Account/SeInvoDe', //发票列表
-    ISSINVOICE: "learn/Account/IssInvoice", //开具发票
-
+    ISSINVOICE: 'learn/Account/IssInvoice', //开具发票
 
     STU_SEARCH: 'learn/Search/StuSearch', //学搜
     AUTO_TACC: 'learn/useLogin/AutoTAcc', //判断Token 返回登录信息  --  用于自动登录
@@ -476,7 +473,7 @@ let postUrl = {
  * @return {[type]}        [接口地址]
  */
 export const _getUrl = (urlkey) => {
-	return baseUrl + postUrl[urlkey]
+    return baseUrl + postUrl[urlkey]
 }
 /**
  * post
@@ -486,16 +483,16 @@ export const _getUrl = (urlkey) => {
  */
 export const _getData = (url, params, fn) => {
     let loadingInstance = Loading.service({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
-    axios.post(url, params).then( res => {
-        loadingInstance.close();
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+    })
+    axios.post(url, params).then(res => {
+        loadingInstance.close()
         fn(res.data)
     }).catch(error => {
-        loadingInstance.close();
-        console.log(error);
+        loadingInstance.close()
+        console.log(error)
     })
 }
