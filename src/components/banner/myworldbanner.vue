@@ -21,7 +21,7 @@
                     'myhome':       'home',
                     'myread':       'read',
                     'mywrite':      'write',
-                    'mymeetting':   'hy'
+                    'mymeeting':   'hy'
                 }
             }
         },
