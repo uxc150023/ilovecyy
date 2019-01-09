@@ -4,7 +4,11 @@ import Router from 'vue-router'
 import Index 		 from '@/views/index'
 import Login 		 from '@/views/login/login'
 import Myworld 		 from '@/views/myworld/myworld'
-import hy       	 from '@/views/myworld/mymeeting'
+import Mymeeting     from '@/views/myworld/mymeeting'
+import Myhome  	     from '@/views/myworld/myhome'
+import Myread  	     from '@/views/myworld/myread'
+import Mywrite  	 from '@/views/myworld/mywrite'
+
 import Mystunet 	 from '@/views/mystunet/mystunet'
 import MyGroupFriend from '@/views/mygroupfriend/myGroupFriend'
 import Recome 		 from '@/views/recome/recome'
@@ -12,7 +16,7 @@ import Director      from '@/views/director/director'
 import Uercenter 	 from '@/views/uercenter/uercenter'
 import Financial  	 from '@/views/financial/financial'
 import Archive 		 from '@/views/archive/archive'
-import Mtsetting 		 from '@/views/setting/mtsetting'
+import Mtsetting     from '@/views/setting/mtsetting'
 import Register 	 from '@/views/register/register'
 import ResetPass     from '@/views/login/resetPass'
 
@@ -37,9 +41,12 @@ export default new Router({
 			path: '/myworld',
 			name: 'Myworld',
 			component: Myworld,
+			redirect: '/myworld/myhome', //重定向
             children: [
-                // { path: '/mymeeting', redirect: '/Home/login' },
-                { path: '/myworld/mymeeting', name: 'hy', component: hy },
+            	{ path: '/myworld/myhome', 		name: 'home',	component: Myhome },
+            	{ path: '/myworld/myread', 		name: 'read',	component: Myread },
+            	{ path: '/myworld/mywrite', 	name: 'write',	component: Mywrite },
+                { path: '/myworld/mymeeting', 	name: 'hy',		component: Mymeeting }
             ]
 		},
 		/*我的学网*/
