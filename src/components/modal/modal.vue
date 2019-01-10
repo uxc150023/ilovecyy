@@ -1,13 +1,10 @@
 <template>
-    <div class="modal">
+    <div class="common-modal" id="common-modal">
         <div class="">
-            <el-dialog title="设置" :visible.sync="dialogVisible[0]">
-                <span>这是一段信息</span>
-
+            <el-dialog :title="title" :visible.sync="dialogVisible[0]">
                 <div id="modalContent">
-
+                    <app-neweeting></app-neweeting>
                 </div>
-
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = [false]">取 消</el-button>
                     <el-button type="primary" @click="dialogVisible = [false]">确 定</el-button>
@@ -17,7 +14,8 @@
     </div>
 </template>
 <script>
-export default {
+    import neweeting from '@/components/meeting/newmeeting'
+    export default {
     data() {
         return {
             form: {
@@ -27,10 +25,15 @@ export default {
             formLabelWidth: '100px'
         };
     },
-    props: ['dialogVisible'],
-
+    props: {
+        dialogVisible: '',
+        title: ''
+    },
+    components: {
+        'app-neweeting': neweeting
+    },
     mounted(){
-        
+
     },
 
     methods: {
@@ -46,25 +49,32 @@ export default {
 
 </script>
 <style lang="scss">
-.banner {
-    background-color: #0092ff;
-    text-align: left;
-    padding-left: 30px;
-
-    .el-radio-group {
-
-        .is-active {
-            background-color: #2954aa;
-        }
-
-        .el-radio-button {
-            .el-radio-button__inner {
-                background-color: transparent;
-                border: 0;
-                color: #fff;
+    #common-modal {
+        .el-dialog {
+            width: 900px;
+            .el-dialog__header {
+                background: url('../../assets/alert.png') no-repeat;
+                background-size: 900px 40px;
+                height: 40px;
+                padding: 0;
+                line-height: 40px;
+                .el-dialog__title {
+                    position: absolute;
+                    left: 0;
+                    top: 10px;
+                    font-size: 16px;
+                    line-height: 30px;
+                    color: #fff;
+                    display: block;
+                    height: 30px;
+                    width: 102px;
+                    font-weight: 600;
+                    background-color: #4C88FF;
+                }
+                .el-dialog__headerbtn {
+                    top: 12px;
+                }
             }
         }
     }
-}
-
 </style>

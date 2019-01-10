@@ -3,8 +3,11 @@ import Tabmeeting from '@/components/tabs/meeting'
 import modal from '@/components/modal/modal'
 import {_getUrl, _getData} from '@/service/getdata.js'
 import commonAction from "@/js/commonAction"
+import neweeting from '@/components/meeting/newmeeting'
+import Vue from 'vue'
 
 export default {
+
     data() {
         return {
             stunetId: commonAction.getStorage("webinfo").stunet_id,
@@ -12,6 +15,7 @@ export default {
             tabOne:['我参加的会议','我收藏的会议'],
             tabTwo:['会议来潮','会议尖峰','会议专列'],
             dialogVisible: [false],
+            title: '',
         };
     },
     mounted() {
@@ -34,11 +38,21 @@ export default {
             }, res => {
                 this.meetInfo = res.data
             });
-
-
         },
         newMeeting() {
             this.dialogVisible = [true];
+            this.title = '新建会议';
+            console.log(document.getElementById("#modalContent"))
+            // Vue.component('app-neweeting', {
+            //     template: '<div>A custom component!</div>'
+            // })
+            // var vm = new Vue({
+            //     el: '#modalContent',
+            //     data: {
+            //
+            //     }
+            // })
         }
+
     }
 }

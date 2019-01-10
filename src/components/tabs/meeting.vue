@@ -1,6 +1,6 @@
 <template>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane v-for="item of tabItem" :label="item" :name="item"></el-tab-pane>
+        <el-tab-pane v-for="(item, index) in tabItem" :label="item" :name="item" :key="index"></el-tab-pane>
     </el-tabs>
     <!--<app-styletwo></app-styletwo>-->
 </template>
