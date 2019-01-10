@@ -144,7 +144,7 @@ export default {
                             userid: res.data.userId
                         });
                         if(type === 'per'){
-                            this.$router.push({ name: 'hy' })
+                            this.$router.push({ name: 'Myworld' })
                         }else{
                             this.$router.push({ name: 'Mystunet' })
                         }
