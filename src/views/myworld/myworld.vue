@@ -1,7 +1,7 @@
 <template>
     <div class="myworld">
         <app-headtop v-on:showSetting="showSetting()"></app-headtop>
-        <div class="myworld-head">
+        <div class="myworld_head">
             <img src="../../images/snow.gif">
             <p>xxxxxxx</p>
         </div>
@@ -20,7 +20,7 @@
 
 <style lang="scss">
     .myworld {
-        .myworld-head {
+        .myworld_head {
             height: 200px;
             background-color: #7FFF8EFF;
             width: 100%;

@@ -110,7 +110,12 @@ export default {
         },
         mousemove() {
             console.log(123)
+        },
+        
+        mousedownsl() {
+
         }
+
     }
 };
 
