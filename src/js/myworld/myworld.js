@@ -9,13 +9,15 @@ export default {
     data() {
         return {
             stunetId: commonAction.getStorage("webinfo").stunet_id,
-            banners:[],
+            banners: {
+                type: 'myworld',
+                navlist: []
+            },
             dialogVisible: [false]   /*向子组件传值，因为子组件也需要修改这个值，所以要用数组或者对象的方式 传值*/
         };
     },
 
     mounted() {
-        console.log('===', this)
         this.init()
     },
 
@@ -34,8 +36,9 @@ export default {
             }
             /*查询学会信息*/
             _getData(_getUrl('STUORGINFO'), params, res => {
-                console.log('---', this)
-                this.banners = res.data.stunetMenuConfigs
+                // console.log('---', this)
+                // this.banners.type = 'myworld';
+                this.banners.navlist = res.data.stunetMenuConfigs
             })
         },
 

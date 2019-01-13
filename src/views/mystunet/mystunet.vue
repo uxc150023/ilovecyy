@@ -19,11 +19,18 @@
 		data() {
 	        return {
 	        	stunetId: commonAction.getStorage("webinfo").stunet_id,
-	        	banners: []
+	        	banners: {
+	        		type: 'stunet',
+	        		navlist: []
+	        	}
 	        }
 	    },
+	    created(){
+	    	this.init()
+	    },
+
 	    mounted() {
-	        this.init()
+	        
 	    },
 
 	    components: {
@@ -40,7 +47,8 @@
 	            }
 	            /*查询学会信息*/
 	            _getData(_getUrl('STUORGINFO'), params, res => {
-	                this.banners = res.data.stunetMenuConfigs
+	            	// this.banners.type = 'stunet'
+	                this.banners.navlist = res.data.stunetMenuConfigs
 	            })
 	        }
 	    }
