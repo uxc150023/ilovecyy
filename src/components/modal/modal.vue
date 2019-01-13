@@ -3,7 +3,7 @@
         <div class="">
             <el-dialog :title="title" :visible.sync="dialogVisible[0]">
                 <div id="modalContent">
-                    <app-neweeting></app-neweeting>
+                    <slot></slot>
                 </div>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = [false]">取 消</el-button>
@@ -28,9 +28,6 @@
     props: {
         dialogVisible: '',
         title: ''
-    },
-    components: {
-        'app-neweeting': neweeting
     },
     mounted(){
 

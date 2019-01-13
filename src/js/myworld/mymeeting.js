@@ -28,6 +28,7 @@ export default {
         "app-colmeeting": Colmeeting,
         "app-tabmeeting": Tabmeeting,
         "app-modal": modal,
+        'app-neweeting': neweeting
     },
     methods: {
         initMeetInfo(stmType){

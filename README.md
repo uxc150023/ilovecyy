@@ -19,6 +19,8 @@
 	        'app-quilleditor':Quilleditor
 	    },
 
+模板中嵌套模板： <slot></slot>
+
 
 ## Build Setup
 
