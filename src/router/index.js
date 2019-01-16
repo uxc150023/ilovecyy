@@ -29,7 +29,7 @@ import Director      	from '@/views/director/director'
 import Uercenter 	 	from '@/views/uercenter/uercenter'
 import Financial  	 	from '@/views/financial/financial'
 import Archive 		 	from '@/views/archive/archive'
-import Mtsetting     	from '@/views/setting/mtsetting'
+import Mwsetting     	from '@/views/setting/mwsetting'    //我世界 - 头部导航 - 设置
 import Register 	 	from '@/views/register/register'
 import ResetPass     	from '@/views/login/resetPass'
 
@@ -120,9 +120,9 @@ export default new Router({
 		},
 		/*设置*/
 		{
-			path: '/mtsetting',
-			name: 'Mtsetting',
-			component: Mtsetting
+			path: '/mwsetting',
+			name: 'Mwsetting',
+			component: Mwsetting
 		},
 		/*注册*/
 		{
