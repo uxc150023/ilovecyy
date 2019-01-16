@@ -130,7 +130,12 @@ export default {
                         message: '登陆成功',
                         type: 'success'
                     });
-                    // store.commit('setUserId', res.data.data.userid);
+                    store.commit('SET_TUSERID', res.data.userid);
+                    store.commit('SET_LOGINSTATUS', 'TRUE');
+                    store.commit('SET_USERTYPE', type);
+                    store.commit('SET_PHONE', res.data.phone);
+                    store.commit('SET_USERNAME', res.data.username);
+
                     this.storeSession(res);
                     let paramsa = {
                         userid: res.data.userid

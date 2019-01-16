@@ -64,9 +64,9 @@
                     color: #fff;
                     display: block;
                     height: 30px;
-                    width: 102px;
                     font-weight: 600;
                     background-color: #4C88FF;
+                    padding: 0 30px;
                 }
                 .el-dialog__headerbtn {
                     top: 12px;
