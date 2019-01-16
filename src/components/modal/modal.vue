@@ -3,12 +3,9 @@
         <div class="">
             <el-dialog :title="title" :visible.sync="dialogVisible[0]">
                 <div id="modalContent">
-                    <slot></slot>
+                    <slot name="part1"></slot>
+                    <slot name="part2"></slot>
                 </div>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="dialogVisible = [false]">取 消</el-button>
-                    <el-button type="primary" @click="dialogVisible = [false]">确 定</el-button>
-                </span>
             </el-dialog>
         </div>
     </div>
@@ -26,7 +23,12 @@
         };
     },
     props: {
-        dialogVisible: '',
+        dialogVisible: {
+            type: Array,
+            default: () => {
+                return [false];
+            }
+        },
         title: ''
     },
     mounted(){
