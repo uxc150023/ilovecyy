@@ -4,10 +4,10 @@ import modal from '@/components/modal/modal'
 import {_getUrl, _getData} from '@/service/getdata.js'
 import commonAction from "@/js/commonAction"
 import neweeting from '@/components/meeting/newmeeting'
+import Cutimgdialog from '@/components/cutImg/cutimgdialog'
 import Vue from 'vue'
 
 export default {
-
     data() {
         return {
             stunetId: commonAction.getStorage("webinfo").stunet_id,
@@ -16,6 +16,7 @@ export default {
             tabTwo:['会议来潮','会议尖峰','会议专列'],
             dialogVisible: [false],
             title: '',
+            cutimgShow: [false],
         };
     },
     mounted() {
@@ -28,7 +29,8 @@ export default {
         "app-colmeeting": Colmeeting,
         "app-tabmeeting": Tabmeeting,
         "app-modal": modal,
-        'app-neweeting': neweeting
+        'app-neweeting': neweeting,
+        'app-cutimgdialog': Cutimgdialog,
     },
     methods: {
         initMeetInfo(stmType){
@@ -43,16 +45,10 @@ export default {
         newMeeting() {
             this.dialogVisible = [true];
             this.title = '新建会议';
-            console.log(document.getElementById("#modalContent"))
-            // Vue.component('app-neweeting', {
-            //     template: '<div>A custom component!</div>'
-            // })
-            // var vm = new Vue({
-            //     el: '#modalContent',
-            //     data: {
-            //
-            //     }
-            // })
+        },
+        cutimgShowa() {
+            alert(123)
+            this.cutimgShow = [true]
         }
 
     }
