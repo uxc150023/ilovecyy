@@ -12,9 +12,9 @@
         <app-modal v-bind:dialogVisible="dialogVisible" v-bind:title="title" @cutimgShowa="cutimgShowa">
             <app-neweeting slot="part1"></app-neweeting>
         </app-modal>
-        <app-modal v-bind:cutimgShow="cutimgShow" v-bind:title="title">
-            <app-cutimgdialog slot="part1"></app-cutimgdialog>
-        </app-modal>
+        <!--<app-modal v-bind:cutimgShow="cutimgShow" v-bind:title="title">-->
+            <!--<app-cutimgdialog slot="part1"></app-cutimgdialog>-->
+        <!--</app-modal>-->
     </div>
 </template>
 

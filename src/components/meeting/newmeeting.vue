@@ -101,13 +101,13 @@
             <el-form-item label="会议学科" class="subject">
                 <el-row :gutter="20">
                     <el-col :span="8">
-                        <el-select v-model="form.firstSub">
-                            <el-option label="免参会费" value="0"></el-option>
+                        <el-select v-model="form.firstSub" @change="changeFirstSub">
+                            <el-option v-for="(ele, index) in firstSubArr" :key='index' :label="ele.name" :value="ele.code"></el-option>
                         </el-select>
                     </el-col>
                     <el-col :span="8">
-                        <el-select v-model="form.secondSub">
-                            <el-option label="免参会费" value="0"></el-option>
+                        <el-select v-model="form.secondSub" ref="secondSubVal">
+                            <el-option v-for="(ele, index) in secondSubArr" :key='index' :label="ele.name" :value="ele.code"></el-option>
                         </el-select>
                     </el-col>
                     <el-col :span="8" class="thirdSub">
@@ -189,11 +189,15 @@
 </template>
 <script>
     import Quilleditor from '@/components/quilleditor/quilleditor'
+    import {_getUrl, _getData} from '@/service/getdata.js'
+
     export default {
         data() {
             return {
                 meetname: '会议题目',
                 letter: [],
+                firstSubArr: [],
+                secondSubArr: [],
                 form: {
                     name: '',
                     region: '',
@@ -231,7 +235,7 @@
             }
         },
         mounted() {
-
+            this.getFirstSub()
         },
         components: {
             'app-quilleditor': Quilleditor,
@@ -244,21 +248,37 @@
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
-            selectFee(e) {
-                console.log(this.form.fee)
+            //获取一级学科
+            getFirstSub() {
+                _getData(_getUrl('SUBGET'), {"levelCode": 0}, res => {
+                    for(var index in res.data){
+                        this.firstSubArr.push(res.data[index]);
+                    }
+                });
             },
+            //获取二级学科
+            changeFirstSub() {
+                _getData(_getUrl('SUBGET'), {"levelCode": 1,"firstSub": this.form.firstSub}, res => {
+                    for(var index in res.data){
+                        this.secondSubArr.push(res.data[index]);
+                    }
+                })
+            },
+            //增加主题
             addTheme() {
                 this.form.theme.push({
                     value: '',
                     key: Date.now()
                 });
             },
+            //删除主题
             delTheme(item) {
                 var index = this.form.theme.indexOf(item)
                 if (index !== -1) {
                     this.form.theme.splice(index, 1)
                 }
             },
+            // 增加主办者
             addHost() {
                 this.form.host.push({
                     value: '',
@@ -271,6 +291,7 @@
                     this.form.host.splice(index, 1)
                 }
             },
+            // 增加协办者
             addcoHost() {
                 this.form.coHost.push({
                     value: '',
@@ -283,6 +304,7 @@
                     this.form.coHost.splice(index, 1)
                 }
             },
+            // 增加承办者
             addcoTake() {
                 this.form.coTake.push({
                     value: '',
@@ -295,9 +317,11 @@
                     this.form.coTake.splice(index, 1)
                 }
             },
+            // 预览
             preview() {
                 console.log("yulan")
             },
+            // 提交数据
             onSubmit() {
                 console.log('submit!');
             },
