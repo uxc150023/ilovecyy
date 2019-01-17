@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" id="cutimg">
         <div class="model" v-show="model">
             <div class="model-show" @click="model = false">
                 <img :src="modelSrc" alt="" @click="model = false">
@@ -25,7 +25,7 @@
                             </section>
                         </el-col>
                     </el-row>
-                    
+
                     <div class="test-button">
                         <label class="btn" for="uploads">浏览/上传</label>
                         <input type="file" id="uploads" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 1)">
@@ -232,82 +232,82 @@ export default {
     }
 };
 </script>
-<style>
-* {
-    margin: 0;
-    padding: 0;
-}
+<style lang="scss">
+    #cutimg {
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    .content {
+        margin: auto;
+        max-width: 1200px;
+        margin-bottom: 100px;
+    }
 
-.content {
-    margin: auto;
-    max-width: 1200px;
-    margin-bottom: 100px;
-}
+    .test-button {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
-.test-button {
-    display: flex;
-    flex-wrap: wrap;
-}
+    .btn {
+        display: inline-block;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #c0ccda;
+        color: #1f2d3d;
+        text-align: center;
+        box-sizing: border-box;
+        outline: none;
+        margin: 20px 10px 0px 0px;
+        padding: 9px 15px;
+        font-size: 14px;
+        border-radius: 4px;
+        color: #fff;
+        background-color: #50bfff;
+        border-color: #50bfff;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        user-select: none;
+    }
 
-.btn {
-    display: inline-block;
-    line-height: 1;
-    white-space: nowrap;
-    cursor: pointer;
-    background: #fff;
-    border: 1px solid #c0ccda;
-    color: #1f2d3d;
-    text-align: center;
-    box-sizing: border-box;
-    outline: none;
-    margin: 20px 10px 0px 0px;
-    padding: 9px 15px;
-    font-size: 14px;
-    border-radius: 4px;
-    color: #fff;
-    background-color: #50bfff;
-    border-color: #50bfff;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    user-select: none;
-}
+    .des {
+        line-height: 30px;
+    }
 
-.des {
-    line-height: 30px;
-}
-
-code.language-html {
-    padding: 10px 20px;
-    margin: 10px 0px;
-    display: block;
-    background-color: #333;
-    color: #fff;
-    overflow-x: auto;
-    font-family: Consolas, Monaco, Droid, Sans, Mono, Source, Code, Pro, Menlo,
+    code.language-html {
+        padding: 10px 20px;
+        margin: 10px 0px;
+        display: block;
+        background-color: #333;
+        color: #fff;
+        overflow-x: auto;
+        font-family: Consolas, Monaco, Droid, Sans, Mono, Source, Code, Pro, Menlo,
         Lucida, Sans, Type, Writer, Ubuntu, Mono;
-    border-radius: 5px;
-    white-space: pre;
-}
+        border-radius: 5px;
+        white-space: pre;
+    }
 
-.show-info {
-    margin-bottom: 50px;
-}
+    .show-info {
+        margin-bottom: 50px;
+    }
 
-.show-info h2 {
-    line-height: 50px;
-}
+    .show-info h2 {
+        line-height: 50px;
+    }
 
-/*.title, .title:hover, .title-focus, .title:visited {
-		color: black;
-	}*/
+    /*.title, .title:hover, .title-focus, .title:visited {
+            color: black;
+        }*/
 
-.title {
-    display: block;
-    text-decoration: none;
-    text-align: center;
-    line-height: 1.5;
-    margin: 20px 0px;
-    background-image: -webkit-linear-gradient(left,
+    .title {
+        display: block;
+        text-decoration: none;
+        text-align: center;
+        line-height: 1.5;
+        margin: 20px 0px;
+        background-image: -webkit-linear-gradient(left,
         #3498db,
         #f47920 10%,
         #d71345 20%,
@@ -319,86 +319,89 @@ code.language-html {
         #f7acbc 80%,
         #ffd400 90%,
         #3498db);
-    color: transparent;
-    -webkit-background-clip: text;
-    background-size: 200% 100%;
-    animation: slide 5s infinite linear;
-    font-size: 40px;
-}
+        color: transparent;
+        -webkit-background-clip: text;
+        background-size: 200% 100%;
+        animation: slide 5s infinite linear;
+        font-size: 40px;
+    }
 
-.test {
-    height: 500px;
-}
+    .test {
+        height: 500px;
+    }
 
-.model {
-    position: fixed;
-    z-index: 10;
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.8);
-}
+    .model {
+        position: fixed;
+        z-index: 10;
+        width: 100vw;
+        height: 100vh;
+        overflow: auto;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.8);
+    }
 
-.model-show {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    text-align: center;
-}
+    .model-show {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        text-align: center;
+    }
 
-.model img {
-    display: block;
-    margin: auto;
-    max-width: 80%;
-    width: auto;
-    user-select: none;
-    background-position: 0px 0px, 10px 10px;
-    background-size: 20px 20px;
-    background-image: linear-gradient(45deg,
+    .model img {
+        display: block;
+        margin: auto;
+        max-width: 80%;
+        width: auto;
+        user-select: none;
+        background-position: 0px 0px, 10px 10px;
+        background-size: 20px 20px;
+        background-image: linear-gradient(45deg,
         #eee 25%,
         transparent 25%,
         transparent 75%,
         #eee 75%,
         #eee 100%),
         linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%);
-}
-
-.c-item {
-    display: block;
-    padding: 10px 0;
-    user-select: none;
-}
-
-.pre {
-    display: flex;
-}
-
-.pre-item {
-    padding-right: 20px;
-}
-
-@keyframes slide {
-    0% {
-        background-position: 0 0;
     }
 
-    100% {
-        background-position: -100% 0;
+    .c-item {
+        display: block;
+        padding: 10px 0;
+        user-select: none;
+    }
+
+    .pre {
+        display: flex;
+    }
+
+    .pre-item {
+        padding-right: 20px;
+    }
+
+    @keyframes slide {
+        0% {
+            background-position: 0 0;
+        }
+
+        100% {
+            background-position: -100% 0;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .content {
+            max-width: 90%;
+            margin: auto;
+        }
+
+        .test {
+            height: 400px;
+        }
     }
 }
 
-@media screen and (max-width: 1000px) {
-    .content {
-        max-width: 90%;
-        margin: auto;
-    }
 
-    .test {
-        height: 400px;
-    }
-}
 </style>

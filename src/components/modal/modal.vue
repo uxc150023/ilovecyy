@@ -10,7 +10,6 @@
     </div>
 </template>
 <script>
-    import neweeting from '@/components/meeting/newmeeting'
     export default {
     data() {
         return {
@@ -27,18 +26,7 @@
             show: false,
             modal: true,  //是否需要遮罩
         }
-        // dialogVisible: {
-        //     type: Array,
-        //     default: () => {
-        //         return [false];
-        //     }
-        // },
-        // title: ''
     },
-    mounted(){
-
-    },
-
     methods: {
         handleClose(done) {
             this.$confirm('确认关闭？')

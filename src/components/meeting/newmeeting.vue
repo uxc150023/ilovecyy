@@ -192,9 +192,9 @@
     </div>
 </template>
 <script>
+    import modal from '@/components/modal/modal'
     import Quilleditor from '@/components/quilleditor/quilleditor'
-    import Cutimgdialog         from '@/components/cutImg/cutimgdialog'
-    import modal        from '@/components/modal/modal'
+    import Cutimgdialog from '@/components/cutImg/cutimgdialog'
     import {_getUrl, _getData} from '@/service/getdata.js'
 
     export default {
@@ -344,7 +344,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     #nemMeeting {
         .banner {
             width: 860px;

@@ -14,13 +14,10 @@ export default {
             meetInfo: {},
             tabOne:['我参加的会议','我收藏的会议'],
             tabTwo:['会议来潮','会议尖峰','会议专列'],
-            // dialogVisible: [false],
-            // title: '',
             modalInfo: {
                 title: '新建会议',
                 show: false
             }
-            // cutimgShow: [false],
         };
     },
     mounted() {
@@ -47,11 +44,6 @@ export default {
         },
         newMeeting() {
             this.modalInfo.show = true;
-            // this.title = '新建会议';
         },
-        cutimgShowa() {
-            this.cutimgShow = [true]
-        }
-
     }
 }
