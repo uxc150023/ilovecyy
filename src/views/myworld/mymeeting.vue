@@ -9,9 +9,11 @@
         <app-tabmeeting v-bind:tabItem="tabOne"></app-tabmeeting>
         <app-colmeeting title="会议邀请"></app-colmeeting>
         <app-tabmeeting v-bind:tabItem="tabTwo"></app-tabmeeting>
+
         <app-modal v-bind:modalInfo="modalInfo">
             <app-neweeting></app-neweeting>
         </app-modal>
+
     </div>
 </template>
 
