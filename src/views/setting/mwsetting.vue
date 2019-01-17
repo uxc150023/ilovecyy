@@ -42,23 +42,28 @@
         <!-- <el-dialog title="图片裁剪上传" :visible.sync="cutImgdialog"  width="1020px"  class="setting_dialog">
             <app-cutimgdialog></app-cutimgdialog>
         </el-dialog> -->
-        <app-modal :dialogVisible='contentCut' :title='titileCut' :modal='modal'>
+        <app-modal :modalInfo='modalInfo'>
             <app-cutimgdialog></app-cutimgdialog>
         </app-modal>
     </div>
 </template>
 
 <script>
-	import commonAction from "@/js/commonAction"
+	import commonAction 		from "@/js/commonAction"
 	import {_getUrl, _getData} 	from '@/service/getdata.js'
 	import Cutimgdialog 		from '@/components/cutImg/cutimgdialog'
 	import Quilleditor 			from '@/components/quilleditor/quilleditor'
-	import modal        from '@/components/modal/modal'
+	import modal        		from '@/components/modal/modal'
 	export default {
 		data() {
 	        return {
-	        	contentCut: [false],
-	        	titileCut: '上传图片',
+	        	// contentCut: [false],
+	        	modalInfo: {
+	        		show: false,
+	        		title:"上传图片",
+	        		modal: false
+	        	},
+	        	// titileCut: '上传图片',
 	        	modal: false,
 	        	store: {
 	        		bid: '',	//区分栏目标签
@@ -82,7 +87,7 @@
 	         * 上传头图
 	         */
 	        uploadBg() {
-	            this.contentCut = [true];
+	            this.modalInfo.show = true;
 	        },
 	        mousemove() {
 	            console.log(123)

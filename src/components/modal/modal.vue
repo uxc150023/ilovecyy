@@ -1,10 +1,9 @@
 <template>
     <div class="common-modal" id="common-modal">
         <div class="">
-            <el-dialog :title="title" :visible.sync="dialogVisible[0]">
+            <el-dialog :title="modalInfo.title" :visible.sync="modalInfo.show" :modal='modalInfo.modal'>
                 <div id="modalContent">
-                    <slot name="part1"></slot>
-                    <slot name="part2"></slot>
+                    <slot></slot>
                 </div>
             </el-dialog>
         </div>
@@ -23,13 +22,18 @@
         };
     },
     props: {
-        dialogVisible: {
-            type: Array,
-            default: () => {
-                return [false];
-            }
-        },
-        title: ''
+        modalInfo: {
+            title: '',
+            show: false,
+            modal: true,  //是否需要遮罩
+        }
+        // dialogVisible: {
+        //     type: Array,
+        //     default: () => {
+        //         return [false];
+        //     }
+        // },
+        // title: ''
     },
     mounted(){
 

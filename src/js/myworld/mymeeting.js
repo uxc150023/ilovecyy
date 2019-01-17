@@ -4,7 +4,7 @@ import modal from '@/components/modal/modal'
 import {_getUrl, _getData} from '@/service/getdata.js'
 import commonAction from "@/js/commonAction"
 import neweeting from '@/components/meeting/newmeeting'
-import Cutimgdialog from '@/components/cutImg/cutimgdialog'
+import mwsetting    from '@/views/setting/mwsetting'
 import Vue from 'vue'
 
 export default {
@@ -14,9 +14,13 @@ export default {
             meetInfo: {},
             tabOne:['我参加的会议','我收藏的会议'],
             tabTwo:['会议来潮','会议尖峰','会议专列'],
-            dialogVisible: [false],
-            title: '',
-            cutimgShow: [false],
+            // dialogVisible: [false],
+            // title: '',
+            modalInfo: {
+                title: '新建会议',
+                show: false
+            }
+            // cutimgShow: [false],
         };
     },
     mounted() {
@@ -30,7 +34,6 @@ export default {
         "app-tabmeeting": Tabmeeting,
         "app-modal": modal,
         'app-neweeting': neweeting,
-        'app-cutimgdialog': Cutimgdialog,
     },
     methods: {
         initMeetInfo(stmType){
@@ -43,11 +46,10 @@ export default {
             });
         },
         newMeeting() {
-            this.dialogVisible = [true];
-            this.title = '新建会议';
+            this.modalInfo.show = true;
+            // this.title = '新建会议';
         },
         cutimgShowa() {
-            alert(123)
             this.cutimgShow = [true]
         }
 

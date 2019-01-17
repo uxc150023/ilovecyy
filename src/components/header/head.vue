@@ -14,7 +14,7 @@
                 <el-button @click="gopage('Login')">登陆</el-button>
             </el-row>
         </div>
-        <app-modal :dialogVisible='contentSet' :title='titileSet'>
+        <app-modal :modalInfo='modalInfo'>
             <app-mwsetting></app-mwsetting>
         </app-modal>
 
@@ -28,10 +28,14 @@ export default {
 
     data() {
         return {
-            contentSet: [false],     /*设置*/
+            // contentSet: [false],     /*设置*/
             loginStatus: '',            //是否登陆
             cutImgdialog: false,        //图片裁剪
-            titileSet:'设置',              //设置
+            // titileSet:'设置',              //设置
+            modalInfo: {
+                title: '设置',
+                show: false
+            }
         };
     },
 
@@ -50,7 +54,7 @@ export default {
             switch (page) {
                 case 'Setting':   /*设置*/
                     // this.$emit('showSetting',true);
-                    this.contentSet = [true];
+                    this.modalInfo.show = true;
                     // this.$router.push({ name: 'Cutimgdialog' })
                     break;
             }

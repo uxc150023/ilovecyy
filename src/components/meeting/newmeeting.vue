@@ -185,15 +185,28 @@
                 <el-button type="primary" @click="onSubmit">确&emsp;&emsp;定</el-button>
             </el-form-item>
         </el-form>
+
+        <app-modal :modalInfo='modalInfo'>
+            <app-cutimgdialog></app-cutimgdialog>
+        </app-modal>
     </div>
 </template>
 <script>
     import Quilleditor from '@/components/quilleditor/quilleditor'
+    import Cutimgdialog         from '@/components/cutImg/cutimgdialog'
+    import modal        from '@/components/modal/modal'
     export default {
         data() {
             return {
                 meetname: '会议题目',
                 letter: [],
+                // contentCut: [false],
+                // titileCut: '图片上传',
+                modalInfo: {
+                    show: false,
+                    title: '图片上传',
+                    modal: false
+                },
                 form: {
                     name: '',
                     region: '',
@@ -234,12 +247,15 @@
 
         },
         components: {
+            "app-modal": modal,
             'app-quilleditor': Quilleditor,
+            'app-cutimgdialog': Cutimgdialog,
         },
         methods: {
             uploadBanner() {
                 // this.$parent.cutimgShowa()
-                this.$emit('cutimgShowa')
+                // this.$emit('cutimgShowa')
+                this.modalInfo.show = true
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);

@@ -6,9 +6,8 @@
             <p>xxxxxxx</p>
         </div>
         <app-myworldbanner v-bind:banners="banners"></app-myworldbanner>
-        <app-modal v-bind:dialogVisible="dialogVisible">
-            <div>123123123123</div>
-        </app-modal>
+        <!-- <app-modal v-bind:modalInfo="modalInfo">
+        </app-modal> -->
     </div>
 </template>
 

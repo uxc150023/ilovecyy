@@ -9,11 +9,8 @@
         <app-tabmeeting v-bind:tabItem="tabOne"></app-tabmeeting>
         <app-colmeeting title="会议邀请"></app-colmeeting>
         <app-tabmeeting v-bind:tabItem="tabTwo"></app-tabmeeting>
-        <app-modal v-bind:dialogVisible="dialogVisible" v-bind:title="title" @cutimgShowa="cutimgShowa">
-            <app-neweeting slot="part1"></app-neweeting>
-        </app-modal>
-        <app-modal v-bind:cutimgShow="cutimgShow" v-bind:title="title">
-            <app-cutimgdialog slot="part1"></app-cutimgdialog>
+        <app-modal v-bind:modalInfo="modalInfo">
+            <app-neweeting></app-neweeting>
         </app-modal>
     </div>
 </template>

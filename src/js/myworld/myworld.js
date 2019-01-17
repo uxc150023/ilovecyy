@@ -13,7 +13,8 @@ export default {
                 type: 'myworld',
                 navlist: []
             },
-            dialogVisible: [false]   /*向子组件传值，因为子组件也需要修改这个值，所以要用数组或者对象的方式 传值*/
+            // dialogVisible: [false]   /*向子组件传值，因为子组件也需要修改这个值，所以要用数组或者对象的方式 传值*/
+            
         };
     },
 
@@ -42,8 +43,8 @@ export default {
             })
         },
 
-        showSetting(param){
-            this.dialogVisible = [true];
-        }
+        // showSetting(param){
+        //     this.dialogVisible = [true];
+        // }
     }
 }
