@@ -43,7 +43,7 @@
             <app-cutimgdialog></app-cutimgdialog>
         </el-dialog> -->
         <app-modal :modalInfo='modalInfo'>
-            <app-cutimgdialog></app-cutimgdialog>
+            <app-cutimgdialog @closeModal='closeModal'></app-cutimgdialog>
         </app-modal>
     </div>
 </template>
@@ -110,6 +110,9 @@
 	            }, res => {
 	                this.meetInfo = res.data
 	            });
+			},
+			closeModal() {
+				this.modalInfo.show = false
 			}
 	    }
 	}

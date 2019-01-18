@@ -46,6 +46,7 @@
 </template>
 <script>
 import VueCropper from "./vue-cropper/vue-cropper";
+import store from '@/vuex/store.js'
 import {_getUrl, _getData} from '@/service/getdata.js'
 
 import codes from "./code";
@@ -220,8 +221,10 @@ export default {
                 var params = {
                     base64Str: data.replace("data:image/jpeg;base64,","")
                 };
-                 _getData(_getUrl('CUTIMG'), params, res => {
-                    console.log(res);
+                _getData(_getUrl('CUTIMG'), params, res => {
+                     store.commit('SET_CUTIMG', JSON.parse(res).data.data)
+                     this.$emit('closeModal')
+                     this.refreshCrop()
                 })
             });
         }
