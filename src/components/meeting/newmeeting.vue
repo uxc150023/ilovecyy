@@ -2,14 +2,14 @@
     <div id="nemMeeting">
         <div class="banner">
             <img src="../../assets/noticebg.jpg" alt="会议题图" id="bannerShowImg" class="bannerShowImg">
-            <p class="meetname" id="meetname">{{meetname}}</p>
+            <p class="meetname" id="meetname">{{form.meetname}}</p>
             <el-button type="info" @click="uploadBanner" class="uploadBanner">浏览/上传</el-button>
         </div>
         <el-form ref="form" :model="form" label-width="80px">
             <el-row :gutter="20">
                 <el-col :span="12">
                     <el-form-item label="会议名称">
-                        <el-input v-model="form.name"></el-input>
+                        <el-input v-model="form.meetname"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -106,7 +106,7 @@
                         </el-select>
                     </el-col>
                     <el-col :span="8">
-                        <el-select v-model="form.secondSub" ref="secondSubVal">
+                        <el-select v-model="form.secondSub">
                             <el-option v-for="(ele, index) in secondSubArr" :key='index' :label="ele.name" :value="ele.code"></el-option>
                         </el-select>
                     </el-col>
@@ -119,24 +119,34 @@
             <el-form-item label="配乐选择" class="upmusic">
                 <el-row>
                     <el-col :span="8" class="pdr10">
-                        <el-select v-model="form.music">
-                            <el-option label="配乐" value="0"></el-option>
-                            <el-option label="不配乐" value="1"></el-option>
-                        </el-select>
+                        <el-radio v-model="form.music" label="1">配乐</el-radio>
+                        <el-radio v-model="form.music" label="2">不配乐</el-radio>
                     </el-col>
-                    <el-col :span="16">
-                        <el-upload
-                            class="upload"
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            multiple
-                            :limit="1"
-                            :on-exceed="handleExceed">
+                    <el-col :span="16" v-if="form.music === '1'">
+                        <el-upload accept class="upload" action="http://192.168.31.116:80/learn/musicupload/multiupload" :file-list="uploadFiles" :show-file-list="false" multiple :limit="1"
+                                   :before-upload="beforeUploadAudio"
+                                   :on-progress="uploadAudioProcess"
+                                   :on-success="handleAudioSuccess">
                             <div class="el-upload__text">浏览/选择</div>
                         </el-upload>
                     </el-col>
                 </el-row>
             </el-form-item>
-            <div class="musicName">文件名</div>
+            <el-progress v-if="audioFlag == true" color="#0092ff" :percentage="audioUploadPercent" style="margin-top:30px;"></el-progress>
+            <div class="musicName" v-if="musicNameFlag">{{form.musicName}}</div>
+            <!--<div>-->
+                <!--<el-button type="primary" @click="dialogVisible = true">Load from File</el-button>-->
+                <!--<el-dialog title="Load JSON document from file" :visible.sync="dialogVisible">-->
+                    <!--<el-upload :file-list="uploadFiles" action="alert" :auto-upload="false" multiple :on-change="loadJsonFromFile">-->
+                        <!--<el-button size="small" type="primary">Select a file</el-button>-->
+                        <!--<div slot="tip">upload only jpg/png files, and less than 500kb</div>-->
+                    <!--</el-upload>-->
+                    <!--<span slot="footer">-->
+                      <!--<el-button type="primary" @click="dialogVisible = false">cancel</el-button>-->
+                      <!--<el-button type="primary" @click="loadJsonFromFileConfirmed">confirm</el-button>-->
+                    <!--</span>-->
+                <!--</el-dialog>-->
+            <!--</div>-->
 
             <div class="holder">
                 <el-form-item label="主办者">
@@ -186,31 +196,36 @@
             </el-form-item>
         </el-form>
 
-        <app-modal :modalInfo='modalInfo'>
+        <app-modal :modalInfo='cutimgModalInfo'>
             <app-cutimgdialog></app-cutimgdialog>
         </app-modal>
+
     </div>
 </template>
 <script>
     import modal from '@/components/modal/modal'
     import Quilleditor from '@/components/quilleditor/quilleditor'
+    import Uploadmusic from '@/components/upfiles/uploadmusic'
     import Cutimgdialog from '@/components/cutImg/cutimgdialog'
     import {_getUrl, _getData} from '@/service/getdata.js'
 
     export default {
         data() {
             return {
-                meetname: '会议题目',
-                letter: [],
-                modalInfo: {
+                uploadUrl: _getUrl('UPMUSIC'),
+                uploadFiles:[],
+                audioFlag: false,
+                audioUploadPercent: "0",
+                musicNameFlag: false,
+                cutimgModalInfo: {
                     show: false,
-                    title: '图片上传',
+                    title: '上传图片',
                     modal: false
                 },
                 firstSubArr: [],
                 secondSubArr: [],
                 form: {
-                    name: '',
+                    meetname: '',
                     region: '',
                     date: '',
                     date1: '',
@@ -225,7 +240,8 @@
                         key: Date.now()
                     }],
                     otherQ: '',
-                    music: '',
+                    music: '1',
+                    musicName: '',
                     firstSub: '',
                     secondSub: '',
                     thirdSub: '',
@@ -252,15 +268,49 @@
             "app-modal": modal,
             'app-quilleditor': Quilleditor,
             'app-cutimgdialog': Cutimgdialog,
+            'app-uploadmusic': Uploadmusic,
         },
         methods: {
+            // 点击上传banner
             uploadBanner() {
-                // this.$parent.cutimgShowa()
-                // this.$emit('cutimgShowa')
-                this.modalInfo.show = true
+                this.cutimgModalInfo.show = true
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            // 上传音乐验证
+            beforeUploadAudio(file) {
+                const isLt10M = file.size / 1024 / 1024  < 10;
+                if (['audio/mp3', 'audio/wma', 'audio/flac','audio/ape','audio/wav','audio/ogg'].indexOf(file.type) == -1) {
+                    this.$message.error('请上传正确的文件格式');
+                    return false;
+                }else if (!isLt10M) {
+                    this.$message.error('上传文件大小不能超过10MB哦!');
+                    return false;
+                }
+            },
+            //上传进度显示
+            uploadAudioProcess(event, file, fileList) {
+                console.log(file)
+                console.log(fileList)
+                console.log(event)
+                // this.uploadFiles.files = file.raw
+                this.uploadFiles[0].files = {"files":file.raw};
+                this.audioFlag = true;
+                this.audioUploadPercent = file.percentage.toFixed(0); //file.percentage获取文件上传进度
+            },
+            //上传成功
+            handleAudioSuccess(res,file) {
+                console.log(res)
+                console.log(file)
+                this.uploadFiles[0].files = file.raw
+                this.audioFlag = false;
+                this.audioUploadPercent = "0";
+                if(res.code == 200){
+                    this.form.audioUploadId = res.data.uid;
+                    this.form.Audio = res.data.uploadUrl;
+                    this.form.musicName = file.name;
+                    this.musicNameFlag = true;
+                }else{
+                    this.$message.error('文件上传失败，请重新上传！');
+                }
             },
             //获取一级学科
             getFirstSub() {
@@ -340,7 +390,6 @@
                 console.log('submit!');
             },
         },
-
     }
 </script>
 
@@ -375,9 +424,6 @@
             padding:  0 70px;
             .el-select {
                 display: block;
-            }
-            .ql-container.ql-snow {
-                height: 180px;
             }
             .date {
                 .datePicker {
