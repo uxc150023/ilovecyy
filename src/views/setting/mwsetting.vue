@@ -3,7 +3,7 @@
     	<!-- <el-dialog title="设置" :visible.sync="dialogVisible"  width="1020px" :before-close="handleClose" class="setting_dialog"> -->
             <div class="setting_content" @mousemove='mousemove()' @mouseup='mouseup()'>
                 <div id="setting_top" class="setting_top" style="height: 270px;width: 100%;">
-                    <img src="https://console.xinxuejie.com.cn/learn/imguplaod/getpic?pictureId=/2018/9/6/8e7f64c09fae4e71af7a5accb7a6dffb.jpg" style="height: 100%;width: 100%;">
+                    <img :src=bgimg style="height: 100%;width: 100%;">
                 </div>
 
                 <div id="setting_logo" class="setting_logo" @mousedown='mousedownsl()'>
@@ -54,6 +54,7 @@
 	import Cutimgdialog 		from '@/components/cutImg/cutimgdialog'
 	import Quilleditor 			from '@/components/quilleditor/quilleditor'
 	import modal        		from '@/components/modal/modal'
+	import store from '@/vuex/store.js'
 	export default {
 		data() {
 	        return {
@@ -65,10 +66,9 @@
 	        	},
 	        	// titileCut: '上传图片',
 	        	modal: false,
-	        	store: {
-	        		bid: '',	//区分栏目标签
-	        		stunetId: '',
-	        	}
+        		bid: '',	//区分栏目标签
+        		stunetId: '',
+	        	bgimg: _getUrl('IMGURL') + '/2018/9/6/8e7f64c09fae4e71af7a5accb7a6dffb.jpg',
 	        }
 	    },
 	    components: {
@@ -104,8 +104,8 @@
 			 */
 			getInfo() {
 				_getData(_getUrl('MEET_MYLIST'), {
-	                stunetId: store.stunet_id,
-					bid: store.bid,
+	                stunetId: stunetId,
+					bid: bid,
 					type: 1
 	            }, res => {
 	                this.meetInfo = res.data
@@ -113,6 +113,7 @@
 			},
 			closeModal() {
 				this.modalInfo.show = false
+				this.bgimg = _getUrl('IMGURL') + encodeURIComponent(store.state.cutImg)
 			}
 	    }
 	}

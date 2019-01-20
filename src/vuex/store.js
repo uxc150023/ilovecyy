@@ -24,6 +24,7 @@ const store = new Vuex.Store({
     	/**
     	 * 使用
     	 * store.commit('newAuthor', 'xxxxxx');
+         * 
     	 * 
     	 */
         SET_TUSERID: (state, token) => {
@@ -43,18 +44,7 @@ const store = new Vuex.Store({
         },
         SET_CUTIMG: (state, token) => {
             state.cutImg = token
-        },
-    	// setUserId: (state, msg) => {
-    	// 	state.userId = msg
-    	// },
-
-    	// setStunetId: (state, msg) => {
-    	// 	state.stunetId = msg
-    	// },
-
-    	// setMyworldBanner: (state, msg) => {
-    	// 	state.myworldBanner = msg
-    	// }
+        }
     }
 })
 
