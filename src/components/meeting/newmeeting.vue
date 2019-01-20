@@ -123,31 +123,16 @@
                         <el-radio v-model="form.music" label="2">不配乐</el-radio>
                     </el-col>
                     <el-col :span="16" v-if="form.music === '1'">
-                        <el-upload accept class="upload" action="http://192.168.31.116:80/learn/musicupload/multiupload" :file-list="uploadFiles" :show-file-list="false" multiple :limit="1"
+                        <el-upload accept="audio/mp3,audio/ogg"  class="upload" :action="uploadUrl" :file-list="uploadFiles" :show-file-list="false" multiple :limit="1"
                                    :before-upload="beforeUploadAudio"
-                                   :on-progress="uploadAudioProcess"
-                                   :on-success="handleAudioSuccess">
+                                   :http-request="handleAudioSuccess">
                             <div class="el-upload__text">浏览/选择</div>
                         </el-upload>
                     </el-col>
                 </el-row>
             </el-form-item>
             <el-progress v-if="audioFlag == true" color="#0092ff" :percentage="audioUploadPercent" style="margin-top:30px;"></el-progress>
-            <div class="musicName" v-if="musicNameFlag">{{form.musicName}}</div>
-            <!--<div>-->
-                <!--<el-button type="primary" @click="dialogVisible = true">Load from File</el-button>-->
-                <!--<el-dialog title="Load JSON document from file" :visible.sync="dialogVisible">-->
-                    <!--<el-upload :file-list="uploadFiles" action="alert" :auto-upload="false" multiple :on-change="loadJsonFromFile">-->
-                        <!--<el-button size="small" type="primary">Select a file</el-button>-->
-                        <!--<div slot="tip">upload only jpg/png files, and less than 500kb</div>-->
-                    <!--</el-upload>-->
-                    <!--<span slot="footer">-->
-                      <!--<el-button type="primary" @click="dialogVisible = false">cancel</el-button>-->
-                      <!--<el-button type="primary" @click="loadJsonFromFileConfirmed">confirm</el-button>-->
-                    <!--</span>-->
-                <!--</el-dialog>-->
-            <!--</div>-->
-
+            <div class="musicName" v-if="musicNameFlag">{{form.mcname}}</div>
             <div class="holder">
                 <el-form-item label="主办者">
                     <div class="hostList" v-for="(ele, index) in form.host" :key="ele.key" :prop="'host.' + index + '.value'">
@@ -241,7 +226,8 @@
                     }],
                     otherQ: '',
                     music: '1',
-                    musicName: '',
+                    mcname: '',
+                    mUrl:'',
                     firstSub: '',
                     secondSub: '',
                     thirdSub: '',
@@ -278,39 +264,72 @@
             // 上传音乐验证
             beforeUploadAudio(file) {
                 const isLt10M = file.size / 1024 / 1024  < 10;
-                if (['audio/mp3', 'audio/wma', 'audio/flac','audio/ape','audio/wav','audio/ogg'].indexOf(file.type) == -1) {
-                    this.$message.error('请上传正确的文件格式');
-                    return false;
-                }else if (!isLt10M) {
+                if (!isLt10M) {
                     this.$message.error('上传文件大小不能超过10MB哦!');
                     return false;
                 }
             },
             //上传进度显示
             uploadAudioProcess(event, file, fileList) {
-                console.log(file)
-                console.log(fileList)
-                console.log(event)
-                // this.uploadFiles.files = file.raw
-                this.uploadFiles[0].files = {"files":file.raw};
+                this.uploadFiles = [{"files":file.raw}];
                 this.audioFlag = true;
                 this.audioUploadPercent = file.percentage.toFixed(0); //file.percentage获取文件上传进度
             },
             //上传成功
-            handleAudioSuccess(res,file) {
-                console.log(res)
-                console.log(file)
-                this.uploadFiles[0].files = file.raw
-                this.audioFlag = false;
-                this.audioUploadPercent = "0";
-                if(res.code == 200){
-                    this.form.audioUploadId = res.data.uid;
-                    this.form.Audio = res.data.uploadUrl;
-                    this.form.musicName = file.name;
-                    this.musicNameFlag = true;
-                }else{
-                    this.$message.error('文件上传失败，请重新上传！');
-                }
+            handleAudioSuccess(params) {
+                var self = this
+                console.log(params)
+                var fileObj = params.file;
+                // 接收上传文件的后台地址
+                var uploadUrl = this.uploadUrl;
+                // FormData 对象
+                var form = new FormData();
+                // 文件对象
+                form.append("files",fileObj);
+                console.log(form)
+                // XMLHttpRequest 对象
+                var xhr = new XMLHttpRequest();
+                xhr.open("post", uploadUrl, true);
+                // xhr.upload.addEventListener("progress", this.uploadAudioProcess, false); //监听上传进度
+                xhr.onload = function () {
+                    // vm.Form.playUrl = xhr.response; //接收上传到阿里云的文件地址
+                    if(this.status == 200||this.status == 304){
+                        let res = 'response' in xhr ? xhr.response : xhr.responseText
+                        console.log(res);
+                        self.musicdata = JSON.parse(res)
+                        console.log(self.musicdata)
+                        console.log(self.musicdata.code)
+                        console.log(self.musicdata.data)
+                        self.form.mcname = params.file.name;
+                        self.musicNameFlag = true;
+                    }
+                    // return false;
+
+                    // vm.$message({
+                    //     message: '恭喜你，上传成功!',
+                    //     type: 'success'
+                    // });
+                };
+                xhr.send(form);
+                // self.form.mUrl = this.musicdata.data[0].data
+
+
+                // return false;
+                // let formData = new FormData()
+                // formData.append('files', res.file)
+                // formData.submit();
+
+                // this.uploadFiles = [{"files":file.raw}];
+                // this.audioFlag = false;
+                // this.audioUploadPercent = "0";
+                // if(res.code == 200){
+                //     this.form.audioUploadId = res.data.uid;
+                //     this.form.Audio = res.data.uploadUrl;
+                //     this.form.musicName = file.name;
+                //     this.musicNameFlag = true;
+                // }else{
+                //     this.$message.error('文件上传失败，请重新上传！');
+                // }
             },
             //获取一级学科
             getFirstSub() {
