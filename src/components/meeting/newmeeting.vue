@@ -125,7 +125,7 @@
                     <el-col :span="16" v-if="form.music === '1'">
                         <el-upload accept="audio/mp3,audio/ogg"  class="upload" :action="uploadUrl" :file-list="uploadFiles" :show-file-list="false" multiple :limit="1"
                                    :before-upload="beforeUploadAudio"
-                                   :on-progress="uploadAudioProcess"
+                                   :on-progress ="uploadAudioProcess"
                                    :http-request="handleAudioSuccess">
                             <div class="el-upload__text">浏览/选择</div>
                         </el-upload>
@@ -178,7 +178,7 @@
 
             <el-form-item class="btnBox">
                 <el-button @click="preview">预&emsp;&emsp;览</el-button>
-                <el-button type="primary" disabled="canClick" @click="onSubmit">确&emsp;&emsp;定</el-button>
+                <el-button type="primary" :disabled="canClick" @click="onSubmit">确&emsp;&emsp;定</el-button>
             </el-form-item>
         </el-form>
 
@@ -202,7 +202,7 @@
                 uploadUrl: _getUrl('UPMUSIC'),
                 uploadFiles:[],
                 audioFlag: false,
-                audioUploadPercent: "0",
+                audioUploadPercent: 0,
                 musicNameFlag: false,
                 disabled: false,
                 canClick: false,
@@ -275,9 +275,12 @@
             },
             //上传进度显示
             uploadAudioProcess(event, file, fileList) {
-                console.log(file)
-                this.audioFlag = true;
-                this.audioUploadPercent = file.percentage.toFixed(0); //file.percentage获取文件上传进度
+                this.audioFlag = true
+                this.musicNameFlag = true;
+                this.form.mcname = file.name;
+
+                file.percent = event.loaded/event.total*100
+                this.audioUploadPercent = Number(file.percent.toFixed(0)); //file.percentage获取文件上传进度
             },
             //上传成功
             handleAudioSuccess(params) {
@@ -290,48 +293,23 @@
                 var form = new FormData();
                 // 文件对象
                 form.append("files",fileObj);
-
-                // _getData(uploadUrl,form,res => {
-                //     console.log(res)
-                // });
-                // axios.post(uploadUrl,form).then((res)=>{
-                //   console.log(res)
-                // })
                 console.log(form)
                 // XMLHttpRequest 对象
                 var xhr = new XMLHttpRequest();
-                // axios.post(uploadUrl,form,
-                //         {progress:function(event) {
-                //             console.log(event)
-                //                 params.file.percent = event.loaded / event.total * 100
-                //                 params.onProgress(fileObj)
-                //             }
-                //         }).then((res)=>{
-                //     console.log(res)
-                //     params.data.list.push({
-                //         name:res.data.name,
-                //         status:"success",
-                //         uid:new Date().getTime(),
-                //         url:res.data.url
-                //     })
-                // },response => {
-                //     console.log('--->>>>>',response)
-                // }).catch(function (error) {
-                //     console.log(error);
-                // });
-
 
                 xhr.open("post", uploadUrl, true);
-                // xhr.upload.addEventListener("progress", self.uploadAudioProcess, false); //监听上传进度
+                xhr.upload.addEventListener("progress", function(event){
+                    self.uploadAudioProcess(event ,params.file)
+                }, false); //监听上传进度
                 xhr.onload = function () {
                     self.canClick = true;
                     if(this.status == 200||this.status == 304){
                         let res = 'response' in xhr ? xhr.response : xhr.responseText
-                        console.log(res);
                         self.form.mUrl = JSON.parse(JSON.parse(res)).data[0].data
                         self.form.mcname = params.file.name;
-                        self.musicNameFlag = true;
+                        // self.musicNameFlag = true;
                         self.canClick = false;
+                        self.audioFlag = 0;
                     }else {
                         self.canClick = true;
                     }
