@@ -118,7 +118,7 @@
         }
     }
     .content {
-        padding-left: 15px;
+        // padding: 15px;
         // background-color: #fafafa;
     }
 </style>
