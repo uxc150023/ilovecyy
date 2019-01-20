@@ -465,6 +465,15 @@ let postUrl = {
     CONFIRMNETVIEW: 'learn/join/confirmNetView', //确认网络参会
     INCRECLICK: 'learn/meeting/increClick', //记录会议的点击量(参会和共享)
     SELECTIDBYURL: 'learn/meeting/selectIdByUrl', //通过短地址code获取meetId
+
+    SMYWORLDCOLUMN :'learn/MesAGain/SMyworldColumn', //查询我世界共享端栏目
+    EXTENDMEETING: 'learn/share/extendMeeting', //共享端 --会议查询
+    STUORG: 'learn/share/stuorg', //共享端 --新学联盟
+    STUCONCERN: 'learn/share/stuConcern', //共享端 --新学联盟 --关注/取关
+    STUPER: 'learn/share/stuper', //共享端 --新学人物
+    STUPERS: 'learn/share/stupers', //管理端 --新学人物
+    SEIRKAM: 'learn/MesAGain/SeIRKAM', //共享段 -- 我读
+    SSTUCLOUMN:'learn/MesAGain/SStuCloumn', //共享端 --查询新学界公众端栏目
 }
 
 /**
