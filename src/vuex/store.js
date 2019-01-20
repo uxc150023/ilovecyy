@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from "vuex-persistedstate"
+
 Vue.use(Vuex)
 const store = new Vuex.Store({
+    plugins: [createPersistedState({ storage: window.sessionStorage })],
     // 定义状态
     state: {
-        userId: '',     //用户id 唯一
+        userid: '',     //用户id 唯一
         bid: '',        //区分模块的id
         isAdmin: '',    //是否是管理员
         loginStatus: '',//是否登录
@@ -28,7 +31,7 @@ const store = new Vuex.Store({
     	 * 
     	 */
         SET_TUSERID: (state, token) => {
-            state.userId = token
+            state.userid = token
         },
         SET_LOGINSTATUS: (state, token) => {
             state.loginStatus = token

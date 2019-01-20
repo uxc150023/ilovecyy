@@ -6,12 +6,11 @@
             </div>
             <el-row class="list-content-b">
                 <el-col :span="2"><div class="grid-content" v-show="info.name_0"> <span>{{info.name_0}}</span> </div></el-col>
-                <el-col :span="2"><div class="grid-content" v-show="info.name_1"> <span>{{info.name_1}}</span> </div></el-col>
+                <el-col :span="2" class=""><div class="grid-content nowrap" v-show="info.name_1"> <span>{{info.name_1}}</span> </div></el-col>
                 <el-col :span="2"><div class="grid-content" v-show="info.name_2"> <span>{{info.name_2}}</span> </div></el-col>
                 <el-col :span="2"><div class="grid-content" v-show="info.name_3"> <span>{{info.name_3}}</span> </div></el-col>
                 <el-col :span="12"><div class="grid-content" v-show="info.name_4"> <span>{{info.name_4}}</span> </div></el-col>
-                <el-col :span="2"><div class="grid-content"><el-button>默认按钮</el-button></div></el-col>
-                <el-col :span="2"><div class="grid-content"><el-button type="primary">主要按钮</el-button></div></el-col>
+                <el-button type="primary" class="float-right">关&emsp;&emsp;注</el-button>
             </el-row>
         </div>
     </div>
@@ -53,12 +52,12 @@
             img {
                 width: 100%;
                 height: 100%;
-
             }
         }
         .list-content-b {
             height: 48px;
             line-height: 48px;
+            padding: 4px 0 4px 0;
             .grid-content {
                 text-align: left;
             }

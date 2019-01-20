@@ -78,7 +78,12 @@ input, select {
 .float-left {
     float: left;
 }
-
+.nowrap {
+    white-space:nowrap;
+}
+body {
+    background-color: #F6F6F6;
+}
 
 
 
