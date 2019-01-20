@@ -125,6 +125,7 @@
                     <el-col :span="16" v-if="form.music === '1'">
                         <el-upload accept="audio/mp3,audio/ogg"  class="upload" :action="uploadUrl" :file-list="uploadFiles" :show-file-list="false" multiple :limit="1"
                                    :before-upload="beforeUploadAudio"
+                                   :on-progress="uploadAudioProcess"
                                    :http-request="handleAudioSuccess">
                             <div class="el-upload__text">浏览/选择</div>
                         </el-upload>
@@ -132,7 +133,7 @@
                 </el-row>
             </el-form-item>
             <el-progress v-if="audioFlag == true" color="#0092ff" :percentage="audioUploadPercent" style="margin-top:30px;"></el-progress>
-            <div class="musicName" v-if="musicNameFlag">{{form.mcname}}</div>
+            <div class="musicName" v-if="musicNameFlag && form.music === '1'">{{form.mcname}}</div>
             <div class="holder">
                 <el-form-item label="主办者">
                     <div class="hostList" v-for="(ele, index) in form.host" :key="ele.key" :prop="'host.' + index + '.value'">
@@ -177,7 +178,7 @@
 
             <el-form-item class="btnBox">
                 <el-button @click="preview">预&emsp;&emsp;览</el-button>
-                <el-button type="primary" @click="onSubmit">确&emsp;&emsp;定</el-button>
+                <el-button type="primary" disabled="canClick" @click="onSubmit">确&emsp;&emsp;定</el-button>
             </el-form-item>
         </el-form>
 
@@ -193,6 +194,7 @@
     import Uploadmusic from '@/components/upfiles/uploadmusic'
     import Cutimgdialog from '@/components/cutImg/cutimgdialog'
     import {_getUrl, _getData} from '@/service/getdata.js'
+    import axios from 'axios'
 
     export default {
         data() {
@@ -202,6 +204,8 @@
                 audioFlag: false,
                 audioUploadPercent: "0",
                 musicNameFlag: false,
+                disabled: false,
+                canClick: false,
                 cutimgModalInfo: {
                     show: false,
                     title: '上传图片',
@@ -271,7 +275,7 @@
             },
             //上传进度显示
             uploadAudioProcess(event, file, fileList) {
-                this.uploadFiles = [{"files":file.raw}];
+                console.log(file)
                 this.audioFlag = true;
                 this.audioUploadPercent = file.percentage.toFixed(0); //file.percentage获取文件上传进度
             },
@@ -286,50 +290,53 @@
                 var form = new FormData();
                 // 文件对象
                 form.append("files",fileObj);
+
+                // _getData(uploadUrl,form,res => {
+                //     console.log(res)
+                // });
+                // axios.post(uploadUrl,form).then((res)=>{
+                //   console.log(res)
+                // })
                 console.log(form)
                 // XMLHttpRequest 对象
                 var xhr = new XMLHttpRequest();
+                // axios.post(uploadUrl,form,
+                //         {progress:function(event) {
+                //             console.log(event)
+                //                 params.file.percent = event.loaded / event.total * 100
+                //                 params.onProgress(fileObj)
+                //             }
+                //         }).then((res)=>{
+                //     console.log(res)
+                //     params.data.list.push({
+                //         name:res.data.name,
+                //         status:"success",
+                //         uid:new Date().getTime(),
+                //         url:res.data.url
+                //     })
+                // },response => {
+                //     console.log('--->>>>>',response)
+                // }).catch(function (error) {
+                //     console.log(error);
+                // });
+
+
                 xhr.open("post", uploadUrl, true);
-                // xhr.upload.addEventListener("progress", this.uploadAudioProcess, false); //监听上传进度
+                // xhr.upload.addEventListener("progress", self.uploadAudioProcess, false); //监听上传进度
                 xhr.onload = function () {
-                    // vm.Form.playUrl = xhr.response; //接收上传到阿里云的文件地址
+                    self.canClick = true;
                     if(this.status == 200||this.status == 304){
                         let res = 'response' in xhr ? xhr.response : xhr.responseText
                         console.log(res);
-                        self.musicdata = JSON.parse(res)
-                        console.log(self.musicdata)
-                        console.log(self.musicdata.code)
-                        console.log(self.musicdata.data)
+                        self.form.mUrl = JSON.parse(JSON.parse(res)).data[0].data
                         self.form.mcname = params.file.name;
                         self.musicNameFlag = true;
+                        self.canClick = false;
+                    }else {
+                        self.canClick = true;
                     }
-                    // return false;
-
-                    // vm.$message({
-                    //     message: '恭喜你，上传成功!',
-                    //     type: 'success'
-                    // });
                 };
                 xhr.send(form);
-                // self.form.mUrl = this.musicdata.data[0].data
-
-
-                // return false;
-                // let formData = new FormData()
-                // formData.append('files', res.file)
-                // formData.submit();
-
-                // this.uploadFiles = [{"files":file.raw}];
-                // this.audioFlag = false;
-                // this.audioUploadPercent = "0";
-                // if(res.code == 200){
-                //     this.form.audioUploadId = res.data.uid;
-                //     this.form.Audio = res.data.uploadUrl;
-                //     this.form.musicName = file.name;
-                //     this.musicNameFlag = true;
-                // }else{
-                //     this.$message.error('文件上传失败，请重新上传！');
-                // }
             },
             //获取一级学科
             getFirstSub() {
@@ -406,6 +413,11 @@
             },
             // 提交数据
             onSubmit() {
+                console.log(this.form);
+                return false
+                _getData(_getUrl('MEET_SAVE'),this.form,res => {
+                    console.log(res)
+                })
                 console.log('submit!');
             },
         },
