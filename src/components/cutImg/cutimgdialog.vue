@@ -115,7 +115,6 @@ export default {
                 this.$refs.cropper.getCropData(data => {
                     this.model = true;
                     this.modelSrc = data;
-                    console.log(this.modelSrc)
                 });
             }
         },
@@ -222,9 +221,9 @@ export default {
                     base64Str: data.replace("data:image/jpeg;base64,","")
                 };
                 _getData(_getUrl('CUTIMG'), params, res => {
-                     store.commit('SET_CUTIMG', JSON.parse(res).data.data)
-                     this.$emit('closeModal')
-                     this.refreshCrop()
+                    this.option.img = ''
+                    store.commit('SET_CUTIMG', JSON.parse(res).data.data)
+                    this.$emit('closeModal');
                 })
             });
         }
