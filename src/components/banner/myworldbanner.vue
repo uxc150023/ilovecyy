@@ -23,7 +23,7 @@
                     'read':     '2',
                     'write':    '3',
                     'mymeeting': '6',
-                    'aliance':  '14',
+                    'alliance':  '14',
                     'person':   '15',
                 },
                 navmenusStu: { //匹配路由
@@ -79,6 +79,7 @@
                 if(this.banners.type === 'myworld'){
                     /*我世界*/
                     this.activeName = this.navmenus[location.href.split('/')[location.href.split('/').length - 1]];
+                    console.log(location.href.split('/')[location.href.split('/').length - 1])
                 }else if(this.banners.type === 'stunet'){
                     /*学网*/
                     this.activeName = this.navmenusStu[location.href.split('/')[location.href.split('/').length - 1]];
