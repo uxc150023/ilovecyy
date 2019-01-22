@@ -47,11 +47,14 @@
                     </el-form-item>
                 </el-col>
             </el-row>
+            <el-form-item label="嘉宾介绍">
+                <app-quilleditor ref="guestIntroQuill" v-on:getContent="getContent"></app-quilleditor>
+            </el-form-item>
 
             <el-row :gutter="20">
                 <el-col :span="12">
                     <el-form-item label="会议费用">
-                        <el-select v-model="form.fee">
+                        <el-select v-model="form.feeType">
                             <el-option label="免参会费" value="0"></el-option>
                             <el-option label="免参会费并免餐费" value="1"></el-option>
                             <el-option label="免参会费与食宿费" value="2"></el-option>
@@ -60,9 +63,9 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12" v-if="form.fee == '4'">
+                <el-col :span="12" v-if="form.feeType == '4'">
                     <el-form-item label="注册费">
-                        <el-input v-model="form.registeredFee"></el-input>
+                        <el-input v-model="form.enrollFee"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -125,15 +128,15 @@
                     <el-col :span="16" v-if="form.music === '1'">
                         <el-upload accept="audio/mp3,audio/ogg"  class="upload" :action="uploadUrl" :file-list="uploadFiles" :show-file-list="false" multiple :limit="1"
                                    :before-upload="beforeUploadAudio"
-                                   :on-progress ="uploadAudioProcess"
                                    :http-request="handleAudioSuccess">
                             <div class="el-upload__text">浏览/选择</div>
                         </el-upload>
                     </el-col>
                 </el-row>
             </el-form-item>
-            <el-progress v-if="audioFlag == true" color="#0092ff" :percentage="audioUploadPercent" style="margin-top:30px;"></el-progress>
-            <div class="musicName" v-if="musicNameFlag && form.music === '1'">{{form.mcname}}</div>
+            <el-progress v-if="progressShow" color="#0092ff" :percentage="audioUploadPercent"></el-progress>
+            <div class="musicName" v-if="mnameShow && form.music === '1'">{{form.mcname}}</div>
+
             <div class="holder">
                 <el-form-item label="主办者">
                     <div class="hostList" v-for="(ele, index) in form.host" :key="ele.key" :prop="'host.' + index + '.value'">
@@ -178,7 +181,7 @@
 
             <el-form-item class="btnBox">
                 <el-button @click="preview">预&emsp;&emsp;览</el-button>
-                <el-button type="primary" :disabled="canClick" @click="onSubmit">确&emsp;&emsp;定</el-button>
+                <el-button type="primary" @click="onSubmit">确&emsp;&emsp;定</el-button>
             </el-form-item>
         </el-form>
 
@@ -201,11 +204,9 @@
             return {
                 uploadUrl: _getUrl('UPMUSIC'),
                 uploadFiles:[],
-                audioFlag: false,
+                progressShow: false,
                 audioUploadPercent: 0,
-                musicNameFlag: false,
-                disabled: false,
-                canClick: false,
+                mnameShow: false,
                 cutimgModalInfo: {
                     show: false,
                     title: '上传图片',
@@ -217,12 +218,14 @@
                     meetname: '',
                     region: '',
                     date: '',
-                    date1: '',
-                    date2: '',
+                    startTime: '',
+                    endTime: '',
                     address: '',
                     guest: '',
-                    fee: '',
-                    registeredFee: '',
+                    guestIntro: '',
+                    feeType: '',
+                    mguestVos: {},
+                    enrollFee: '',
                     scale: '',
                     theme: [{
                         value: '',
@@ -252,7 +255,9 @@
             }
         },
         mounted() {
-            this.getFirstSub()
+            this.getFirstSub();
+            // this.$refs.guestIntroQuill.onEditorChange({html,text});
+            // this.getContent(content);
         },
         components: {
             "app-modal": modal,
@@ -265,6 +270,10 @@
             uploadBanner() {
                 this.cutimgModalInfo.show = true
             },
+            //获取editor内容
+            getContent(content) {
+                console.log(content)
+            },
             // 上传音乐验证
             beforeUploadAudio(file) {
                 const isLt10M = file.size / 1024 / 1024  < 10;
@@ -275,10 +284,8 @@
             },
             //上传进度显示
             uploadAudioProcess(event, file, fileList) {
-                this.audioFlag = true
-                this.musicNameFlag = true;
+                this.progressShow = true
                 this.form.mcname = file.name;
-
                 file.percent = event.loaded/event.total*100
                 this.audioUploadPercent = Number(file.percent.toFixed(0)); //file.percentage获取文件上传进度
             },
@@ -286,32 +293,20 @@
             handleAudioSuccess(params) {
                 var self = this
                 console.log(params)
-                var fileObj = params.file;
-                // 接收上传文件的后台地址
-                var uploadUrl = this.uploadUrl;
-                // FormData 对象
                 var form = new FormData();
-                // 文件对象
-                form.append("files",fileObj);
-                console.log(form)
-                // XMLHttpRequest 对象
+                form.append("files",params.file);
                 var xhr = new XMLHttpRequest();
-
-                xhr.open("post", uploadUrl, true);
+                xhr.open("post", this.uploadUrl, true);
                 xhr.upload.addEventListener("progress", function(event){
-                    self.uploadAudioProcess(event ,params.file)
+                    self.uploadAudioProcess(event,params.file)
                 }, false); //监听上传进度
                 xhr.onload = function () {
-                    self.canClick = true;
                     if(this.status == 200||this.status == 304){
                         let res = 'response' in xhr ? xhr.response : xhr.responseText
                         self.form.mUrl = JSON.parse(JSON.parse(res)).data[0].data
                         self.form.mcname = params.file.name;
-                        // self.musicNameFlag = true;
-                        self.canClick = false;
-                        self.audioFlag = 0;
-                    }else {
-                        self.canClick = true;
+                        self.mnameShow = true;
+                        self.progressShow = false;
                     }
                 };
                 xhr.send(form);
@@ -391,6 +386,33 @@
             },
             // 提交数据
             onSubmit() {
+                let theme = [];
+                for(let i in this.form.theme) {
+                    theme.push(this.form.theme[i].value);
+                }
+                this.form.theme = theme;
+
+                let coTake = [];
+                for(let i in this.form.coTake) {
+                    coTake.push(this.form.coTake[i].value);
+                }
+                this.form.coTake = coTake;
+
+                let coHost = [];
+                for(let i in this.form.coHost) {
+                    coHost.push(this.form.coHost[i].value);
+                }
+                this.form.coHost = coHost;
+
+                let host = [];
+                for(let i in this.form.host) {
+                    host.push(this.form.host[i].value);
+                }
+                this.form.host = host;
+
+                this.form.startTime = this.form.date[0];
+                this.form.endTime = this.form.date[1];
+
                 console.log(this.form);
                 return false
                 _getData(_getUrl('MEET_SAVE'),this.form,res => {
@@ -433,6 +455,11 @@
             padding:  0 70px;
             .el-select {
                 display: block;
+            }
+            .el-progress {
+                margin: -12px 0 30px 0;
+                height: 36px;
+                line-height: 36px;
             }
             .date {
                 .datePicker {
