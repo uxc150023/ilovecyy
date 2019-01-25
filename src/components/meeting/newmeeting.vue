@@ -2,19 +2,19 @@
     <div id="nemMeeting">
         <div class="banner">
             <img src="../../assets/noticebg.jpg" alt="会议题图" id="bannerShowImg" class="bannerShowImg">
-            <p class="meetname" id="meetname">{{form.meetname}}</p>
+            <p class="meetname" id="meetname">{{form.name}}</p>
             <el-button type="info" @click="uploadBanner" class="uploadBanner">浏览/上传</el-button>
         </div>
         <el-form ref="form" :model="form" label-width="80px">
             <el-row :gutter="20">
                 <el-col :span="12">
                     <el-form-item label="会议名称">
-                        <el-input v-model="form.meetname"></el-input>
+                        <el-input v-model="form.name"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="会议性质">
-                        <el-select v-model="form.region" placeholder="请选择会议性质">
+                        <el-select v-model="form.type" placeholder="请选择会议性质">
                             <el-option label="学术会议" value="0"></el-option>
                         </el-select>
                     </el-form-item>
@@ -24,7 +24,7 @@
             <el-form-item label="会议时间" class="date">
                 <div class="datePicker">
                     <el-date-picker
-                        v-model="form.date"
+                        v-model="date"
                         type="daterange"
                         range-separator="至"
                         start-placeholder="开始日期"
@@ -38,17 +38,18 @@
             <el-row :gutter="20">
                 <el-col :span="12">
                     <el-form-item label="会议地点">
-                        <el-input v-model="form.address"></el-input>
+                        <el-input v-model="form.place"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="参会嘉宾">
-                        <el-input v-model="form.guest"></el-input>
+                        <el-input v-model="form.mguestVos[0].name"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
+
             <el-form-item label="嘉宾介绍">
-                <app-quilleditor ref="guestIntroQuill" v-on:getContent="getContent"></app-quilleditor>
+                <app-quilleditor v-bind:id="id_1" v-bind:content="guestIntro" v-on:getContent="getContent"></app-quilleditor>
             </el-form-item>
 
             <el-row :gutter="20">
@@ -98,7 +99,7 @@
             </el-form-item>
 
             <el-form-item label="其他问题">
-                <app-quilleditor v-bind="form.otherQ"></app-quilleditor>
+                <app-quilleditor v-bind:id="id_2" v-bind:content="remark" v-on:getContent="getContent"></app-quilleditor>
             </el-form-item>
 
             <el-form-item label="会议学科" class="subject">
@@ -136,6 +137,10 @@
             </el-form-item>
             <el-progress v-if="progressShow" color="#0092ff" :percentage="audioUploadPercent"></el-progress>
             <div class="musicName" v-if="mnameShow && form.music === '1'">{{form.mcname}}</div>
+
+            <el-form-item>
+                <app-quilleditor v-bind:id="id_3" v-bind:content="mremark" v-on:getContent="getContent"></app-quilleditor>
+            </el-form-item>
 
             <div class="holder">
                 <el-form-item label="主办者">
@@ -197,7 +202,7 @@
     import Uploadmusic from '@/components/upfiles/uploadmusic'
     import Cutimgdialog from '@/components/cutImg/cutimgdialog'
     import {_getUrl, _getData} from '@/service/getdata.js'
-    import axios from 'axios'
+    import store from '@/vuex/store.js'
 
     export default {
         data() {
@@ -207,6 +212,13 @@
                 progressShow: false,
                 audioUploadPercent: 0,
                 mnameShow: false,
+                id_1: "guestIntro",
+                id_2: "otherQ",
+                id_3: "mremark",
+                date: '',
+                remark: {content: ''},
+                mremark: {content: '<p>欢迎感兴趣的学友报名参会，共襄盛事。报名者可以选择正式参会、也可以远程参会。报到、注册与会议的更详细消息，均请登录会议官网。</p>'},
+                guestIntro: {content: ''},
                 cutimgModalInfo: {
                     show: false,
                     title: '上传图片',
@@ -215,23 +227,20 @@
                 firstSubArr: [],
                 secondSubArr: [],
                 form: {
-                    meetname: '',
-                    region: '',
-                    date: '',
+                    name: '',
+                    type: '',
                     startTime: '',
                     endTime: '',
-                    address: '',
-                    guest: '',
-                    guestIntro: '',
+                    place: '',
                     feeType: '',
-                    mguestVos: {},
+                    mguestVos: [{name: '',introduce: ''}],
                     enrollFee: '',
                     scale: '',
                     theme: [{
                         value: '',
                         key: Date.now()
                     }],
-                    otherQ: '',
+
                     music: '1',
                     mcname: '',
                     mUrl:'',
@@ -254,10 +263,15 @@
                 }
             }
         },
+        props: {
+            modalInfo: {
+                title: '',
+                show: ''
+            }
+        },
         mounted() {
             this.getFirstSub();
-            // this.$refs.guestIntroQuill.onEditorChange({html,text});
-            // this.getContent(content);
+
         },
         components: {
             "app-modal": modal,
@@ -271,8 +285,19 @@
                 this.cutimgModalInfo.show = true
             },
             //获取editor内容
-            getContent(content) {
-                console.log(content)
+            getContent(quill) {
+                console.log(quill)
+                switch (quill.id) {
+                    case 'guestIntro':
+                        this.guestIntro.content = quill.quill.html;
+                        break;
+                    case 'otherQ':
+                        this.remark.content = quill.quill.html;
+                        break;
+                    case 'mremark':
+                        this.mremark.content = quill.quill.html;
+                        break;
+                }
             },
             // 上传音乐验证
             beforeUploadAudio(file) {
@@ -292,7 +317,6 @@
             //上传成功
             handleAudioSuccess(params) {
                 var self = this
-                console.log(params)
                 var form = new FormData();
                 form.append("files",params.file);
                 var xhr = new XMLHttpRequest();
@@ -386,39 +410,55 @@
             },
             // 提交数据
             onSubmit() {
+                var self = this;
                 let theme = [];
+                let coTake = [];
+                let coHost = [];
+                let host = [];
+
+                this.form.startTime = this.date[0];
+                this.form.endTime = this.date[1];
+                this.form.mguestVos[0].introduce = this.guestIntro.content;
+                this.form.remark = this.remark.content;
+                this.form.mremark = this.mremark.content;
+
                 for(let i in this.form.theme) {
                     theme.push(this.form.theme[i].value);
                 }
                 this.form.theme = theme;
 
-                let coTake = [];
                 for(let i in this.form.coTake) {
                     coTake.push(this.form.coTake[i].value);
                 }
                 this.form.coTake = coTake;
 
-                let coHost = [];
                 for(let i in this.form.coHost) {
                     coHost.push(this.form.coHost[i].value);
                 }
                 this.form.coHost = coHost;
 
-                let host = [];
                 for(let i in this.form.host) {
                     host.push(this.form.host[i].value);
                 }
                 this.form.host = host;
+                this.form.userid = store.state.userid;
 
-                this.form.startTime = this.form.date[0];
-                this.form.endTime = this.form.date[1];
-
-                console.log(this.form);
-                return false
                 _getData(_getUrl('MEET_SAVE'),this.form,res => {
                     console.log(res)
+                    if (res.code === 200) {
+                        store.commit('SET_MEETINFO', {meetId: res.data});
+                        this.$message({
+                            message: '恭喜您，新建会议成功！',
+                            type: 'success'
+                        });
+                        self.$emit('confirm',false);
+                    }else {
+                        this.$message({
+                            message: res.message,
+                            type: 'warning'
+                        });
+                    }
                 })
-                console.log('submit!');
             },
         },
     }

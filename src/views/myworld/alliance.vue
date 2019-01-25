@@ -15,7 +15,7 @@
                 </div>
                 <div v-if="listInfo.length === 0">
                     <app-empty></app-empty>
-                </div>        
+                </div>
             </el-tab-pane>
 			<!-- <el-tab-pane label="学网专列" name="third">角色管理</el-tab-pane> -->
 			<!-- <el-tab-pane label="我的学网" name="fourth">我的学网</el-tab-pane> -->
@@ -33,7 +33,7 @@
                 @next-click="nextClick"
                  >
             </el-pagination>
-        </div> 
+        </div>
     </div>
 </template>
 
@@ -51,7 +51,7 @@
                 activeName: 'first',
                 total: 0,
                 listInfo: [
-                    
+
                 ],
             }
         },
@@ -115,7 +115,7 @@
             background-color: #fff;
         }
     	.el-tabs__nav-scroll {
-            background-color: #fff; 
+            background-color: #fff;
             .el-tabs__nav {
                 float: right;
             }

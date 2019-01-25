@@ -1,26 +1,22 @@
 <template>
-    <div id="styleOne">
-        <div class="item" v-for="(item, index) in meetInfo">
+    <div id="listTwo">
+        <div class="item" v-for="(item, index) in dataList">
             <div class="media-left">
                 <img src="../../assets/logo.png">
             </div>
             <div class="media-body">
                 <el-row>
-                    <el-col :span="24"><div class="grid-content title">{{item.name.replace(/<\/?.+?>/g,"")}}</div></el-col>
+                    <el-col :span="3"><div class="grid-content">{{item.Writer}}</div></el-col>
+                    <el-col :span="14"><div class="grid-content title">{{item.productionName ? item.productionName : "无题"}}</div></el-col>
+                    <el-col :span="1"><div class="grid-content">{{item.Integral}}</div></el-col>
+                    <el-col :span="3"><div class="grid-content title">{{item.ForumName}}</div></el-col>
+                    <el-col :span="3"><div class="grid-content">{{item.upload_time.split(" ")[0]}}</div></el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="12"><div class="grid-content">{{item.startTime.substring(0,10)}} 至 {{item.endTime.substring(0,10)}}</div></el-col>
-                    <el-col :span="12"><div class="grid-content">{{item.place}}</div></el-col>
+                    <el-col :span="24"><div class="grid-content">{{item.intro}}</div></el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="8"><div class="grid-content">计划人数{{item.quota}}</div></el-col>
-                    <el-col :span="8"><div class="grid-content">邀请名单</div></el-col>
-                    <el-col :span="8"><div class="grid-content">自由报名数</div></el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="8"><div class="grid-content">共邀请人数{{item.fsum}}</div></el-col>
-                    <el-col :span="8"><div class="grid-content">确认参会人数</div></el-col>
-                    <el-col :span="8"><div class="grid-content">实际参会人数</div></el-col>
+                    <el-col :span="24"><div class="grid-content"><el-button type="text" :class="{'grey':item.CollectStatus === '已收藏'}">{{item.CollectStatus}}</el-button></div></el-col>
                 </el-row>
             </div>
         </div>
@@ -34,7 +30,7 @@
             };
         },
         props:{
-            meetInfo: {},
+            dataList: {},
         },
         mounted() {
 
@@ -45,7 +41,7 @@
     }
 </script>
 <style lang="scss" scoped>
-    #styleOne {
+    #listTwo {
         .item {
             height: 128px;
             border-bottom: 2px solid #fafafa;
@@ -86,5 +82,5 @@
             }
         }
     }
-
 </style>
+

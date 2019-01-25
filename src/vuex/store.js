@@ -21,14 +21,17 @@ const store = new Vuex.Store({
         stunetId:"",
 
         cutImg: '',     //上传图片的地址
+        meetInfo: {
+            meetId: ''
+        },
     },
 
     mutations: {
     	/**
     	 * 使用
     	 * store.commit('newAuthor', 'xxxxxx');
-         * 
-    	 * 
+         *
+    	 *
     	 */
         SET_TUSERID: (state, token) => {
             state.userid = token
@@ -47,6 +50,9 @@ const store = new Vuex.Store({
         },
         SET_CUTIMG: (state, token) => {
             state.cutImg = token
+        },
+        SET_MEETINFO: (state, token) => {
+            state.meetInfo = token
         }
     }
 })

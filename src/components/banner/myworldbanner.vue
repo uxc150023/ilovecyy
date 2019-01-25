@@ -23,6 +23,7 @@
                     'read':     '2',
                     'write':    '3',
                     'mymeeting': '6',
+                    'version': '13',
                     'alliance':  '14',
                     'person':   '15',
                 },
@@ -42,6 +43,7 @@
                     '2':        'Worldread',
                     '3':        'Worldwrite',
                     '6':        'Worldmeeting',
+                    '13':        'Worldversion',
                     '14':       'Worldalliance',
                     '15':       'Worldperson'
                 },

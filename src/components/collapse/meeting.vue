@@ -6,26 +6,27 @@
                     <span class="bar"></span>
                     {{title}}
                 </template>
-                <app-styleone></app-styleone>
+                <slot></slot>
             </el-collapse-item>
         </el-collapse>
     </div>
 </template>
 <script>
-    import styleone from '@/components/meeting/styleone'
-
     export default {
         data() {
             return {
-                activeName: '1'
+                activeName: '1',
             };
         },
-        props: ['title'],
+        props:{
+            title: '',
+            meetInfo: {},
+        },
         mounted() {
 
         },
         components: {
-            "app-styleone": styleone,
+
         },
         methods: {
             handleChange(val) {

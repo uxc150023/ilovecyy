@@ -1,17 +1,19 @@
 <template>
     <div>
-        <div class="item">
+        <div class="item" v-for="(item, index) in meetInfo">
             <div class="media-left">
                 <img src="../../assets/logo.png">
             </div>
             <div class="media-body">
                 <el-row>
-                    <el-col :span="12"><div class="grid-content title">fsdafsa</div></el-col>
-                    <el-col :span="12"><div class="grid-content">fasf</div></el-col>
+                    <el-col :span="12"><div class="grid-content title">
+                        <span v-for="ele in JSON.parse(item.host)">{{ele}}</span>
+                    </div></el-col>
+                    <el-col :span="12"><div class="grid-content">{{item.name.replace(/<\/?.+?>/g,"")}}</div></el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="12"><div class="grid-content title">fsdafsa</div></el-col>
-                    <el-col :span="12"><div class="grid-content">fasf</div></el-col>
+                    <el-col :span="12"><div class="grid-content title">{{item.startTime.substring(0,10)}} 至 {{item.endTime.substring(0,10)}}</div></el-col>
+                    <el-col :span="12"><div class="grid-content">{{item.place}}</div></el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="24"><div class="grid-content"><el-button type="text">文字按钮</el-button></div></el-col>
@@ -21,7 +23,22 @@
     </div>
 </template>
 <script>
+    export default {
+        data() {
+            return {
 
+            };
+        },
+        props:{
+            meetInfo: {},
+        },
+        mounted() {
+
+        },
+        methods: {
+
+        }
+    }
 </script>
 <style lang="scss" scoped>
     .item {

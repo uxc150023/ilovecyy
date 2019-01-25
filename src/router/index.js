@@ -8,9 +8,10 @@ import Myworld 			from '@/views/myworld/myworld'		//我世界
 import Worldhome  	   	from '@/views/myworld/home'			//我世界 - 首页
 import Worldread  	   	from '@/views/myworld/read'			//我世界 - 我读
 import Worldwrite  		from '@/views/myworld/write'		//我世界 - 我写
-import Worldmeeting		from '@/views/myworld/mymeeting'		//我世界 - 会议
+import Worldmeeting		from '@/views/myworld/mymeeting'	//我世界 - 会议
+import Worldversion		from '@/views/myworld/version'		//我世界 - 公众版管理
 import Worldalliance 	from '@/views/myworld/alliance' 	//我世界 - 新学联盟
-import Worldperson		from '@/views/myworld/person' 		//我世界 - 新学联盟
+import Worldperson		from '@/views/myworld/person' 		//我世界 - 新学人物
 
 import Mystunet 		from '@/views/mystunet/mystunet'	//学会
 import Stuhome 	   		from '@/views/mystunet/home'		//学会 - 首页
@@ -60,6 +61,7 @@ export default new Router({
             	{ path: '/myworld/read', 		name: 'Worldread',		component: Worldread },
             	{ path: '/myworld/write', 		name: 'Worldwrite',		component: Worldwrite },
                 { path: '/myworld/mymeeting', 	name: 'Worldmeeting',	component: Worldmeeting },
+                { path: '/myworld/version', 	name: 'Worldversion',	component: Worldversion },
                 { path: '/myworld/alliance', 	name: 'Worldalliance',	component: Worldalliance },
                 { path: '/myworld/person', 		name: 'Worldperson',	component: Worldperson }
             ]

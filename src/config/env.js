@@ -11,7 +11,6 @@ let baseUrl = '';
 let routerMode = 'hash';
 let imgBaseUrl = '';
 
-
 if (process.env.NODE_ENV == 'development') {
 	baseUrl = 'https://console.xinxuejie.com.cn/';
     // baseUrl = 'http://192.168.31.188:80/';

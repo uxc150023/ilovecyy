@@ -1,15 +1,13 @@
 <template>
     <div id="tabsMeeting">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane v-for="(item, index) in tabItem" :label="item" :name="item" :key="index"></el-tab-pane>
+        <el-tabs v-bind:id="id" v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane v-for="(item, index) in tabItem" :label="item" :name="item" :key="index">
+                <slot></slot>
+            </el-tab-pane>
         </el-tabs>
     </div>
-
-    <!--<app-styletwo></app-styletwo>-->
 </template>
 <script>
-    import styletwo from '@/components/meeting/styletwo'
-
     export default {
         data() {
             return {
@@ -18,12 +16,15 @@
         },
         props:{
             tabItem:'',
+            id: '',
         },
         components: {
-            'app-styletwo': styletwo
         },
         methods: {
             handleClick(tab, event) {
+                console.log(tab, event)
+                let tabId = tab.$el.parentNode.parentNode.getAttribute('id')
+                this.$emit('change',{tabId: tabId, index: tab.index});
             }
         },
         created() {
