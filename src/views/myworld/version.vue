@@ -17,7 +17,7 @@
                 </div>
             </app-tabmeeting>
 
-            <app-modal v-bind:modalInfo="modalInfo">
+            <app-modal v-bind:modalInfo="modalInfo" :id="id_1">
                 <div class="editor">
                     <app-quilleditor v-bind:id="id_editor" v-bind:content="mainText" v-on:getContent="getContent"></app-quilleditor>
                 </div>
@@ -45,6 +45,7 @@
         data () {
             return {
                 id: '',
+                id_1: 'resumeModal',
                 id_editor: 'resumeEditor',
                 mainText: {content: ''},
                 dataList: [],

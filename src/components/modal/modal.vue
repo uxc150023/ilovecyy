@@ -1,7 +1,7 @@
 <template>
     <div class="common-modal" id="common-modal">
         <div class="">
-            <el-dialog :title="modalInfo.title" :visible.sync="modalInfo.show" :modal='modalInfo.modal' @opened="modalOpened">
+            <el-dialog :id="id" :title="modalInfo.title" :visible.sync="modalInfo.show" :modal='modalInfo.modal' @opened="modalOpened" @closed="modalClosed">
                 <div id="modalContent">
                     <slot></slot>
                 </div>
@@ -21,6 +21,7 @@
         };
     },
     props: {
+        id: '',
         modalInfo: {
             title: '',
             show: false,
@@ -37,6 +38,9 @@
         },
         modalOpened() {
             this.$emit('modalOpened')
+        },
+        modalClosed() {
+            this.$emit('modalClosed')
         }
     }
 };

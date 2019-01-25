@@ -15,7 +15,7 @@
             {{str}}
         </div>
 
-        <app-modal :modalInfo='colorModalInfo' v-on:modalOpened="colorOpen">
+        <app-modal :modalInfo='colorModalInfo' v-on:modalOpened="colorOpen" :id="id_2" v-on:modalClosed="modalClosed">
             <div class="quill-cj">
                 <div class="quill-imglist quill-item quill-item" data-key="wu">
                     <span>无</span>
@@ -71,12 +71,15 @@ export default {
     data() {
         return {
             str: '',
+            id_2: 'colorEditModal',
             editorOption: {},
             colorModalInfo: {
                 show: false,
                 title: '彩笺',
                 modal: false,  //是否需要遮罩
-            }
+            },
+            editorDom: '',
+            key: '',
         }
     },
     props: {
@@ -108,15 +111,36 @@ export default {
             str = str.replace(/&gt;/g,'>');
             return str;
         },
+        //打开彩笺modal
         colorOpen(){
-            let dom = document.getElementsByClassName('quill-item');
-            for (let i = 0; i<dom.length; i++) {
-               console.log(dom[i])
-               dom[i].click = function () {
-                   alert(i)
+            let self = this;
+            let colorDom = document.getElementsByClassName('quill-item');
+            self.editorDom = document.getElementById(self.id).getElementsByClassName('ql-editor')[0];
+            for (let i = 0; i<colorDom.length; i++) {
+               colorDom[i].onclick = function () {
+                   console.log(colorDom[i].dataset.key)
+                   self.key = colorDom[i].dataset.key;
+                   self.colorModalInfo.show = false;
                }
             }
+        },
+        //关闭彩笺modal
+        modalClosed() {
+            let self = this;
+            if (self.key === 'wu') {
+                self.editorDom.style.backgroundImage = 'none';
+                self.editorDom.setAttribute('data-key','wu');
+            } else {
+                console.log(self.editorDom)
+                console.log(self.key)
+                // self.editorDom.style.backgroundImage = 'url("/src/assets/texture/' + self.key + '.png")';
+                self.editorDom.style.backgroundImage = 'url("/Users/zbcyy/Desktop/ilovecyy/src/assets/texture/' + self.key + '.png")';
+                self.editorDom.style.backgroundSize = '100% 100%';
+                self.editorDom.style.backgroundRepeat = 'no-repeat';
+                self.editorDom.setAttribute('data-key',self.key);
+            }
         }
+
     },
     computed: {
         editor() {
