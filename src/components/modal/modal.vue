@@ -1,7 +1,7 @@
 <template>
     <div class="common-modal" id="common-modal">
         <div class="">
-            <el-dialog :title="modalInfo.title" :visible.sync="modalInfo.show" :modal='modalInfo.modal'>
+            <el-dialog :title="modalInfo.title" :visible.sync="modalInfo.show" :modal='modalInfo.modal' @opened="modalOpened">
                 <div id="modalContent">
                     <slot></slot>
                 </div>
@@ -34,6 +34,9 @@
                     done();
                 })
                 .catch(_ => {});
+        },
+        modalOpened() {
+            this.$emit('modalOpened')
         }
     }
 };

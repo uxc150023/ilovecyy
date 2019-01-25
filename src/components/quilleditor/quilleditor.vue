@@ -15,39 +15,39 @@
             {{str}}
         </div>
 
-        <app-modal :modalInfo='colorModalInfo'>
+        <app-modal :modalInfo='colorModalInfo' v-on:modalOpened="colorOpen">
             <div class="quill-cj">
-                <div class="quill-imglist" data-key="wu">
+                <div class="quill-imglist quill-item quill-item" data-key="wu">
                     <span>无</span>
                 </div>
-                <div class="quill-imglist" data-key="clip" style="background: url('../../assets/texture/clip.png') np-repeat centenr">
-                    <!--<img class="quill-img" src="../../assets/texture/clip.png" alt="clip">-->
+                <div class="quill-imglist quill-item" data-key="clip">
+                    <img class="quill-img" src="../../assets/texture/clip.png" alt="clip">
                 </div>
-                <div class="quill-imglist" data-key="flying">
+                <div class="quill-imglist quill-item" data-key="flying">
                     <img class="quill-img" src="../../assets/texture/flying.png" alt="flying">
                 </div>
-                <div class="quill-imglist" data-key="fractal">
+                <div class="quill-imglist quill-item" data-key="fractal">
                     <img class="quill-img" src="../../assets/texture/fractal.png" alt="fractal">
                 </div>
-                <div class="quill-imglist" data-key="intermittent">
+                <div class="quill-imglist quill-item" data-key="intermittent">
                     <img class="quill-img" src="../../assets/texture/intermittent.png" alt="intermittent">
                 </div>
-                <div class="quill-imglist" data-key="lips">
+                <div class="quill-imglist quill-item" data-key="lips">
                     <img class="quill-img" src="../../assets/texture/lips.png" alt="lips">
                 </div>
-                <div class="quill-imglist" data-key="lung">
+                <div class="quill-imglist quill-item" data-key="lung">
                     <img class="quill-img" src="../../assets/texture/lung.png" alt="lung">
                 </div>
-                <div class="quill-imglist" data-key="ooxx">
+                <div class="quill-imglist quill-item" data-key="ooxx">
                     <img class="quill-img" src="../../assets/texture/ooxx.png" alt="ooxx">
                 </div>
-                <div class="quill-imglist" data-key="sun">
+                <div class="quill-imglist quill-item" data-key="sun">
                     <img class="quill-img" src="../../assets/texture/sun.png" alt="sun">
                 </div>
-                <div class="quill-imglist" data-key="twill">
+                <div class="quill-imglist quill-item" data-key="twill">
                     <img class="quill-img" src="../../assets/texture/twill.png" alt="twill">
                 </div>
-                <div class="quill-imglist" data-key="cert">
+                <div class="quill-imglist quill-item" data-key="cert">
                     <img class="quill-img" src="../../assets/texture/cert.png" alt="clip">
                 </div>
             </div>
@@ -107,6 +107,15 @@ export default {
             str = str.replace(/&lt;/g,'<');
             str = str.replace(/&gt;/g,'>');
             return str;
+        },
+        colorOpen(){
+            let dom = document.getElementsByClassName('quill-item');
+            for (let i = 0; i<dom.length; i++) {
+               console.log(dom[i])
+               dom[i].click = function () {
+                   alert(i)
+               }
+            }
         }
     },
     computed: {
@@ -177,11 +186,12 @@ export default {
                     'background-upload': value => {
                         if (value) {
                             self.colorModalInfo.show = true;
-                            [1,2,3].forEach(function (ele,index) {
-                                console.log(index)
-                                console.log(ele)
-                            })
-
+                            // let dom = document.getElementsByClassName('quill-item');
+                            // console.log(dom.length)
+                            // for (let i; i<dom.length; i++) {
+                            //     console.log(dom[i])
+                            //     console.log(i)
+                            // }
                         } else {
                             this.quill.format('quillUpload', false);
                         }
