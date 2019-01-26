@@ -10,7 +10,7 @@
                 <el-col :span="2"><div class="grid-content" v-show="info.name_2"> <span>{{info.name_2}}</span> </div></el-col>
                 <el-col :span="2"><div class="grid-content" v-show="info.name_3"> <span>{{info.name_3}}</span> </div></el-col>
                 <el-col :span="12"><div class="grid-content" v-show="info.name_4"> <span>{{info.name_4}}</span> </div></el-col>
-                <el-button type="primary" class="float-right">关&emsp;&emsp;注</el-button>
+                <el-button type="primary" :value='info.btnname' class="float-right" @click="clickbtn" :mark="btnmark"></el-button>
             </el-row>
         </div>
     </div>
@@ -25,7 +25,8 @@
         },
         
         props: {
-            info: {}
+            info: {},
+            btnmark: '' //btn 标记，用于快速定位按钮
         },
 
         mounted() {
@@ -35,6 +36,9 @@
         methods: {
             handleClick() {
 
+            },
+            clickbtn() {
+                this.$emit('clickbtn',{btnmark: this.btnmark, info: this.info})
             }
         }
     }

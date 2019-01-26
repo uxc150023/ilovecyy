@@ -1,25 +1,14 @@
 <template>
     <div class="alliance-content">
-    	<el-tabs v-model="activeName" @tab-click="handleClick">
-			<el-tab-pane label="学网来潮" name="first">
-                <div v-for="(item, index) in listInfo">
-                    <app-list :info='item'></app-list>
-                </div>
-                <div v-if="listInfo.length === 0">
-                    <app-empty></app-empty>
-                </div>
-            </el-tab-pane>
-			<el-tab-pane label="学网尖峰" name="second">
-                <div v-for="(item, index) in listInfo">
-                    <app-list :info='item'></app-list>
-                </div>
-                <div v-if="listInfo.length === 0">
-                    <app-empty></app-empty>
-                </div>
-            </el-tab-pane>
-			<!-- <el-tab-pane label="学网专列" name="third">角色管理</el-tab-pane> -->
-			<!-- <el-tab-pane label="我的学网" name="fourth">我的学网</el-tab-pane> -->
-		</el-tabs>
+        <app-tab v-bind:id="id" v-bind:tabItem="tabOne" v-on:change="change">
+            <div v-for="(item, index) in listInfo">
+                <app-list :info='item' v-on:clickbtn="concern" :btnmark="String(item.mark)"></app-list>
+            </div>
+            <div v-if="listInfo.length === 0">
+                <app-empty></app-empty>
+            </div>
+        </app-tab>
+
         <div class="paging" v-if="total > 10">
             <el-pagination
                 background
@@ -43,6 +32,7 @@
     import store from '@/vuex/store.js'
     import empty from '@/components/list/empty'
     import {_getUrl, _getData} from '@/service/getdata.js'
+    import tab from '@/components/tabs/meeting'
     export default {
         data() {
             return {
@@ -50,9 +40,13 @@
                 type: 0,
                 activeName: 'first',
                 total: 0,
-                listInfo: [
-
-                ],
+                listInfo:'',
+                modalInfo: {
+                    title: '新建会议',
+                    show: false
+                },
+                id:'1',
+                tabOne: ['学网来潮', '学网尖峰','学网专列', '我的学网'],
             }
         },
         mounted() {
@@ -60,10 +54,6 @@
         },
 
         methods: {
-            handleClick(tab) {
-                this.type = Number(tab.index)
-                this.getInfo()
-            },
             /*
             * 获取list
             */
@@ -80,6 +70,12 @@
                     this.listInfo.forEach(elem => {
                         elem.name_0 = elem.stunetName
                         elem.name_1 = elem.sitetypeName
+                        elem.mark = elem.stunetId
+                        if(!elem.isConcern){
+                            elem.btnname = '关    注'
+                        }else{
+                            elem.btnname = '取    关'
+                        }
                     })
                 })
             },
@@ -92,10 +88,44 @@
             nextClick(val) {
                 this.getInfo(val)
             },
+            /**
+             * tab切换
+             */
+            change(tab,event){
+                this.type = Number(tab.index)
+                this.getInfo(1)
+            },
+            /**
+             * 关注
+             */
+            concern(obj){
+                let params = {
+                    concernId: obj.btnmark,
+                    operate: "1",
+                    type: 0,
+                    userid: store.state.userid
+                }
+                _getData(_getUrl('STUCONCERN'), params, res => {
+                    if(res.code === 200){
+                        this.$message({
+                            showClose: true,
+                            message: '关注成功',
+                            type: 'success'
+                        });
+                        this.listInfo.forEach(function(item, index){
+                            if(item.mark == obj.btnmark){
+                                item.btnname = '取    关'
+                            }
+                        })
+                    }
+                })
+            }
+            
         },
         components: {
             "app-list": list,
             "app-empty": empty,
+            "app-tab": tab,
         },
 
 
