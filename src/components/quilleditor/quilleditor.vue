@@ -85,13 +85,26 @@ export default {
     props: {
         id: '',
         content: {
-            content: ''
+            content: '',
+            key: ''
         }
     },
     methods: {
         // 准备编辑器
         onEditorReady(editor) {
-            // console.log('准备编辑器', editor);
+
+            console.log(editor);
+            let self = this;
+            let dom = document.getElementById(self.id).getElementsByClassName('ql-editor')[0];
+            if (self.content.key === 'wu') {
+                dom.style.backgroundImage = 'none';
+                dom.setAttribute('data-key','wu');
+            } else if (self.content.key && self.content.key !== 'wu') {
+                dom.style.backgroundImage = 'url(' + require("../../assets/texture/" + self.content.key + ".png") +')';
+                dom.style.backgroundSize = '100% 100%';
+                dom.style.backgroundRepeat = 'no-repeat';
+                dom.setAttribute('data-key',self.content.key);
+            }
         },
         // 失去焦点事件
         onEditorBlur(editor){
@@ -131,10 +144,7 @@ export default {
                 self.editorDom.style.backgroundImage = 'none';
                 self.editorDom.setAttribute('data-key','wu');
             } else {
-                console.log(self.editorDom)
-                console.log(self.key)
-                // self.editorDom.style.backgroundImage = 'url("/src/assets/texture/' + self.key + '.png")';
-                self.editorDom.style.backgroundImage = 'url("/Users/zbcyy/Desktop/ilovecyy/src/assets/texture/' + self.key + '.png")';
+                self.editorDom.style.backgroundImage = 'url(' + require("../../assets/texture/" + self.key + ".png") +')';
                 self.editorDom.style.backgroundSize = '100% 100%';
                 self.editorDom.style.backgroundRepeat = 'no-repeat';
                 self.editorDom.setAttribute('data-key',self.key);
