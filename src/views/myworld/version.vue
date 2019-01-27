@@ -26,9 +26,9 @@
                 </div>
 
                 <div class="btnBox">
-                    <el-button type="primary" @click="temStorage">暂存</el-button>
-                    <el-button type="primary" @click="preview">预览</el-button>
-                    <el-button type="primary" @click="publishPro">发表</el-button>
+                    <el-button type="text" @click="temStorage">暂&emsp;&emsp;存</el-button>
+                    <el-button class="mybtn" @click="preview">预&emsp;&emsp;览</el-button>
+                    <el-button type="primary" @click="publishPro">发&emsp;&emsp;表</el-button>
                 </div>
             </app-modal>
         </div>
@@ -239,6 +239,10 @@
         }
         .btnBox {
             text-align: right;
+            .mybtn {
+                color: #0092ff;
+                border: 1px solid #0092ff;
+            }
         }
         .quill-editor {
             height: 645px;
