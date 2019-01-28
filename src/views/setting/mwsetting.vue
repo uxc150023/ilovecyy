@@ -43,7 +43,7 @@
             <app-cutimgdialog></app-cutimgdialog>
         </el-dialog> -->
         <app-modal :modalInfo='modalInfo'>
-            <app-cutimgdialog @closeModal='closeModal'></app-cutimgdialog>
+            <app-cutimgdialog v-on:getCutimg='getCutimg'></app-cutimgdialog>
         </app-modal>
     </div>
 </template>
@@ -111,10 +111,11 @@
 	                this.meetInfo = res.data
 	            });
 			},
-			closeModal() {
+			getCutimg(img) {
 				this.modalInfo.show = false
-				this.bgimg = _getUrl('IMGURL') + encodeURIComponent(store.state.cutImg)
-			}
+				// this.bgimg = _getUrl('IMGURL') + encodeURIComponent(store.state.cutImg)
+                this.bgimg = _getUrl('IMGURL') + encodeURI(encodeURI(img)); 
+			},
 	    }
 	}
 </script>

@@ -10,7 +10,7 @@
                 <el-col :span="2"><div class="grid-content" v-show="info.name_2"> <span>{{info.name_2}}</span> </div></el-col>
                 <el-col :span="2"><div class="grid-content" v-show="info.name_3"> <span>{{info.name_3}}</span> </div></el-col>
                 <el-col :span="12"><div class="grid-content" v-show="info.name_4"> <span>{{info.name_4}}</span> </div></el-col>
-                <el-button type="primary" :value='info.btnname' class="float-right" @click="clickbtn" :mark="btnmark"></el-button>
+                <el-button type="primary" class="float-right" @click="clickbtn" :mark="btnmark">{{info.btnname}}</el-button>
             </el-row>
         </div>
     </div>

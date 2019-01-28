@@ -217,13 +217,14 @@ export default {
         commitImg() {
             this.$refs.cropper.getCropData(data => {
                 /*将base64 图片转换为路径png*/
+                console.log(data)
                 var params = {
-                    base64Str: data.replace("data:image/jpeg;base64,","")
+                    base64Str: data.replace("data:image/png;base64,","")
                 };
                 _getData(_getUrl('CUTIMG'), params, res => {
                     this.option.img = ''
-                    store.commit('SET_CUTIMG', JSON.parse(res).data.data)
-                    this.$emit('closeModal');
+                    // store.commit('SET_CUTIMG', JSON.parse(res).data.data)
+                    this.$emit('getCutimg', JSON.parse(res).data.data);
                 })
             });
         }
