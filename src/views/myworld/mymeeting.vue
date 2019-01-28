@@ -10,7 +10,7 @@
             <div v-if="meetInfo.length === 0">
                 <app-empty></app-empty>
             </div>
-            <app-pagination :total="total1[0]" :id="pageId_1" :current-page.sync="currentPage" v-on:getCurrentPage="getCurrentPage"></app-pagination>
+            <!--<app-pagination :total="total1[0]" :id="pageId_1" :current-page.sync="currentPage" v-on:getCurrentPage="getCurrentPage"></app-pagination>-->
         </app-colmeeting>
 
         <app-tabmeeting v-bind:id="id_1" v-bind:tabItem="tabOne" v-on:change="change">

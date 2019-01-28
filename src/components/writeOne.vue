@@ -10,6 +10,35 @@
                     </el-form-item>
                 </el-row>
                 <el-row>
+                    <!--图像-->
+                    <div class="imgPro probox" v-if="form.categray === '图像' ">
+                        <div class="production">
+                            <p class="text">图片上传在此</p>
+                        </div>
+                        <div class="btnBox">
+                            <el-button class="mybtn">浏览/上传</el-button>
+                        </div>
+                    </div>
+                    <!--视频-->
+                    <div class="videoPro probox" v-if="form.categray === '视频' ">
+                        <div class="production">
+
+                        </div>
+                        <div class="btnBox">
+                            <el-button class="mybtn">浏览/上传</el-button>
+                        </div>
+                    </div>
+                    <!--音频-->
+                    <div class="audioPro probox" v-if="form.categray === '音频' ">
+                        <div class="production">
+
+                        </div>
+                        <div class="btnBox">
+                            <el-button class="mybtn">浏览/上传</el-button>
+                        </div>
+                    </div>
+                </el-row>
+                <el-row v-if="form.categray !== '图像' && form.categray !== '视频' && form.categray !== '音频'">
                     <div>
                         <app-quilleditor v-bind:id="id" v-bind:content="writeContent" v-on:getContent="getContent"></app-quilleditor>
                     </div>
@@ -65,7 +94,7 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item label="定价" class="upmusic">
-                            <el-input v-model="form.bookprice"></el-input>
+                            <el-input v-model="form.bookprice" placeholder="0-1000元"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
@@ -151,7 +180,7 @@
                     firstCategray: '',
                     secondCategray: '',
                     thirdCategray: '',
-                    starting: '',
+                    starting: '1',
                     bookprice: '',
                     scope: '',
                     groupMembers: '',
@@ -181,7 +210,6 @@
             //类别改变
             classChange (e) {
                 this.getFirstSub(e)
-
             },
             //获取一级学科
             getFirstSub (e) {
@@ -207,7 +235,6 @@
                 }
             },
             firstSubChange (e) {
-                console.log(e)
                 let self = this;
                 if (this.form.class === '学术与科研') {
                     self.getSecondSub(_getUrl('SUBGET'),e)
@@ -226,8 +253,6 @@
                 if (type) {
                     params.type = type
                 }
-                console.log(params)
-                console.log(url)
                 _getData(url, params, response=> {
                     self.secondSubList = response.data;
                     self.form.secondCategray = self.secondSubList[0].name
@@ -262,6 +287,7 @@
             uploadThematic() {
 
             }
+
         },
         mounted () {
             this.getCategray()
@@ -277,6 +303,22 @@
         .formBox {
             width: 1020px;
             margin: 0 auto;
+            .probox {
+                margin-bottom: 25px;
+                .production {
+                    height: 450px;
+                    border: 1px #F1F1F1 solid;
+                    line-height: 450px;
+                    .text {
+                        color: #BBBBBB;
+                    }
+                }
+                .btnBox {
+                    .mybtn {
+                        margin-top: 22px;
+                    }
+                }
+            }
             .el-form-item__label {
                 text-align: justify;
                 text-align-last: justify;
@@ -297,7 +339,6 @@
                     }
                 }
             }
-
             .btnBox {
                 text-align: right;
                 .mybtn {
