@@ -135,6 +135,7 @@ let postUrl = {
     /*new api*/
     ARTCOURSE: 'learn/IWrite/ArtsCourse', //我写 -- 上传文艺/课程 联动数据获取
     IWUPLOAD: 'learn/IWrite/IWUpload', //我写 -- 上传
+    IRSFORM: 'learn/IRead/IRSform',//体类查询
     SDPROUSERZ: 'learn/MesAGain/SDProUserZ', //我写暂存查询
     SPROUSERU: 'learn/IWrite/SProUserU', //查询作品信息 -- 暂时用于我写修改作品数据回显 productionId  作品ID
     UPROUSER: 'learn/IWrite/UProUser', //我写 -- 修改作品
