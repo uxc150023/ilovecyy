@@ -141,13 +141,8 @@
                 memlistInfo: [],    //我为成员/会员的学网
                 attentlistInfo: [], //我关注的学网
                 noattentlistInfo: [], //我取关的学网
-                modalInfo: {
-                    title: '新建会议',
-                    show: false
-                },
                 id:'1',
                 tabOne: ['学网来潮', '学网尖峰','学网专列', '我的学网'],
-                stunetName: store.state.stunetName
             }
         },
         mounted() {
@@ -294,7 +289,7 @@
                             self.memlistInfo.push({
                                 name_0: elem.stunetName,
                                 name_1: elem.sitetypeName,
-                                bg: elem.bgurl ? _getUrl('SMALLIMGURL') + elem.bgurl: require('../../assets/noticebg.jpg'),
+                                bg: elem.logoUrl ? _getUrl('SMALLIMGURL') + elem.logoUrl: require('../../assets/noticebg.jpg'),
                                 mark: elem.stunetId,
                                 url: elem.stunetUrl
                             })
@@ -321,7 +316,7 @@
                             self.attentlistInfo.push({
                                 name_0: elem.stunetName,
                                 name_1: elem.sitetypeName,
-                                bg: elem.logoUrl ? _getUrl('SMALLIMGURL') + elem.bgurl: require('../../assets/noticebg.jpg'),
+                                bg: elem.logoUrl ? _getUrl('SMALLIMGURL') + elem.logoUrl: require('../../assets/noticebg.jpg'),
                                 mark: elem.stunetId,
                                 url: elem.stunetUrl,
                                 btnname: '取  关'
@@ -349,7 +344,7 @@
                             self.noattentlistInfo.push({
                                 name_0: elem.stunetName,
                                 name_1: elem.sitetypeName,
-                                bg: elem.logoUrl ? _getUrl('SMALLIMGURL') + elem.bgurl: require('../../assets/noticebg.jpg'),
+                                bg: elem.logoUrl ? _getUrl('SMALLIMGURL') + elem.logoUrl: require('../../assets/noticebg.jpg'),
                                 mark: elem.stunetId,
                                 url: elem.stunetUrl,
                                 btnname: '恢  复'
