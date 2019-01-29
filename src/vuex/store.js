@@ -20,7 +20,6 @@ const store = new Vuex.Store({
         stunetUrl:"",
         stunetId:"",
 
-        cutImg: '',     //上传图片的地址
         meetInfo: {
             meetId: ''
         },
@@ -48,8 +47,14 @@ const store = new Vuex.Store({
         SET_USERNAME: (state, token) => {
             state.username = token
         },
-        SET_CUTIMG: (state, token) => {
-            state.cutImg = token
+        SET_STUNETID: (state, token) => {
+            state.stunetId = token
+        },
+        SET_STUNETURL: (state, token) => {
+            state.stunetUrl = token
+        },
+        SET_STUNETNAME: (state, token) => {
+            state.stunetName = token
         },
         SET_MEETINFO: (state, token) => {
             state.meetInfo = token
