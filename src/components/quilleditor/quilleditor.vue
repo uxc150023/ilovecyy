@@ -93,7 +93,6 @@ export default {
         // 准备编辑器
         onEditorReady(editor) {
 
-            console.log(editor);
             let self = this;
             let dom = document.getElementById(self.id).getElementsByClassName('ql-editor')[0];
             if (self.content.key === 'wu') {
@@ -108,11 +107,9 @@ export default {
         },
         // 失去焦点事件
         onEditorBlur(editor){
-            // console.log('失去焦点事件 !', editor)
         },
         // 获得焦点事件
         onEditorFocus(editor){
-            // console.log('获得焦点事件 !', editor)
         },
         // 内容改变事件
         onEditorChange(e){
@@ -131,7 +128,6 @@ export default {
             self.editorDom = document.getElementById(self.id).getElementsByClassName('ql-editor')[0];
             for (let i = 0; i<colorDom.length; i++) {
                colorDom[i].onclick = function () {
-                   console.log(colorDom[i].dataset.key)
                    self.key = colorDom[i].dataset.key;
                    self.colorModalInfo.show = false;
                }
@@ -171,7 +167,6 @@ export default {
                     // 必选参数  res是一个函数，函数接收的response为上传成功时服务器返回的数据
                     // 你必须把返回的数据中所包含的图片地址 return 回去
                     res: (respnse) => {
-                        console.log(response)
                         return respnse.info
                     },
                     methods: 'POST',  // 可选参数 图片上传方式  默认为post
@@ -221,10 +216,7 @@ export default {
                         if (value) {
                             self.colorModalInfo.show = true;
                             // let dom = document.getElementsByClassName('quill-item');
-                            // console.log(dom.length)
                             // for (let i; i<dom.length; i++) {
-                            //     console.log(dom[i])
-                            //     console.log(i)
                             // }
                         } else {
                             this.quill.format('quillUpload', false);
@@ -233,7 +225,6 @@ export default {
                 }
             }
         )
-        console.log(this.editorOption)
     }
 }
 </script>

@@ -135,8 +135,9 @@
             },
             //获取quilleditor的内容
             getContent (quill) {
+                let key = document.getElementById(quill.id).getElementsByClassName('ql-editor')[0].dataset.key;
                 this.mainText.content = quill.quill.html;
-                this.mainText.key = document.getElementById(quill.id).getElementsByClassName('ql-editor')[0].dataset.key;
+                this.mainText.key = key ? key : 'wu'
             },
             //暂存
             temStorage () {

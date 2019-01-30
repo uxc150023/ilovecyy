@@ -77,11 +77,9 @@
             },
             initPage() {
                 /*设置tab焦点*/
-                console.log(this.banners.type)
                 if(this.banners.type === 'myworld'){
                     /*我世界*/
                     this.activeName = this.navmenus[location.href.split('/')[location.href.split('/').length - 1]];
-                    console.log(location.href.split('/')[location.href.split('/').length - 1])
                 }else if(this.banners.type === 'stunet'){
                     /*学网*/
                     this.activeName = this.navmenusStu[location.href.split('/')[location.href.split('/').length - 1]];

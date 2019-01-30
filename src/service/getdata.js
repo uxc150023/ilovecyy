@@ -145,6 +145,9 @@ let postUrl = {
     SELETEMMEM: 'learn/MesAGain/SeleTemMem', //查询学网成员
     /*end*/
 
+    SEMYWORDCHOAL: 'learn/MesAGain/SeMyWordECHOAl',//我世界-我的反响详情
+    SEMYWORDKAM: 'learn/MesAGain/SeMyWordKAM',// 0-新学锦锂 1-新学来潮 2-新学尖峰
+
     SEWSHOWFLAUNT: 'learn/ReadWrite/SeWShowflaunt', //我写，我读我晒
     SERSHOWFLAUNT: 'learn/ReadWrite/SeRShowflaunt', //我读，我读我晒
     INWJOTTINGS: 'learn/ReadWrite/InWJottings', //我写-随感添加

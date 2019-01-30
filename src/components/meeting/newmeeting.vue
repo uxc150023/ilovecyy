@@ -1,7 +1,8 @@
 <template>
     <div id="nemMeeting">
         <div class="banner">
-            <img src="../../assets/noticebg.jpg" alt="会议题图" id="bannerShowImg" class="bannerShowImg">
+            <img src="../../assets/noticebg.jpg" class="bannerShowImg" v-if="bgimg === ''">
+            <img :src="bgimg" class="bannerShowImg" v-if="bgimg !== ''">
             <p class="meetname" id="meetname">{{form.name}}</p>
             <el-button type="info" @click="uploadBanner" class="uploadBanner">浏览/上传</el-button>
         </div>
@@ -191,7 +192,7 @@
         </el-form>
 
         <app-modal :modalInfo='cutimgModalInfo'>
-            <app-cutimgdialog></app-cutimgdialog>
+            <app-cutimgdialog v-on:getCutimg='getCutimg' :id="id_bg"></app-cutimgdialog>
         </app-modal>
 
     </div>
@@ -224,6 +225,8 @@
                     title: '上传图片',
                     modal: false
                 },
+                id_bg: 'bgCutimg',
+                bgimg: '',
                 firstSubArr: [],
                 secondSubArr: [],
                 form: {
@@ -240,7 +243,6 @@
                         value: '',
                         key: Date.now()
                     }],
-
                     music: '1',
                     mcname: '',
                     mUrl:'',
@@ -283,6 +285,10 @@
             // 点击上传banner
             uploadBanner() {
                 this.cutimgModalInfo.show = true
+            },
+            getCutimg (obj) {
+                this.cutimgModalInfo.show = false
+                this.bgimg = _getUrl('IMGURL') + encodeURI(encodeURI(obj.data))
             },
             //获取editor内容
             getContent(quill) {

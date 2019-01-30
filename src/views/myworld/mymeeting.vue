@@ -58,5 +58,9 @@
                 height: 180px;
             }
         }
+        .el-form-item__content {
+            line-height: 0;
+        }
+
     }
 </style>

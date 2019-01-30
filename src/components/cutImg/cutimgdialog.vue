@@ -38,7 +38,7 @@
                         <!-- <a @click="down('blob')" class="btn">download(blob)</a> -->
                         <a :href="downImg" download="demo.png" ref="downloadDom"></a>
 
-                        <button @click="commitImg()" class="btn">提交</button>
+                        <el-button @click="commitImg()" class="btn" :id="id">提交</el-button>
                     </div>
                 </div>
             </div>
@@ -215,16 +215,16 @@ export default {
          * 提交图片
          */
         commitImg() {
+            let self = this;
             this.$refs.cropper.getCropData(data => {
                 /*将base64 图片转换为路径png*/
-                console.log(data)
                 var params = {
                     base64Str: data.replace("data:image/png;base64,","")
                 };
                 _getData(_getUrl('CUTIMG'), params, res => {
                     this.option.img = ''
                     // store.commit('SET_CUTIMG', JSON.parse(res).data.data)
-                    this.$emit('getCutimg', JSON.parse(res).data.data);
+                    this.$emit('getCutimg', {data: JSON.parse(res).data.data,id: self.id});
                 })
             });
         }
@@ -232,6 +232,9 @@ export default {
     components: {
         VueCropper,
         codes
+    },
+    props: {
+        id: ''
     }
 };
 </script>
