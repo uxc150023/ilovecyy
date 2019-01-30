@@ -1,7 +1,7 @@
 <template>
     <div class="common-modal" id="common-modal">
         <div class="">
-            <el-dialog :id="id" :title="modalInfo.title" :visible.sync="modalInfo.show" :modal='modalInfo.modal' @opened="modalOpened" @closed="modalClosed">
+            <el-dialog :id="id" :title="modalInfo.title" :visible.sync="modalInfo.show" :modal='modalInfo.modal' @opened="modalOpened" @closed="modalClosed" :style="modalInfo.style">
                 <div id="modalContent">
                     <slot></slot>
                 </div>
@@ -26,6 +26,9 @@
             title: '',
             show: false,
             modal: true,  //是否需要遮罩
+            style: {
+                width: '900px'
+            },
         }
     },
     methods: {
@@ -49,10 +52,10 @@
 <style lang="scss">
     #common-modal {
         .el-dialog {
-            width: 900px;
+            // width: 900px;
             .el-dialog__header {
                 background: url('../../assets/alert.png') no-repeat;
-                background-size: 900px 40px;
+                background-size: 100% 40px;
                 height: 40px;
                 padding: 0;
                 line-height: 40px;

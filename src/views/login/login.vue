@@ -31,6 +31,24 @@
             </el-row>
         </div>
 
+        <app-modal :modalInfo='modalInfo'>
+            <div>
+                <el-form :model="codeform" :inline="true" ref="codeform" label-width="100px" class="">
+                    <el-form-item label="" prop="smscode" :rules="[ 
+                            { required: true, message: '验证码不能为空'},
+                        ]">
+                        <el-form-item>
+                            <el-input type="text" v-model.number="codeform.smscode" autocomplete="off" maxlength="6"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="" @click="getSmscode" v-if='btnshow' disabled>&emsp;&emsp;{{count}}&emsp;&emsp;</el-button>
+                            <el-button type="" @click="getSmscode" v-else>获取验证码</el-button>
+                        </el-form-item>
+                    </el-form-item>
+                </el-form>
+                <el-button type="primary" @click="Plogin('codeform')">确&emsp;&emsp;定</el-button>
+            </div>
+        </app-modal>
 
         <el-dialog
         title="提示"
