@@ -478,6 +478,17 @@ let postUrl = {
     STUPERS: 'learn/share/stupers', //管理端 --新学人物
     SEIRKAM: 'learn/MesAGain/SeIRKAM', //共享段 -- 我读
     SSTUCLOUMN:'learn/MesAGain/SStuCloumn', //共享端 --查询新学界公众端栏目
+
+    MYMASTERSITE: 'learn/share/myMasterSite', //我世界- 新学联盟 - 我的学网 - 我的主站
+    MYSUBSITES: 'learn/share/mySubSites', //我世界- 新学联盟 - 我的学网 - 我的子站
+    MYJOINSITES: 'learn/share/myJoinSites', //我世界- 新学联盟 - 我的学网 - 我的子站 - 我为成员
+    MYCONCERNSITES: 'learn/share/myConcernSites', //我世界- 新学联盟 - 我的学网 - 我的子站 - 我关注的学网
+    MYNOCONCERNSITES: 'learn/share/myNoConcernSites', //我世界- 新学联盟 - 我的学网 - 我的子站 -我取关的学网
+    /*新学人物*/
+    SMYWORLDPEAL: 'learn/MesAGain/SMyWorldPeAl', //我世界首页--新学人物
+    SMYWORLDMEMPE: 'learn/MesAGain/SMyWorldMemPe', //查询学群成员
+    SMYWORLDHCOM: 'learn/MesAGain/SMyWorldIHCom', //我世界首页 -- 互评
+    SMYWORLDIHCOMDOW: 'learn/MesAGain/SMyWorldIHComDow', //人物评论下载
 }
 
 /**

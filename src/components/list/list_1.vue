@@ -2,7 +2,7 @@
     <div class="list-content">
         <div>
             <div class="list-content-a">
-                <img src="https://console.xinxuejie.com.cn/learn/imguplaod/smallpic?pictureId=default_bg.jpg" class="pub_stunet">
+                <img :src="info.bg" class="pub_stunet">
             </div>
             <el-row class="list-content-b">
                 <el-col :span="2"><div class="grid-content" v-show="info.name_0"> <span>{{info.name_0}}</span> </div></el-col>
@@ -10,7 +10,7 @@
                 <el-col :span="2"><div class="grid-content" v-show="info.name_2"> <span>{{info.name_2}}</span> </div></el-col>
                 <el-col :span="2"><div class="grid-content" v-show="info.name_3"> <span>{{info.name_3}}</span> </div></el-col>
                 <el-col :span="12"><div class="grid-content" v-show="info.name_4"> <span>{{info.name_4}}</span> </div></el-col>
-                <el-button type="primary" class="float-right" @click="clickbtn" :mark="btnmark">{{info.btnname}}</el-button>
+                <el-button v-show="info.btnname" type="primary" class="float-right" @click="clickbtn" :mark="info.btnmark">{{info.btnname}}</el-button>
             </el-row>
         </div>
     </div>
@@ -26,7 +26,6 @@
         
         props: {
             info: {},
-            btnmark: '' //btn 标记，用于快速定位按钮
         },
 
         mounted() {
@@ -65,6 +64,9 @@
             .grid-content {
                 text-align: left;
             }
+        }
+        span {
+            white-space: nowrap;
         }
     }
 </style>

@@ -135,19 +135,16 @@ export default {
                     store.commit('SET_USERTYPE', type);
                     store.commit('SET_PHONE', res.data.phone);
                     store.commit('SET_USERNAME', res.data.username);
+                    
 
-                    this.storeSession(res);
                     let paramsa = {
                         userid: res.data.userid
                     }
                     /*判断用户是否存在未完成订单*/
                     _getData(_getUrl('ISLIVORDERS'), paramsa, res => {
-                        commonAction.setStorage('webinfo', {
-                            stunet_name: res.data.stunet_name,
-                            stunet_url: res.data.stunet_url,
-                            stunet_id: res.data.stunet_id,
-                            userid: res.data.userId
-                        });
+                        store.commit('SET_STUNETID', res.data.stunet_id);
+                        store.commit('SET_STUNETURL', res.data.stunet_url);
+                        store.commit('SET_STUNETNAME', res.data.stunet_name);
                         if(type === 'per'){
                             this.$router.push({ name: 'Myworld' })
                         }else{
@@ -219,17 +216,6 @@ export default {
                 url = url + "?timestamp=" + timestamp + '&logname=' + logname;
             }
             return url;
-        },
-
-        /**
-         * 存储登录信息
-         */
-        storeSession (res) {
-            commonAction.setStorage("loginStatus", "TRUE");     //存储登录状态
-            commonAction.setStorage("username", res.data.username);     //存储用户名，个人是手机号，公司是机构名
-            commonAction.setStorage("userid",  res.data.userid);     //存储userid
-            commonAction.setStorage("new_stuname",  res.data.new_stuname);     //存储userid
-            commonAction.setStorage("isAdmin",  res.data.admin);     //存储状态
         },
         /**
          * 抹除登录信息
