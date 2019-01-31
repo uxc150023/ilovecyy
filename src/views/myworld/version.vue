@@ -4,10 +4,10 @@
             <app-tabmeeting v-bind:id="id" v-bind:tabItem="tabOne" v-on:change="change">
                 <!--我的作品-->
                 <div v-if="myProduction"  class="panelOne">
-                    <div v-if="dataList.length === 0">
+                    <div v-if="dataListObj.dataList.length === 0">
                         <app-empty></app-empty>
                     </div>
-                    <app-listTwo v-bind:dataList="dataList"></app-listTwo>
+                    <app-listTwo v-bind:dataListObj="dataListObj"></app-listTwo>
                 </div>
 
                 <!--我的家门-->
@@ -54,7 +54,10 @@
                     content: '',
                     key: ''
                 },
-                dataList: [],
+                dataListObj: {
+                    dataList: [],
+                    btnshow: true,
+                },
                 perResume: {
                     content: '',
                     key: '',
@@ -90,13 +93,20 @@
             },
             //获取我的作品
             getProData () {
+                let self = this;
                 _getData(_getUrl('SEUSALLPRO'),{
                   userid: store.state.userid,
                   "currentPage": 1,
                   "onePageCount": 10
                 },(res) => {
+                    console.log(res)
                     if (res.code === 200) {
-                        this.dataList = res.data.listMap;
+                        self.dataListObj.dataList = res.data.listMap;
+                        self.dataListObj.btnshow = false;
+                        let len = res.data.listMap.length;
+                        for(let i=0; i<len; i++) {
+                            self.dataListObj.dataList[i].Tehmatic = JSON.parse(self.dataListObj.dataList[i].Tehmatic).length > 0 ? _getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj.dataList[i].Tehmatic)[0])) : [];
+                        }
                     }
                 });
             },

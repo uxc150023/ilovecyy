@@ -1,12 +1,19 @@
 <template>
     <div>
-        <p>这是首页</p>
         <div>
-            <app-tabmeeting v-bind:id="id" v-bind:tabItem="tabOne" v-on:change="change">
-                <div v-if="dataList.length === 0">
+            <app-colmeeting title="新学锦鲤">
+                <div v-if="dataListObj_2.dataList.length === 0">
                     <app-empty></app-empty>
                 </div>
-                <app-listTwo v-bind:dataList="dataList"></app-listTwo>
+                <app-listTwo v-bind:dataListObj="dataListObj_2"></app-listTwo>
+            </app-colmeeting>
+        </div>
+        <div>
+            <app-tabmeeting v-bind:id="id" v-bind:tabItem="tabOne" v-on:change="change">
+                <div v-if="dataListObj.dataList.length === 0">
+                    <app-empty></app-empty>
+                </div>
+                <app-listTwo v-bind:dataListObj="dataListObj"></app-listTwo>
             </app-tabmeeting>
         </div>
     </div>
@@ -14,6 +21,7 @@
 
 <script>
     import Tabmeeting from '@/components/tabs/meeting'
+    import Colmeeting from '@/components/collapse/meeting'
     import listTwo from '@/components/list/list_2'
     import empty from '@/components/list/empty'
     import {_getUrl, _getData} from '@/service/getdata.js'
@@ -24,32 +32,58 @@
             return {
                 id: '',
                 tabOne: ['新学来潮','新学尖峰'],
-                dataList: '',
+                dataListObj: {
+                    dataList: [],
+                    btnshow: true
+                 },
+                dataListObj_2: {
+                    dataList: [],
+                    btnshow: true
+                 },
+                type: 2,
             }
         },
         components: {
             "app-tabmeeting": Tabmeeting,
+            "app-colmeeting": Colmeeting,
             "app-listTwo": listTwo,
             "app-empty": empty,
         },
         methods: {
-            //新学来潮等数据
-            getDataList () {
-              _getData(_getUrl('SEMYWORDKAM'),{
+            //新学来潮等数据,type=2新学来潮
+            getDataList (type) {
+                let self = this;
+                _getData(_getUrl('SEMYWORDKAM'),{
                   userid: store.state.userid,
-                  type: 2,
+                  type: type,
                   currentPage: 1,
                   onePageCount: 10
-              },res=>{
-                  console.log(res)
-              })
+                },res=>{
+                    if (type === 1) {  //新学锦鲤
+                        self.dataListObj_2.dataList = res.data.listMap;
+                        let len = res.data.listMap.length;
+                        for(let i=0; i<len; i++) {
+                            self.dataListObj_2.dataList[i].Tehmatic = JSON.parse(self.dataListObj_2.dataList[i].Tehmatic).length > 0 ? _getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj_2.dataList[i].Tehmatic)[0])) : [];
+                        }
+                    }else {
+                        self.dataListObj.dataList = res.data.listMap;
+                        let len = res.data.listMap.length;
+                        for(let i=0; i<len; i++) {
+                            self.dataListObj.dataList[i].Tehmatic = JSON.parse(self.dataListObj.dataList[i].Tehmatic).length > 0 ? _getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj.dataList[i].Tehmatic)[0])) : [];
+                        }
+                    }
+                })
             },
-            change () {
-
+            change (obj) {
+                let type = 2;
+                type = obj.index === '0' ? 2 : 3
+                console.log(type)
+                this.getDataList(type);
             }
         },
         mounted () {
-            this.getDataList();
+            this.getDataList(1);
+            this.getDataList(2);
         }
     }
 

@@ -21,7 +21,6 @@ if (process.env.NODE_ENV == 'development') {
 	baseUrl = 'https://console.xinxuejie.com.cn/';
     // imgBaseUrl = '//elm.cangdu.org/img/';
 }
-
 export {
 	baseUrl,
 	// routerMode,

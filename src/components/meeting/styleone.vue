@@ -2,7 +2,7 @@
     <div id="styleOne">
         <div class="item" v-for="(item, index) in meetInfo">
             <div class="media-left">
-                <img src="../../assets/logo.png">
+                <img src="../../assets/meeting.jpg">
             </div>
             <div class="media-body">
                 <el-row>
@@ -49,11 +49,13 @@
         .item {
             height: 128px;
             border-bottom: 2px solid #fafafa;
+            box-sizing:border-box;
+            padding: 10px;
             .media-left {
                 background-color: #fafafa;
                 width: 118px;
                 height: 74px;
-                margin: 0 8px 40px 12px;
+                /*margin: 0 8px 40px 12px;*/
                 float: left;
                 img {
                     max-width: 100%;
@@ -64,7 +66,7 @@
                 margin-left: 138px;
                 .el-row {
                     height: 16px;
-                    margin-bottom: 15px;
+                    margin-bottom: 12px;
                     .el-col {
                         height: 16px;
                         .grid-content {
