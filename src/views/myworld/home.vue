@@ -13,7 +13,7 @@
                 <div v-if="dataListObj.dataList.length === 0">
                     <app-empty></app-empty>
                 </div>
-                <app-listTwo v-bind:dataListObj="dataListObj"></app-listTwo>
+                <app-listTwo v-bind:dataListObj="dataListObj" v-on:collectPro="collectPro"></app-listTwo>
             </app-tabmeeting>
         </div>
     </div>
@@ -67,6 +67,7 @@
                         }
                     }else {
                         self.dataListObj.dataList = res.data.listMap;
+                        console.log(res.data.listMap)
                         let len = res.data.listMap.length;
                         for(let i=0; i<len; i++) {
                             self.dataListObj.dataList[i].Tehmatic = JSON.parse(self.dataListObj.dataList[i].Tehmatic).length > 0 ? _getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj.dataList[i].Tehmatic)[0])) : [];
@@ -77,8 +78,21 @@
             change (obj) {
                 let type = 2;
                 type = obj.index === '0' ? 2 : 3
-                console.log(type)
                 this.getDataList(type);
+            },
+            collectPro (e) {
+                console.log(e)
+            //     _getData(_getUrl('IRINTYPE'),{
+            //         userid: store.state.userid,
+            //         productionId: pid,
+            //         oneType: "暂不分类",
+            //         form: "暂不分类",
+            //         oldForm: $(this).data('form')
+            //     },res=>{
+            //         if (res.code === 200) {
+            //
+            //         }
+            //     })
             }
         },
         mounted () {
