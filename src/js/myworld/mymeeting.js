@@ -10,6 +10,7 @@ import styleone from '@/components/meeting/styleone'
 import styletwo from '@/components/meeting/styletwo'
 import empty from '@/components/list/empty'
 import pagination from '@/components/pagination'
+import store from '@/vuex/store.js'
 
 export default {
     data() {
@@ -58,7 +59,7 @@ export default {
         getDataList(stmType,currentPage){
             /*查询会议信息*/
             _getData(_getUrl('MEET_MYLIST'), {
-                "stunetId": this.stunetId,
+                "stunetId": store.state.stunetId,
                 "stmType": stmType,
                 "currentPage": currentPage ? currentPage : 1,
                 "onePageCount": 10

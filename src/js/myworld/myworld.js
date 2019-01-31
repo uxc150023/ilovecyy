@@ -14,7 +14,7 @@ export default {
                 navlist: []
             },
             // dialogVisible: [false]   /*向子组件传值，因为子组件也需要修改这个值，所以要用数组或者对象的方式 传值*/
-            
+
         };
     },
 
@@ -31,7 +31,7 @@ export default {
     methods: {
         init(){
             var params = {
-                "stunetId": this.stunetId,
+                "stunetId": store.state.stunetId,
                 "bid": 1,
                 "type": 1
             }
