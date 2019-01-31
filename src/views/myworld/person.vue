@@ -1,6 +1,6 @@
 <template>
     <div class="person-content">
-        <app-tab v-bind:id="id" v-bind:tabItem="tabOne" v-on:change="change">
+        <!-- <app-tab v-bind:id="id" v-bind:tabItem="tabOne" v-on:change="change">
             <div v-if="type < 2">
                 <div v-for="(item, index) in stuperlistInfo">
                     <app-list :info='item' v-on:clickbtn="concern"></app-list>
@@ -24,7 +24,15 @@
                 </div>
             </div>
 
-        </app-tab>
+        </app-tab> -->
+        <el-tabs v-model="activeName" @tab-click="change">
+            <el-tab-pane label="用户管理" name="first">
+                
+            </el-tab-pane>
+            <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
+            <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+            <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+        </el-tabs>
     </div>
 </template>
 

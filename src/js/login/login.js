@@ -2,6 +2,7 @@ import commonAction from "@/js/commonAction"
 import store from '@/vuex/store.js'
 import GVerify from './pngcode.js'
 import {_getUrl, _getData} from '@/service/getdata.js'
+import modal from '@/components/modal/modal'
 
 export default {
     data() {
@@ -38,6 +39,12 @@ export default {
                 phoneNum: '',   //手机号码
                 pass: '',
             },
+            codeform: {
+                smscode: '',         //异地验证码
+            },
+            btnshow: false,              //异地登录获取验证码按钮
+            timer: null,                 //异地登录验证码按钮倒计时
+            count: '',                   //异地登录倒计时
             ruleFormOrg: {
                 name: '',
                 pass: '',
@@ -59,6 +66,14 @@ export default {
                 pass: [
                     { required: true,  message: '请输入密码', trigger: 'blur' }
                 ]
+            },
+            modalInfo: {
+                title: '系统检测到异地登陆,请进行手机校验',
+                show: false,
+                style: {
+                    width: '1200px',
+                    margin: 'auto'
+                },
             }
         };
     },
@@ -68,6 +83,10 @@ export default {
 
     created() {
         this.keyupSubmit();
+    },
+
+    components: {
+        "app-modal": modal,
     },
 
     methods: {
@@ -111,14 +130,14 @@ export default {
         /**
          * 登陆
          */
-        login(type, logname, pass) {
+        login(type, logname, pass, code, simis_valid) {
             if(this.showpngcode === false){
                 this.img_vaild = 'FALSE'
             }
             let params = {
-                "simis_valid": "FALSE",
+                "simis_valid": simis_valid? simis_valid: 'FALSE',
                 "logname": logname,
-                "code": '',
+                "code": code? code:'',
                 "password": pass,
                 // "img_vaildcod": this.imgcode,
                 'user_type': type,
@@ -155,7 +174,7 @@ export default {
                 } else if (res.code === 315) { //登陆频繁
                     this.showpngcode = true
                 } else if (res.code === 316) { //异地登陆
-                    
+                    this.modalInfo.show = true
                 }else {
                     this.$message({
                         message: res.message,
@@ -172,6 +191,52 @@ export default {
             this.verifyCode = new GVerify("v_container")
             this.img_vaild = 'TRUE';
             console.log(this.verifyCode)
+        },
+        /**
+         * 获取异地登录验证码
+         */
+        getSmscode() {
+            this.btnshow = true; 
+            const TIME_COUNT = 60;
+            /*获取手机号码*/
+            _getData(_getUrl('GETUSERS'), {userid: store.state.userid}, res => {
+                if(res.code === 200){
+                    _getData(_getUrl('NOTESIMPORT'), {is_login: 'TRUE', phone: res.data.phone}, res => {
+                        if(res.code === 200){
+                            if (!this.timer) {     
+                                this.count = TIME_COUNT;     
+                                this.show = false;     
+                                this.timer = setInterval(() => {     
+                                    if (this.count > 0 && this.count <= TIME_COUNT) {      
+                                        this.count--;      
+                                    } else { 
+                                        this.btnshow = false;      
+                                        clearInterval(this.timer);      
+                                        this.timer = null;      
+                                    }     
+                                }, 1000)     
+                            }  
+                        }
+                    })
+                }
+            })
+        },
+        /**
+         * 异地登录
+         */
+        Plogin(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    if(this.loginType === 'ruleFormPer'){
+                        this.login('per', this.ruleFormPer.phoneNum, this.ruleFormPer.pass, this.codeform.smscode, 'TRUE');
+                    }else{
+                        this.login('org', this.ruleFormOrg.name, this.ruleFormOrg.pass, this.codeform.smscode, 'TRUE');
+                    }
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
         },
 
         //提交图形验证码，后端判断
