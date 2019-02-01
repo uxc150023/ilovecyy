@@ -5,7 +5,7 @@
                 <div v-for="(item, index) in listInfo">
                     <app-list :info='item' v-on:clickbtn="concern"></app-list>
                 </div>
-                <div v-if="listInfo === ''">
+                <div v-if="listInfo.length === 0">
                     <app-empty></app-empty>
                 </div>
                 <div class="paging" v-if="total > 10">
@@ -33,6 +33,10 @@
                         <app-list :info='item' v-on:clickbtn="" ></app-list>
                     </div>
 
+                    <div v-if="childlistInfo.length === 0">
+                        <app-empty></app-empty>
+                    </div>
+
                     <div class="paging" v-if="childtotal > 10">
                         <el-pagination
                             background
@@ -51,6 +55,10 @@
                 <app-colmeeting title="我为成员/会员的学网">
                     <div v-for="(item, index) in memlistInfo">
                         <app-list :info='item' v-on:clickbtn="" ></app-list>
+                    </div>
+
+                    <div v-if="memlistInfo.length === 0">
+                        <app-empty></app-empty>
                     </div>
 
                     <div class="paging" v-if="memtotal > 10">
@@ -73,7 +81,9 @@
                     <div v-for="(item, index) in attentlistInfo">
                         <app-list :info='item' v-on:clickbtn="" ></app-list>
                     </div>
-
+                    <div v-if="attentlistInfo.length === 0">
+                        <app-empty></app-empty>
+                    </div>
                     <div class="paging" v-if="attenttotal > 10">
                         <el-pagination
                             background
@@ -95,6 +105,9 @@
                         <app-list :info='item' v-on:clickbtn="" ></app-list>
                     </div>
 
+                    <div v-if="noattentlistInfo.length === 0">
+                        <app-empty></app-empty>
+                    </div>
                     <div class="paging" v-if="noattenttotal > 10">
                         <el-pagination
                             background
@@ -135,7 +148,7 @@
                 attenttotal: 0,
                 noattenttotal: 0,
                 memtotal: 0,
-                listInfo:'',
+                listInfo: [],
                 mainlistInfo: '',   //我的主站
                 childlistInfo: [],  //我的子站
                 memlistInfo: [],    //我为成员/会员的学网
@@ -154,6 +167,7 @@
             * 获取list
             */
             getInfo(currentPage) {
+                var self = this
                 if(this.type === 3){
                     this.myMasterSite()
                     this.mySubSites(currentPage)
@@ -170,17 +184,23 @@
                 };
                 _getData(_getUrl('STUORG'), params, res => {
                     this.total = res.data.countRecord
-                    this.listInfo = res.data.listMap
-                    this.listInfo.forEach(elem => {
-                        elem.name_0 = elem.stunetName
-                        elem.name_1 = elem.sitetypeName
-                        elem.mark = elem.stunetId
-                        elem.bg = _getUrl('SMALLIMGURL')+ elem.logoUrl
+                    this.listInfo = [];
+                    res.data.listMap.forEach( (elem, index) => {
                         if(!elem.isConcern){
-                            elem.btnname = '关    注'
+                            var btnname = '关    注'
+                            var operate = '1'
                         }else{
-                            elem.btnname = '取    关'
+                            var btnname = '取    关'
+                            var operate = '2'
                         }
+                        this.listInfo.push({
+                            name_0: elem.stunetName,
+                            name_1: elem.sitetypeName,
+                            mark: elem.stunetId,
+                            bg: _getUrl('SMALLIMGURL') + encodeURI(elem.logoUrl),
+                            btnname: btnname,
+                            operate: operate
+                        })
                     })
                 })
             },
@@ -204,29 +224,41 @@
              * 关注 1/取关 2 operate
              */
             concern(obj){
+                console.log(obj);
                 let params = {
-                    concernId: obj.btnmark,
-                    operate: '1',
+                    concernId: obj.info.mark,
+                    operate: obj.info.operate,
                     type: 0,
                     userid: store.state.userid
                 }
                 _getData(_getUrl('STUCONCERN'), params, res => {
                     if(res.code === 200){
-                        if(operate === '1'){
-                            message = "关注成功"
+                        if(obj.info.operate === '1'){
+                            this.$message({
+                                showClose: true,
+                                message: '关注成功',
+                                type: 'success'
+                            });
                         }else{
-                            message = "取关成功"
+                            this.$message({
+                                showClose: true,
+                                message: '取关成功',
+                                type: 'success'
+                            });
                         }
-                        this.$message({
-                            showClose: true,
-                            message: message,
-                            type: 'success'
-                        });
-                        // this.listInfo.forEach(function(item, index){
-                        //     if(item.mark == obj.btnmark){
-                        //         item.btnname = '取    关'
-                        //     }
-                        // })
+                        this.listInfo.forEach((item, index) => {
+                            console.log(item.mark , obj.info.mark)
+                            if(item.mark == obj.info.mark){
+                                if(obj.info.operate === '1'){
+                                    item.btnname = '取    关'
+                                    item.operate = '2'
+                                }else{
+                                    item.btnname = '关    注'
+                                    item.operate = '1'
+                                }                           
+                                return false
+                            }
+                        })
                     }
                 })
             },
@@ -262,7 +294,7 @@
                             self.childlistInfo.push({
                                 name_0: elem.name,
                                 name_1: elem.type,
-                                bg: elem.bgurl ? _getUrl('SMALLIMGURL') + elem.bgurl: require('../../assets/noticebg.jpg'),
+                                bg: elem.bgurl ? _getUrl('SMALLIMGURL') + encodeURI(elem.bgurl): require('../../assets/noticebg.jpg'),
                                 mark: elem.mtId,
                                 url: elem.url
                             })
@@ -289,7 +321,7 @@
                             self.memlistInfo.push({
                                 name_0: elem.stunetName,
                                 name_1: elem.sitetypeName,
-                                bg: elem.logoUrl ? _getUrl('SMALLIMGURL') + elem.logoUrl: require('../../assets/noticebg.jpg'),
+                                bg: elem.logoUrl ? _getUrl('SMALLIMGURL') + encodeURI(elem.logoUrl) : require('../../assets/noticebg.jpg'),
                                 mark: elem.stunetId,
                                 url: elem.stunetUrl
                             })
@@ -316,7 +348,7 @@
                             self.attentlistInfo.push({
                                 name_0: elem.stunetName,
                                 name_1: elem.sitetypeName,
-                                bg: elem.logoUrl ? _getUrl('SMALLIMGURL') + elem.logoUrl: require('../../assets/noticebg.jpg'),
+                                bg: elem.logoUrl ? _getUrl('SMALLIMGURL') + encodeURI(elem.logoUrl) : require('../../assets/noticebg.jpg'),
                                 mark: elem.stunetId,
                                 url: elem.stunetUrl,
                                 btnname: '取  关'
@@ -344,7 +376,7 @@
                             self.noattentlistInfo.push({
                                 name_0: elem.stunetName,
                                 name_1: elem.sitetypeName,
-                                bg: elem.logoUrl ? _getUrl('SMALLIMGURL') + elem.logoUrl: require('../../assets/noticebg.jpg'),
+                                bg: elem.logoUrl ? _getUrl('SMALLIMGURL') + encodeURI(elem.logoUrl) : require('../../assets/noticebg.jpg'),
                                 mark: elem.stunetId,
                                 url: elem.stunetUrl,
                                 btnname: '恢  复'
