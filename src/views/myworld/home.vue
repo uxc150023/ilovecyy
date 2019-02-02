@@ -34,7 +34,8 @@
                 tabOne: ['新学来潮','新学尖峰'],
                 dataListObj: {
                     dataList: [],
-                    btnshow: true
+                    btnshow: true,
+                    add: 'xxx'
                  },
                 dataListObj_2: {
                     dataList: [],
@@ -65,12 +66,14 @@
                         for(let i=0; i<len; i++) {
                             self.dataListObj_2.dataList[i].Tehmatic = JSON.parse(self.dataListObj_2.dataList[i].Tehmatic).length > 0 ? _getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj_2.dataList[i].Tehmatic)[0])) : [];
                         }
-                    }else {
+                    }else {  //新学尖峰
                         self.dataListObj.dataList = res.data.listMap;
                         console.log(res.data.listMap)
                         let len = res.data.listMap.length;
                         for(let i=0; i<len; i++) {
                             self.dataListObj.dataList[i].Tehmatic = JSON.parse(self.dataListObj.dataList[i].Tehmatic).length > 0 ? _getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj.dataList[i].Tehmatic)[0])) : [];
+                            self.dataListObj.dataList[i].btnText = '收藏';
+                            console.log(self.dataListObj.dataList)
                         }
                     }
                 })
@@ -80,19 +83,24 @@
                 type = obj.index === '0' ? 2 : 3
                 this.getDataList(type);
             },
-            collectPro (e) {
-                console.log(e)
-            //     _getData(_getUrl('IRINTYPE'),{
-            //         userid: store.state.userid,
-            //         productionId: pid,
-            //         oneType: "暂不分类",
-            //         form: "暂不分类",
-            //         oldForm: $(this).data('form')
-            //     },res=>{
-            //         if (res.code === 200) {
-            //
-            //         }
-            //     })
+            collectPro (data) {
+                let self = this;
+                console.log(data)
+                _getData(_getUrl('IRINTYPE'),{
+                    userid: store.state.userid,
+                    productionId: data.pid,
+                    oneType: "暂不分类",
+                    form: "暂不分类",
+                    oldForm: data.oldForm
+                },res=>{
+                    console.log(self.dataListObj.dataList[data.mark].btnText);
+                    // return false
+                    if (res.code === 200) {
+                        alert(2)
+                        self.dataListObj.dataList[data.mark].btnText = '已收藏'
+                        // self.btnText = '已收藏'
+                    }
+                })
             }
         },
         mounted () {

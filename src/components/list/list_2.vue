@@ -17,13 +17,10 @@
                     <el-col :span="3" v-if="dataListObj.btnshow === true">
                         <div class="grid-content" v-if="item.CRead === 'Y'">
                             <div class="">内部阅读</div>
-                            <el-button type="text" class="mybtn—text" @click="collectPro"
-                                       :data-pid="item.production_id"
-                                       :data-form="item.oldForm"
-                                       :data-type="item.Type">收藏</el-button>
+                            <el-button type="text" class="mybtn—text" @click="collectPro({pid:item.production_id,oldForm:item.oldForm,Type:item.Type,mark:index})" v-text="dataListObj.add"></el-button>
                         </div>
                         <div class="grid-content" v-if="item.CRead === 'N'">
-                            <el-button type="text" class="mybtn—text" @click="collectPro">收藏</el-button>
+                            <el-button type="text" class="mybtn—text" @click="collectPro({pid:item.production_id,oldForm:item.oldForm,Type:item.Type,mark:index})" v-text="dataListObj.add"></el-button>
                         </div>
                     </el-col>
                 </el-row>
@@ -42,14 +39,15 @@
             dataListObj: {
                 dataList: [],
                 btnshow: '',
-            }
+                add: ''
+            },
         },
         mounted() {
 
         },
         methods: {
-            collectPro($event) {
-                this.$emit('collectPro',$event);
+            collectPro(data) {
+                this.$emit('collectPro',data);
             }
         }
     }
