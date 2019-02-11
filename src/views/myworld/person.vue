@@ -1,6 +1,6 @@
 <template>
     <div class="person-content">
-        <!-- <app-tab v-bind:id="id" v-bind:tabItem="tabOne" v-on:change="change">
+        <app-tab v-bind:id="id" v-bind:tabItem="tabOne" v-on:change="change">
             <div v-if="type < 2">
                 <div v-for="(item, index) in stuperlistInfo">
                     <app-list :info='item' v-on:clickbtn="concern"></app-list>
@@ -24,15 +24,7 @@
                 </div>
             </div>
 
-        </app-tab> -->
-        <el-tabs v-model="activeName" @tab-click="change">
-            <el-tab-pane label="用户管理" name="first">
-                
-            </el-tab-pane>
-            <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-            <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-            <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
-        </el-tabs>
+        </app-tab>
     </div>
 </template>
 
@@ -51,7 +43,7 @@
                 type: 0,
                 activeName: 'first',
                 stupertotal: 0,
-                stuperlistInfo: [],     //学人来潮
+                stuperlistInfo: '',     //学人来潮
                 tabOne: ['学人来潮', '学人尖峰','xxxx'],
                 id: '1',
             }
@@ -98,11 +90,10 @@
                     if(res.code === 200){
                         self.stupertotal = res.data.countRecord
                         self.stuperlistInfo = []
-                        console.log(res.data.listMap)
                         res.data.listMap.forEach(function(elem, index){
                             self.stuperlistInfo.push({
                                 name_0: elem.name,
-                                bg: elem.headImg ? _getUrl('SMALLIMGURL') + elem.headImg: require('../../assets/noticebg.jpg'),
+                                bg: elem.headImg ? _getUrl('SMALLIMGURL') + encodeURI(elem.headImg): require('../../assets/noticebg.jpg'),
                                 mark: elem.stunetId,
                                 url: elem.stunetUrl,
                                 btnmark: elem.stunetId,

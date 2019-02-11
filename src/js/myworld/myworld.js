@@ -8,7 +8,6 @@ import myworldbanner from '@/components/banner/myworldbanner'
 export default {
     data() {
         return {
-            stunetId: commonAction.getStorage("webinfo").stunet_id,
             banners: {
                 type: 'myworld',
                 navlist: []
