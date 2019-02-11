@@ -4,7 +4,6 @@
  * 2018 12 13
  */
 import commonConfig from "./config"
-
 let commonAction = {
     /**
      * @param  获取URL传参并转化为数组，支持指定参数获取
@@ -147,17 +146,31 @@ let commonAction = {
     },
 
     /**
-     * 弹层
+     * 消息提示
+     * self: this
+     * text: 内容
+     * fn: 关闭回调
+     * title: 标题
      */
-    showMsg: (title, fn) => {
-        this.$message({
-            showClose: true,
-            message: title,
-            type: 'success',
-            
-        })
+    showMsg: (self, text, fn, title) => {
+        console.log(this)
+        self.$alert(text, title?title:'提示', {
+          confirmButtonText: '确定',
+          callback: action => {
+            if (fn) fn()
+          }
+        });
+        // this.$message({
+        //     showClose: true,
+        //     message: title,
+        //     type: 'success',
+        //     onClose: function(){
+        //         if(fn){
+        //             fn()
+        //         }
+        //     }
+        // })
     }
 }
-
 export default commonAction
 
