@@ -144,12 +144,19 @@ let commonAction = {
         var patrn=/^[0-9]{1,20}$/; 
         if (!patrn.exec(s)) return false 
         return true 
-    }
+    },
 
     /**
      * 弹层
      */
-    
+    showMsg: (title, fn) => {
+        this.$message({
+            showClose: true,
+            message: title,
+            type: 'success',
+            
+        })
+    }
 }
 
 export default commonAction

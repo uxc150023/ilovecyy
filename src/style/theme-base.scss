@@ -85,6 +85,11 @@ body {
     background-color: #F6F6F6;
 }
 
+.el-dialog__wrapper::-webkit-scrollbar {/*滚动条整体样式*/
+    width: 1px;     /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+
 
 
 /*登陆*/

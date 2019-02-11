@@ -2,6 +2,10 @@
     <div>
         <div class="header">
             <el-row>
+                <el-button @click="gopage('share')">共享</el-button>
+                <el-button @click="gopage('Mysorld')">我世界</el-button>
+                <el-button @click="gopage('Mystunet')">我团队</el-button>
+
                 <el-button @click="gopage('Mystunet')">我的学网</el-button>
                 <el-button @click="gopage('MyGroupFriend')">学群学友</el-button>
                 <el-button @click="gopage('Recome')">推介</el-button>
@@ -15,7 +19,7 @@
             </el-row>
         </div>
         <app-modal :modalInfo='modalInfo'>
-            <app-mwsetting></app-mwsetting>
+            <app-mwsetting v-on:closeModal="closeModal"></app-mwsetting>
         </app-modal>
 
     </div>
@@ -28,10 +32,8 @@ export default {
 
     data() {
         return {
-            // contentSet: [false],     /*设置*/
             loginStatus: '',            //是否登陆
             cutImgdialog: false,        //图片裁剪
-            // titileSet:'设置',              //设置
             modalInfo: {
                 title: '设置',
                 show: false
@@ -58,6 +60,9 @@ export default {
                     // this.$router.push({ name: 'Cutimgdialog' })
                     break;
             }
+        },
+        closeModal() {
+            this.modalInfo.show = false
         }
     }
 };

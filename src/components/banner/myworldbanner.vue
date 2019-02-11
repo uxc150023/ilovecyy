@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    // import store from '@/vuex/store.js'
+    import store from '@/vuex/store.js'
     export default {
         data() {
             return {
@@ -22,9 +22,9 @@
                     'home':     '1',
                     'read':     '2',
                     'write':    '3',
-                    'mymeeting': '6',
-                    'version': '13',
-                    'alliance':  '14',
+                    'mymeeting':'6',
+                    'version':  '13',
+                    'alliance': '14',
                     'person':   '15',
                 },
                 navmenusStu: { //匹配路由
@@ -32,7 +32,7 @@
                     'survey':   '2',
                     'leader':   '3',
                     'mem':      '4',
-                    'mymeeting':  '5',
+                    'mymeeting':'5',
                     'paper':    '6',
                     'share':    '7',
                     'join':     '8',
@@ -43,7 +43,7 @@
                     '2':        'Worldread',
                     '3':        'Worldwrite',
                     '6':        'Worldmeeting',
-                    '13':        'Worldversion',
+                    '13':       'Worldversion',
                     '14':       'Worldalliance',
                     '15':       'Worldperson'
                 },
@@ -69,6 +69,7 @@
         },
         methods: {
             handleClick(tab) {
+                store.commit('SET_BID', tab.name);
                 if(this.banners.type === 'myworld'){
                     this.$router.push({ name: this.routers[tab.name] })
                 }else if(this.banners.type === 'stunet'){
