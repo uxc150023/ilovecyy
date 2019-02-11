@@ -19,7 +19,7 @@
             </el-row>
         </div>
         <app-modal :modalInfo='modalInfo'>
-            <app-mwsetting></app-mwsetting>
+            <app-mwsetting v-on:closeModal="closeModal"></app-mwsetting>
         </app-modal>
 
     </div>
@@ -60,6 +60,9 @@ export default {
                     // this.$router.push({ name: 'Cutimgdialog' })
                     break;
             }
+        },
+        closeModal() {
+            this.modalInfo.show = false
         }
     }
 };

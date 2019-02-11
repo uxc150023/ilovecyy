@@ -247,7 +247,7 @@ export default {
     .content {
         margin: auto;
         max-width: 1200px;
-        margin-bottom: 100px;
+        // margin-bottom: 100px;
     }
 
     .test-button {

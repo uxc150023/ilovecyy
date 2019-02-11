@@ -58,6 +58,9 @@ const store = new Vuex.Store({
         },
         SET_MEETINFO: (state, token) => {
             state.meetInfo = token
+        },
+        SET_BID: (state, token) => {
+            state.bid = token
         }
     }
 })

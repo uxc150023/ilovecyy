@@ -20,7 +20,7 @@
     .myworld {
         .myworld_head {
             height: 200px;
-            background-color: #7FFF8EFF;
+            // background-color: #7FFF8EFF;
             width: 100%;
             .bgImage {
                 width: 1440px;
