@@ -2,20 +2,17 @@ import Vue from 'vue'
 import Colmeeting from '@/components/collapse/meeting'
 import Tabmeeting from '@/components/tabs/meeting'
 import modal from '@/components/modal/modal'
-import {_getUrl, _getData} from '@/service/getdata.js'
-import commonAction from "@/js/commonAction"
 import neweeting from '@/components/meeting/newmeeting'
 import mwsetting    from '@/views/setting/mwsetting'
 import styleone from '@/components/meeting/styleone'
 import styletwo from '@/components/meeting/styletwo'
 import empty from '@/components/list/empty'
 import pagination from '@/components/pagination'
-import store from '@/vuex/store.js'
 
 export default {
     data() {
         return {
-            stunetId: commonAction.getStorage("webinfo").stunet_id,
+            stunetId: this._common.getStorage("webinfo").stunet_id,
             id_1: 'tabOne',
             id_2: 'tabTwo',
             pageId_1: 'pageOne',
@@ -58,8 +55,8 @@ export default {
     methods: {
         getDataList(stmType,currentPage){
             /*查询会议信息*/
-            _getData(_getUrl('MEET_MYLIST'), {
-                "stunetId": store.state.stunetId,
+            this._getData(this._getUrl('MEET_MYLIST'), {
+                "stunetId": this._store.state.stunetId,
                 "stmType": stmType,
                 "currentPage": currentPage ? currentPage : 1,
                 "onePageCount": 10

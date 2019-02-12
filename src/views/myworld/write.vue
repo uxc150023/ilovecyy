@@ -10,7 +10,6 @@
 <script>
     import writeOne from '@/components/writeOne.vue'
 
-
     export default {
         data () {
             return {

@@ -24,8 +24,6 @@
     import Colmeeting from '@/components/collapse/meeting'
     import listTwo from '@/components/list/list_2'
     import empty from '@/components/list/empty'
-    import {_getUrl, _getData} from '@/service/getdata.js'
-    import store from '@/vuex/store.js'
 
     export default {
         data () {
@@ -55,8 +53,8 @@
             //新学来潮等数据,type=2新学来潮
             getDataList (type) {
                 let self = this;
-                _getData(_getUrl('SEMYWORDKAM'),{
-                  userid: store.state.userid,
+                this._getData(this._getUrl('SEMYWORDKAM'),{
+                  userid: this._store.state.userid,
                   type: type,
                   currentPage: 1,
                   onePageCount: 10
@@ -65,7 +63,7 @@
                         self.dataListObj_2.dataList = res.data.listMap;
                         let len = res.data.listMap.length;
                         for(let i=0; i<len; i++) {
-                            self.dataListObj_2.dataList[i].Tehmatic = JSON.parse(self.dataListObj_2.dataList[i].Tehmatic).length > 0 ? _getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj_2.dataList[i].Tehmatic)[0])) : [];
+                            self.dataListObj_2.dataList[i].Tehmatic = JSON.parse(self.dataListObj_2.dataList[i].Tehmatic).length > 0 ? this._getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj_2.dataList[i].Tehmatic)[0])) : [];
                         }
                     }else {  //新学尖峰
                         let len = res.data.listMap.length;
@@ -85,7 +83,7 @@
                                     btnText: '收藏',
                                 }
                             )
-                            self.dataListObj.dataList[i].Tehmatic = JSON.parse(self.dataListObj.dataList[i].Tehmatic).length > 0 ? _getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj.dataList[i].Tehmatic)[0])) : [];
+                            self.dataListObj.dataList[i].Tehmatic = JSON.parse(self.dataListObj.dataList[i].Tehmatic).length > 0 ? this._getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj.dataList[i].Tehmatic)[0])) : [];
                         }
                     }
                 })
@@ -97,8 +95,8 @@
             },
             collectPro (data) {
                 let self = this;
-                _getData(_getUrl('IRINTYPE'),{
-                    userid: store.state.userid,
+                this._getData(this._getUrl('IRINTYPE'),{
+                    userid: this._store.state.userid,
                     productionId: data.pid,
                     oneType: "暂不分类",
                     form: "暂不分类",

@@ -177,8 +177,6 @@
 
 <script>
     import Quilleditor from '@/components/quilleditor/quilleditor'
-    import store from '@/vuex/store.js'
-    import {_getUrl, _getData} from '@/service/getdata.js'
     import Cutimgdialog from '@/components/cutImg/cutimgdialog'
     import modal from '@/components/modal/modal'
 
@@ -219,7 +217,7 @@
                 progressShow_2: '',
                 videoUploadPercent: 0,
                 audioUploadPercent: 0,
-                uploadUrl: _getUrl('UPMUSIC'),
+                uploadUrl: this._getUrl('UPMUSIC'),
                 videoShowUrl: '',
                 audioShowUrl: '',
                 uploadFiles: [],
@@ -246,7 +244,7 @@
                     sign: '',
                     productionUrl: '',
                     isTs: '',
-                    userid: store.state.userid,
+                    userid: this._store.state.userid,
                 }
             }
         },
@@ -257,8 +255,8 @@
         },
         methods: {
             initPage () {
-                _getData(_getUrl('SPROUSERU'),{
-                    userid: store.state.userid
+                this._getData(this._getUrl('SPROUSERU'),{
+                    userid: this._store.state.userid
                 },res=> {
                     console.log(res)
                 });
@@ -266,8 +264,8 @@
             //获取体类
             getForm () {
                 let self = this;
-                _getData(_getUrl('IRSFORM'),{
-                    userid: store.state.userid,
+                this._getData(this._getUrl('IRSFORM'),{
+                    userid: this._store.state.userid,
                 },res => {
                     if (res.code === 200) {
                         self.formList = JSON.parse(res.data);
@@ -288,14 +286,14 @@
             getFirstSub (e) {
                 let self = this
                 if (e === '学术与科研') {
-                    _getData(_getUrl('SUBGET'), {"levelCode": 0}, res => {
+                    this._getData(this._getUrl('SUBGET'), {"levelCode": 0}, res => {
                         self.firstSubList = res.data;
                         self.form.oneType = self.firstSubList[0].name
                         self.firstSubChange(this.firstSubList[0].code)
                     })
                 }else if (e === '文学与艺术' || e === '教育与教学') {
                     let type = e === '文学与艺术' ? '文艺' : '课程';
-                    _getData(_getUrl('ARTCOURSE'), {
+                    this._getData(this._getUrl('ARTCOURSE'), {
                         "levelCode": 0,
                         "firstSub": "",
                         "type": type
@@ -309,10 +307,10 @@
             firstSubChange (e) {
                 let self = this;
                 if (this.form.productionType === '学术与科研') {
-                    self.getSecondSub(_getUrl('SUBGET'),e)
+                    self.getSecondSub(this._getUrl('SUBGET'),e)
                 }else if (this.form.productionType === '文学与艺术' || this.form.productionType === '教育与教学') {
                     let type = this.form.productionType === '文学与艺术' ? '文艺' : '课程';
-                    self.getSecondSub(_getUrl('ARTCOURSE'),e,type)
+                    self.getSecondSub(this._getUrl('ARTCOURSE'),e,type)
                 }
             },
             //获取二级学科
@@ -325,7 +323,7 @@
                 if (type) {
                     params.type = type
                 }
-                _getData(url, params, response=> {
+                this._getData(url, params, response=> {
                     self.secondSubList = response.data;
                     self.form.twoType = self.secondSubList[0].name
                 })
@@ -337,14 +335,14 @@
             isOpenChange (e) {
                 let self = this;
                 if (e === '特定对象') {
-                    _getData(_getUrl('GETMYGROUP'),{
-                        userid: store.state.userid
+                    this._getData(this._getUrl('GETMYGROUP'),{
+                        userid: this._store.state.userid
                     },res=> {
                         self.gMembersList = res.data
                     });
                 }else if (e === '特定学网') {
-                    _getData(_getUrl('SELEUSERTEM'),{
-                        userid: store.state.userid
+                    this._getData(this._getUrl('SELEUSERTEM'),{
+                        userid: this._store.state.userid
                     },res=> {
                         self.sMembersList = res.data
                     })
@@ -355,10 +353,10 @@
             getCutimg (obj) {
                 if (obj.id === 'cutimgOne') {
                     this.modalInfoOne.show = false
-                    this.bgimg = _getUrl('IMGURL') + encodeURI(encodeURI(obj.data))
+                    this.bgimg = this._getUrl('IMGURL') + encodeURI(encodeURI(obj.data))
                 }else if (obj.id === 'cutimgTwo'){
                     this.modalInfoTwo.show = false
-                    this.showTehmatic = _getUrl('IMGURL') + encodeURI(encodeURI(obj.data))
+                    this.showTehmatic = this._getUrl('IMGURL') + encodeURI(encodeURI(obj.data))
                     this.form.Tehmatic[0] = encodeURI(encodeURI(obj.data))
                 }
             },
@@ -398,7 +396,7 @@
                     if(this.status == 200||this.status == 304){
                         let res = 'response' in xhr ? xhr.response : xhr.responseText
                         self.form.productionUrl = JSON.parse(JSON.parse(res)).data[0].data
-                        self.videoShowUrl = _getUrl('VEDIOURL') + JSON.parse(JSON.parse(res)).data[0].data
+                        self.videoShowUrl = this._getUrl('VEDIOURL') + JSON.parse(JSON.parse(res)).data[0].data
                         self.progressShow = false;
                     }
                 };
@@ -432,7 +430,7 @@
                     if(this.status == 200||this.status == 304){
                         let res = 'response' in xhr ? xhr.response : xhr.responseText
                         self.form.productionUrl = JSON.parse(JSON.parse(res)).data[0].data
-                        self.audioShowUrl = _getUrl('VEDIOURL') + JSON.parse(JSON.parse(res)).data[0].data
+                        self.audioShowUrl = this._getUrl('VEDIOURL') + JSON.parse(JSON.parse(res)).data[0].data
                         self.progressShow_2 = false;
                     }
                 };
@@ -450,9 +448,9 @@
                 }else {
                     this.form.isTs = '暂存';
                     this.form.type = 1;
-                    _getData(_getUrl('SDPROUSERZ'), this.form ,res=> {
+                    this._getData(this._getUrl('SDPROUSERZ'), this.form ,res=> {
                         if (res.code === 200) {
-                            _getData(_getUrl('IWUPLOAD'), this.form, response=> {
+                            this._getData(this._getUrl('IWUPLOAD'), this.form, response=> {
                                 if (response.code === 200) {
                                     this.$message({
                                         showClose: true,
@@ -479,10 +477,10 @@
                         type: 'error',
                     });
                 }else {
-                    _getData(_getUrl('SDPROUSERZ'), this.form ,res=> {
+                    this._getData(this._getUrl('SDPROUSERZ'), this.form ,res=> {
                         console.log(res)
                         if (res.code === 200) {
-                            _getData(_getUrl('IWUPLOAD'), this.form ,response=> {
+                            this._getData(this._getUrl('IWUPLOAD'), this.form ,response=> {
                                 console.log(response)
                                 if (response.code === 200) {
                                     this.$message.success('发表成功!');

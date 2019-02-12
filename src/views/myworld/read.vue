@@ -13,8 +13,6 @@
     import Tabmeeting from '@/components/tabs/meeting'
     import listTwo from '@/components/list/list_2'
     import empty from '@/components/list/empty'
-    import {_getUrl, _getData} from '@/service/getdata.js'
-    import store from '@/vuex/store.js'
 
     export default {
         data () {
@@ -36,8 +34,8 @@
         methods: {
             getCloumn () {
                 let self = this;
-                _getData(_getUrl('IRSCLOUMN'),{
-                    userid: store.state.userid
+                this._getData(this._getUrl('IRSCLOUMN'),{
+                    userid: this._store.state.userid
                 },res=> {
                     console.log(res)
                     self.irsCloumn = JSON.parse(res.data.column);
@@ -50,10 +48,15 @@
                 })
             },
             change (obj) {
+                let self = this;
                 console.log(obj)
                 //二级导航
                 if (obj.tabId === 'navOne') {
-
+                    console.log(obj.tab)
+                    //最新读品
+                    if (obj.tab.label === '最新读品') {
+                        self.secondCloumn = ['读品来潮','读品尖峰','读品专列'];
+                    }
                 }
                 // this.getDataList(type);
             },

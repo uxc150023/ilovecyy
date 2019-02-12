@@ -39,9 +39,7 @@
     import Tabmeeting from '@/components/tabs/meeting'
     import listTwo from '@/components/list/list_2'
     import modal from '@/components/modal/modal'
-    import {_getUrl, _getData} from '@/service/getdata.js'
     import empty from '@/components/list/empty'
-    import store from '@/vuex/store.js'
     import Quilleditor from '@/components/quilleditor/quilleditor'
 
     export default {
@@ -94,8 +92,8 @@
             //获取我的作品
             getProData () {
                 let self = this;
-                _getData(_getUrl('SEUSALLPRO'),{
-                  userid: store.state.userid,
+                this._getData(this._getUrl('SEUSALLPRO'),{
+                  userid: this._store.state.userid,
                   "currentPage": 1,
                   "onePageCount": 10
                 },(res) => {
@@ -105,7 +103,7 @@
                         self.dataListObj.btnshow = false;
                         let len = res.data.listMap.length;
                         for(let i=0; i<len; i++) {
-                            self.dataListObj.dataList[i].Tehmatic = JSON.parse(self.dataListObj.dataList[i].Tehmatic).length > 0 ? _getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj.dataList[i].Tehmatic)[0])) : [];
+                            self.dataListObj.dataList[i].Tehmatic = JSON.parse(self.dataListObj.dataList[i].Tehmatic).length > 0 ? this._getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj.dataList[i].Tehmatic)[0])) : [];
                         }
                     }
                 });
@@ -113,8 +111,8 @@
             //获取我的家门
             getPerResume () {
                 let self = this;
-                _getData(_getUrl('MSEPRODETAIL'),{
-                    userid: store.state.userid,
+                this._getData(this._getUrl('MSEPRODETAIL'),{
+                    userid: this._store.state.userid,
                     isTs: 'N',
                 },(res) => {
                     if (res.code === 200) {
@@ -131,8 +129,8 @@
             //编辑我的家门
             editMyhouse () {
                 var self = this;
-                _getData(_getUrl('MSEPRODETAIL'),{
-                    userid: store.state.userid,
+                this._getData(this._getUrl('MSEPRODETAIL'),{
+                    userid: this._store.state.userid,
                     isTs: 'Y'
                 },(res) => {
                     console.log(res)
@@ -153,8 +151,8 @@
             temStorage () {
                 let self = this
                 if (self.mainText.content !== '') {
-                    _getData(_getUrl('MUPINDETAIL'),{
-                        userid: store.state.userid,
+                    this._getData(this._getUrl('MUPINDETAIL'),{
+                        userid: this._store.state.userid,
                         isTs: "Y",
                         contxt: JSON.stringify({
                             quillKey: self.mainText.key,
@@ -185,8 +183,8 @@
             preview () {
                 let self = this
                 if (self.mainText.content !== '') {
-                    _getData(_getUrl('MUPINDETAIL'),{
-                        userid: store.state.userid,
+                    this._getData(this._getUrl('MUPINDETAIL'),{
+                        userid: this._store.state.userid,
                         isTs: "Y",
                         contxt: JSON.stringify({
                             quillKey: self.mainText.key,
@@ -206,8 +204,8 @@
             //发表
             publishPro () {
                 let self = this
-                _getData(_getUrl('MUPINDETAIL'),{
-                    userid: store.state.userid,
+                this._getData(this._getUrl('MUPINDETAIL'),{
+                    userid: this._store.state.userid,
                     isTs: "N",
                     contxt: JSON.stringify({
                         quillKey: self.mainText.key,
