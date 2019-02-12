@@ -1,7 +1,10 @@
 <template>
     <div id="tabsMeeting">
         <el-tabs v-bind:id="id" v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane v-for="(item, index) in tabItem" :label="item" :name="item" :key="index">
+            <el-tab-pane v-for="(item, index) in tabItem" :label="item" :name="item" :key="index" v-if="typeof(item) === 'string'">
+                <slot></slot>
+            </el-tab-pane>
+            <el-tab-pane v-for="(item, index) in tabItem" :label="item[index].split('-')[0]" :name="item[index].split('-')[0]" :key="index" v-if="typeof(item) === 'object' && item[index].split('-')[1] === 'Y' ">
                 <slot></slot>
             </el-tab-pane>
         </el-tabs>
@@ -22,9 +25,9 @@
         },
         methods: {
             handleClick(tab, event) {
-                console.log(tab, event)
-                let tabId = tab.$el.parentNode.parentNode.getAttribute('id')
-                this.$emit('change',{tabId: tabId, index: tab.index});
+                console.log(tab)
+                let tabId = tab.$el.parentNode.parentNode.getAttribute('id');
+                this.$emit('change',{tabId: tabId, index: tab.index, tab: tab});
             }
         },
         created() {

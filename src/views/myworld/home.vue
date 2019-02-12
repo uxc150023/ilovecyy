@@ -33,7 +33,8 @@
                 id: '',
                 tabOne: ['新学来潮','新学尖峰'],
                 dataListObj: {
-                    dataList: [],
+                    dataList: [
+                    ],
                     btnshow: true,
                     add: 'xxx'
                  },
@@ -67,13 +68,24 @@
                             self.dataListObj_2.dataList[i].Tehmatic = JSON.parse(self.dataListObj_2.dataList[i].Tehmatic).length > 0 ? _getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj_2.dataList[i].Tehmatic)[0])) : [];
                         }
                     }else {  //新学尖峰
-                        self.dataListObj.dataList = res.data.listMap;
-                        console.log(res.data.listMap)
                         let len = res.data.listMap.length;
                         for(let i=0; i<len; i++) {
+                            self.dataListObj.dataList.push(
+                                {
+                                    production_id: res.data.listMap[i].production_id,
+                                    oldForm: res.data.listMap[i].oldForm,
+                                    Type: res.data.listMap[i].Type,
+                                    Tehmatic: res.data.listMap[i].Tehmatic,
+                                    name: res.data.listMap[i].name,
+                                    productionName: res.data.listMap[i].productionName,
+                                    ForumName: res.data.listMap[i].ForumName,
+                                    upload_time: res.data.listMap[i].upload_time,
+                                    intro: res.data.listMap[i].intro,
+                                    CRead: res.data.listMap[i].CRead,
+                                    btnText: '收藏',
+                                }
+                            )
                             self.dataListObj.dataList[i].Tehmatic = JSON.parse(self.dataListObj.dataList[i].Tehmatic).length > 0 ? _getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(self.dataListObj.dataList[i].Tehmatic)[0])) : [];
-                            self.dataListObj.dataList[i].btnText = '收藏';
-                            console.log(self.dataListObj.dataList)
                         }
                     }
                 })
@@ -85,7 +97,6 @@
             },
             collectPro (data) {
                 let self = this;
-                console.log(data)
                 _getData(_getUrl('IRINTYPE'),{
                     userid: store.state.userid,
                     productionId: data.pid,
@@ -94,11 +105,9 @@
                     oldForm: data.oldForm
                 },res=>{
                     console.log(self.dataListObj.dataList[data.mark].btnText);
-                    // return false
                     if (res.code === 200) {
                         alert(2)
                         self.dataListObj.dataList[data.mark].btnText = '已收藏'
-                        // self.btnText = '已收藏'
                     }
                 })
             }
