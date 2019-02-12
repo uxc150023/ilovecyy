@@ -51,7 +51,7 @@ let commonAction = {
         if (typeof config === 'string') {
             sessionStorage.removeItem(commonConfig.sessionStore[config]);
         } else if (typeof config === 'object' && config.length !== 0) {
-            config.forEach(function (item) {
+            config.forEach(function(item) {
                 sessionStorage.removeItem(commonConfig.sessionStore[item]);
             });
         }
@@ -139,10 +139,10 @@ let commonAction = {
      * 校验是否全由数字组成 
      * @return {[type]}
      */
-    isDigit: (s) => { 
-        var patrn=/^[0-9]{1,20}$/; 
-        if (!patrn.exec(s)) return false 
-        return true 
+    isDigit: (s) => {
+        var patrn = /^[0-9]{1,20}$/;
+        if (!patrn.exec(s)) return false
+        return true
     },
 
     /**
@@ -154,23 +154,16 @@ let commonAction = {
      */
     showMsg: (self, text, fn, title) => {
         console.log(this)
-        self.$alert(text, title?title:'提示', {
-          confirmButtonText: '确定',
-          callback: action => {
-            if (fn) fn()
-          }
-        });
-        // this.$message({
-        //     showClose: true,
-        //     message: title,
-        //     type: 'success',
-        //     onClose: function(){
-        //         if(fn){
-        //             fn()
-        //         }
-        //     }
-        // })
+        self.$alert(text, title ? title : '提示', {
+            confirmButtonText: '确定',
+            modal: false,
+            callback: action => {
+                if (fn) fn()
+            }
+        })
+        setTimeout(() => {
+            done();
+        },1000)
     }
 }
 export default commonAction
-
