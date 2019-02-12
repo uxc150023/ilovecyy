@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import './style/theme-base.scss'
 import commonAction         from "@/js/commonAction.js"
-import Store from '@/vuex/store'
+import Store                from '@/vuex/store'
 import {_getUrl, _getData}  from '@/service/getdata.js'
 
 
@@ -21,9 +21,12 @@ Vue.prototype._getData = _getData
 Vue.prototype._common = commonAction
 
 /* eslint-disable no-new */
-new Vue({
+let that = new Vue({
 	el: '#app',
 	router,
 	components: { App },
 	template: '<App/>',
 })
+
+export default that 
+

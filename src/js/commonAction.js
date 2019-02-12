@@ -4,6 +4,7 @@
  * 2018 12 13
  */
 import commonConfig from "./config"
+import _this from '../main.js'
 let commonAction = {
     /**
      * @param  获取URL传参并转化为数组，支持指定参数获取
@@ -144,26 +145,54 @@ let commonAction = {
         if (!patrn.exec(s)) return false
         return true
     },
+    /**
+     * 清空vuex 中的值
+     */
+    clearStore: () => {
+        _this._store.commit('SET_TUSERID', '');
+        _this._store.commit('SET_LOGINSTATUS', '');
+        _this._store.commit('SET_USERTYPE', '');
+        _this._store.commit('SET_PHONE', '');
+        _this._store.commit('SET_USERNAME', '');
+
+        _this._store.commit('SET_STUNETID', '');
+        _this._store.commit('SET_STUNETURL', '');
+        _this._store.commit('SET_STUNETNAME', '');
+        _this._store.commit('SET_MEETINFO', '');
+    },
 
     /**
      * 消息提示
-     * self: this
-     * text: 内容
      * fn: 关闭回调
      * title: 标题
      */
-    showMsg: (self, text, fn, title) => {
-        console.log(this)
-        self.$alert(text, title ? title : '提示', {
-            confirmButtonText: '确定',
-            modal: false,
-            callback: action => {
-                if (fn) fn()
+    showMsg: (text, fn) => {
+        _this.$message({
+            message: text,
+            duration: 2000,
+            center: true,
+            onClose: ()=> {
+                if(fn) fn.call(_this)
             }
         })
-        setTimeout(() => {
-            done();
-        },1000)
+    },
+    /**
+     * [确认消息]
+     * @return {[type]} [description]
+     * text 内容
+     * fn1  确定回调
+     * fn2  取消回调
+     */
+    warnMsg: (text, fn1, fn2, title,btn1, btn2) => {
+        _this.$confirm(text, title?title:'提示', {
+            confirmButtonText: btn1?btn1:'确定',
+            cancelButtonText: btn2?btn2:'取消',
+            type: 'warning'
+        }).then(() => {
+            if(fn1) fn1.call(_this)
+        }).catch(() => {
+            if(fn2) fn2() 
+        });
     }
 }
 export default commonAction

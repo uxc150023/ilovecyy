@@ -1,4 +1,3 @@
-import headTop from '@/components/header/head'
 import modal from '@/components/modal/modal'
 import myworldbanner from '@/components/banner/myworldbanner'
 
@@ -19,7 +18,6 @@ export default {
     },
 
     components: {
-        "app-headtop":headTop,
         "app-myworldbanner": myworldbanner,
         "app-modal":modal,
     },

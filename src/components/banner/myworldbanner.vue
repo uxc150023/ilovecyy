@@ -2,7 +2,7 @@
     <div>
         <div class="banner">
             <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-                <el-tab-pane v-for="(item, index) in banners.navlist" :key='index' :label="item.name" v-if="item.isDelete === 0" :name="String(item.bid)"></el-tab-pane>
+                <el-tab-pane v-for="(item, index) in banners.navlist" :key='index' :label="item.name" v-if="item.isDelete === 0 && banners.navlist.length > 0" :name="String(item.bid)"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="content">

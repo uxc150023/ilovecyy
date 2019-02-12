@@ -1,16 +1,19 @@
 <template>
     <div id="app">
+        <app-headTop></app-headTop>
         <router-view/>
         <!-- <app-footer></app-footer> -->
     </div>
 </template>
 
 <script>
-	import footer          from '@/components/footer/footer'
+    import headTop     from '@/components/header/head'
+	import footer      from '@/components/footer/footer'
 	export default {
 	    name: 'App',
 	    components: {
 		    "app-footer": footer,
+            "app-headTop": headTop
 		},
 	}
 </script>

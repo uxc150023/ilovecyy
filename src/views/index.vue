@@ -24,6 +24,9 @@ export default {
     	goLogin () {
     		this.$router.push({path: '/login'})
     	}
+    },
+    mounted() {
+        // window.location.reload()
     }
 }
 

@@ -95,9 +95,8 @@
             onSubmit() {
                 this._getData(this._getUrl('SAVEMENU'), {configs: this.navlist}, res => {
                     if(res.code === 200){
-                        let self = this
-                        this._common.showMsg(this, '设置成功', function(){
-                            self.$emit('closeModal')
+                        this._common.showMsg('保存成功', () => {
+                            this.$emit('closeModal')
                         })
                     }
                 })
