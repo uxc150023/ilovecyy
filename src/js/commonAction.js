@@ -4,7 +4,6 @@
  * 2018 12 13
  */
 import commonConfig from "./config"
-
 let commonAction = {
     /**
      * @param  获取URL传参并转化为数组，支持指定参数获取
@@ -52,7 +51,7 @@ let commonAction = {
         if (typeof config === 'string') {
             sessionStorage.removeItem(commonConfig.sessionStore[config]);
         } else if (typeof config === 'object' && config.length !== 0) {
-            config.forEach(function (item) {
+            config.forEach(function(item) {
                 sessionStorage.removeItem(commonConfig.sessionStore[item]);
             });
         }
@@ -140,24 +139,31 @@ let commonAction = {
      * 校验是否全由数字组成 
      * @return {[type]}
      */
-    isDigit: (s) => { 
-        var patrn=/^[0-9]{1,20}$/; 
-        if (!patrn.exec(s)) return false 
-        return true 
+    isDigit: (s) => {
+        var patrn = /^[0-9]{1,20}$/;
+        if (!patrn.exec(s)) return false
+        return true
     },
 
     /**
-     * 弹层
+     * 消息提示
+     * self: this
+     * text: 内容
+     * fn: 关闭回调
+     * title: 标题
      */
-    showMsg: (title, fn) => {
-        this.$message({
-            showClose: true,
-            message: title,
-            type: 'success',
-            
+    showMsg: (self, text, fn, title) => {
+        console.log(this)
+        self.$alert(text, title ? title : '提示', {
+            confirmButtonText: '确定',
+            modal: false,
+            callback: action => {
+                if (fn) fn()
+            }
         })
+        setTimeout(() => {
+            done();
+        },1000)
     }
 }
-
 export default commonAction
-

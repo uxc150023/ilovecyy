@@ -12,7 +12,6 @@
 </template>
 
 <script>
-    import store from '@/vuex/store.js'
     export default {
         data() {
             return {
@@ -69,7 +68,7 @@
         },
         methods: {
             handleClick(tab) {
-                store.commit('SET_BID', tab.name);
+                this._store.commit('SET_BID', tab.name);
                 if(this.banners.type === 'myworld'){
                     this.$router.push({ name: this.routers[tab.name] })
                 }else if(this.banners.type === 'stunet'){
@@ -85,6 +84,7 @@
                     /*学网*/
                     this.activeName = this.navmenusStu[location.href.split('/')[location.href.split('/').length - 1]];
                 }
+                this._store.commit('SET_BID', this.activeName);
             }
         },
         created(){

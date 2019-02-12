@@ -5,8 +5,6 @@
             <img class="bgImage" src="../../assets/example.jpg">
         </div>
         <app-myworldbanner v-bind:banners="banners"></app-myworldbanner>
-        <!-- <app-modal v-bind:modalInfo="modalInfo">
-        </app-modal> -->
     </div>
 </template>
 

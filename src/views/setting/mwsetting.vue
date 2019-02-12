@@ -60,12 +60,10 @@
 </template>
 
 <script>
-	import commonAction 		from "@/js/commonAction"
-	import {_getUrl, _getData} 	from '@/service/getdata.js'
 	import Cutimgdialog 		from '@/components/cutImg/cutimgdialog'
 	import Quilleditor 			from '@/components/quilleditor/quilleditor'
 	import modal        		from '@/components/modal/modal'
-	import store from '@/vuex/store.js'
+	
 	export default {
 		data() {
 	        return {
@@ -76,7 +74,7 @@
 	        	},
         		bid: '',	//区分栏目标签
         		stunetId: '',
-	        	bgimg: _getUrl('IMGURL') + '/2018/9/6/8e7f64c09fae4e71af7a5accb7a6dffb.jpg',
+	        	bgimg: this._getUrl('IMGURL') + '/2018/9/6/8e7f64c09fae4e71af7a5accb7a6dffb.jpg',
                 navlist: '',
                 form: {},
                 checked: true,
@@ -95,21 +93,12 @@
              * 提交
              */
             onSubmit() {
-                _getData(_getUrl('SAVEMENU'), {configs: this.navlist}, res => {
+                this._getData(this._getUrl('SAVEMENU'), {configs: this.navlist}, res => {
                     if(res.code === 200){
-                        commonAction.showMsg('设置成功', function(){
-                            this.$emit('closeModal')
+                        let self = this
+                        this._common.showMsg(this, '设置成功', function(){
+                            self.$emit('closeModal')
                         })
-                        // this.$message({
-                        //     message: '设置成功',
-                        //     type: 'success',
-                        //     onClose: function(){
-                        //         alert(1)
-                        //     }
-                        // })
-                        // setTimeout(function(){
-                        //     this.$emit('closeModal');
-                        // })
                     }
                 })
             },
@@ -135,11 +124,11 @@
 			getInfo() {
                 /*查询信息*/
                 var params = {
-                    "stunetId": store.state.stunetId,
-                    "bid": store.state.bid,
+                    "stunetId": this._store.state.stunetId,
+                    "bid": this._store.state.bid,
                     "type": 1
                 }
-                _getData(_getUrl('STUORGINFO'), params, res => {
+                this._getData(this._getUrl('STUORGINFO'), params, res => {
                     // console.log('---', this)
                     // this.banners.type = 'myworld';
                     this.navlist = res.data.stunetMenuConfigs
@@ -148,14 +137,13 @@
 			getCutimg(data) {
                 console.log(data)
 				this.modalInfo.show = false
-                this.bgimg = _getUrl('IMGURL') + encodeURI(encodeURI(data.data)); 
+                this.bgimg = this._getUrl('IMGURL') + encodeURI(encodeURI(data.data)); 
 			},
 	    }
 	}
 </script>
 
 <style lang="scss">
-    @import '../../style/theme-base';
 	.setting_dialog {
         .el-dialog__header {
             text-align: left;

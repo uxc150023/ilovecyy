@@ -1,7 +1,4 @@
-import commonAction from "@/js/commonAction"
-import store from '@/vuex/store.js'
 import GVerify from './pngcode.js'
-import {_getUrl, _getData} from '@/service/getdata.js'
 import modal from '@/components/modal/modal'
 
 export default {
@@ -143,27 +140,27 @@ export default {
                 'user_type': type,
                 'img_vaild': this.img_vaild
             }
-            _getData(_getUrl('USERLOGING'),params, res =>{
+            this._getData(this._getUrl('USERLOGING'),params, res =>{
                 if (res.code === 200) {
                     this.$message({
                         message: '登陆成功',
                         type: 'success'
                     });
-                    store.commit('SET_TUSERID', res.data.userid);
-                    store.commit('SET_LOGINSTATUS', 'TRUE');
-                    store.commit('SET_USERTYPE', type);
-                    store.commit('SET_PHONE', res.data.phone);
-                    store.commit('SET_USERNAME', res.data.username);
+                    this._store.commit('SET_TUSERID', res.data.userid);
+                    this._store.commit('SET_LOGINSTATUS', 'TRUE');
+                    this._store.commit('SET_USERTYPE', type);
+                    this._store.commit('SET_PHONE', res.data.phone);
+                    this._store.commit('SET_USERNAME', res.data.username);
                     
 
                     let paramsa = {
                         userid: res.data.userid
                     }
                     /*判断用户是否存在未完成订单*/
-                    _getData(_getUrl('ISLIVORDERS'), paramsa, res => {
-                        store.commit('SET_STUNETID', res.data.stunet_id);
-                        store.commit('SET_STUNETURL', res.data.stunet_url);
-                        store.commit('SET_STUNETNAME', res.data.stunet_name);
+                    this._getData(this._getUrl('ISLIVORDERS'), paramsa, res => {
+                        this._store.commit('SET_STUNETID', res.data.stunet_id);
+                        this._store.commit('SET_STUNETURL', res.data.stunet_url);
+                        this._store.commit('SET_STUNETNAME', res.data.stunet_name);
                         if(type === 'per'){
                             this.$router.push({ name: 'Myworld' })
                         }else{
@@ -199,9 +196,9 @@ export default {
             this.btnshow = true; 
             const TIME_COUNT = 60;
             /*获取手机号码*/
-            _getData(_getUrl('GETUSERS'), {userid: store.state.userid}, res => {
+            this._getData(this._getUrl('GETUSERS'), {userid: this._store.state.userid}, res => {
                 if(res.code === 200){
-                    _getData(_getUrl('NOTESIMPORT'), {is_login: 'TRUE', phone: res.data.phone}, res => {
+                    this._getData(this._getUrl('NOTESIMPORT'), {is_login: 'TRUE', phone: res.data.phone}, res => {
                         if(res.code === 200){
                             if (!this.timer) {     
                                 this.count = TIME_COUNT;     

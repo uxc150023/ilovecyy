@@ -6,7 +6,7 @@
 </template>
 
 <script>
-	import footer from '@/components/footer/footer'
+	import footer          from '@/components/footer/footer'
 	export default {
 	    name: 'App',
 	    components: {
