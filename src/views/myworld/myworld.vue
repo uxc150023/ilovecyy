@@ -1,8 +1,7 @@
 <template>
     <div class="myworld">
-        <app-headtop v-on:showSetting="showSetting()"></app-headtop>
         <div class="myworld_head">
-            <img class="bgImage" src="../../assets/example.jpg">
+            <img class="bgImage" :src='headImage'>
         </div>
         <app-myworldbanner v-bind:banners="banners"></app-myworldbanner>
     </div>
@@ -21,7 +20,7 @@
             // background-color: #7FFF8EFF;
             width: 100%;
             .bgImage {
-                width: 1440px;
+                width: 100%;
                 height: 200px;
             }
         }

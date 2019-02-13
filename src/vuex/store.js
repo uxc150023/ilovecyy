@@ -5,6 +5,7 @@ import createPersistedState from "vuex-persistedstate"
 Vue.use(Vuex)
 const store = new Vuex.Store({
     plugins: [createPersistedState({ storage: window.sessionStorage })],
+    strict: true,
     // 定义状态
     state: {
         userid: '',     //用户id 唯一
@@ -15,11 +16,10 @@ const store = new Vuex.Store({
         userType: '',   //用户类型 - per 个人 org 单位
         phone: '',      //用户或单位手机号码
         username: '',   //用户名称
-
         stunetName: '',
         stunetUrl:"",
         stunetId:"",
-
+        headImage: '',  //顶部头图
         meetInfo: {
             meetId: ''
         },
@@ -29,39 +29,43 @@ const store = new Vuex.Store({
     	/**
     	 * 使用
     	 * store.commit('newAuthor', 'xxxxxx');
-         *
-    	 *
     	 */
-        SET_TUSERID: (state, token) => {
+        SET_TUSERID (state, token) {
             state.userid = token
         },
-        SET_LOGINSTATUS: (state, token) => {
+        SET_LOGINSTATUS (state, token) {
             state.loginStatus = token
         },
-        SET_USERTYPE: (state, token) => {
+        SET_USERTYPE (state, token) {
             state.userType = token
         },
-        SET_PHONE: (state, token) => {
+        SET_PHONE (state, token) {
             state.phone = token
         },
-        SET_USERNAME: (state, token) => {
+        SET_USERNAME (state, token) {
             state.username = token
         },
-        SET_STUNETID: (state, token) => {
+        SET_STUNETID (state, token) {
             state.stunetId = token
         },
-        SET_STUNETURL: (state, token) => {
+        SET_STUNETURL (state, token) {
             state.stunetUrl = token
         },
-        SET_STUNETNAME: (state, token) => {
+        SET_STUNETNAME (state, token) {
             state.stunetName = token
         },
-        SET_MEETINFO: (state, token) => {
+        SET_MEETINFO (state, token) {
             state.meetInfo = token
         },
-        SET_BID: (state, token) => {
+        SET_BID (state, token) {
             state.bid = token
+        },
+        SET_HEADIMAGE (state, token) {
+            state.headImage = token
         }
+    },
+    actions: {
+        
     }
 })
 

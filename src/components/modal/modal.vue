@@ -1,7 +1,7 @@
 <template>
     <div class="common-modal" id="common-modal">
         <div class="">
-            <el-dialog :id="id" :title="modalInfo.title" :visible.sync="modalInfo.show" :modal='modalInfo.modal' @opened="modalOpened" @closed="modalClosed" :style="modalInfo.style">
+            <el-dialog :id="id" :title="modalInfo.title" :visible.sync="modalInfo.show" :modal='modalInfo.modal' @opened="modalOpened" @closed="modalClosed" :style="modalInfo.style" :append-to-body='true'>
                 <div id="modalContent">
                     <slot></slot>
                 </div>
@@ -78,4 +78,17 @@
             }
         }
     }
+    .el-dialog__title {
+                    position: absolute;
+                    left: 0;
+                    top: 10px;
+                    font-size: 16px;
+                    line-height: 30px;
+                    color: #fff;
+                    display: block;
+                    height: 30px;
+                    font-weight: 600;
+                    background-color: #4C88FF;
+                    padding: 0 30px;
+                }
 </style>

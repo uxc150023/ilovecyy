@@ -2,7 +2,7 @@
     <div>
         <div class="banner">
             <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-                <el-tab-pane v-for="(item, index) in banners.navlist" :key='index' :label="item.name" v-if="item.isDelete === 0" :name="String(item.bid)"></el-tab-pane>
+                <el-tab-pane v-for="(item, index) in banners.navlist" :key='index' :label="item.name" v-if="item.isDelete === 0 && banners.navlist.length > 0" :name="String(item.bid)"></el-tab-pane>
             </el-tabs>
         </div>
         <div class="content">
@@ -68,12 +68,24 @@
         },
         methods: {
             handleClick(tab) {
-                this._store.commit('SET_BID', tab.name);
+                this.$store.commit('SET_BID', tab.name);
                 if(this.banners.type === 'myworld'){
                     this.$router.push({ name: this.routers[tab.name] })
                 }else if(this.banners.type === 'stunet'){
                     this.$router.push({ name: this.routersStu[tab.name] })
                 }
+                var params = {
+                    "stunetId": this.$store.state.stunetId,
+                    "bid": this.$store.state.bid,
+                    "type": 1
+                }
+                /*查询学会信息*/
+                this._getData(this._getUrl('STUORGINFO'), params, res => {
+                    if(res.code === 200){
+                        this.banners.navlist = res.data.stunetMenuConfigs
+                        this.$store.commit('SET_HEADIMAGE',res.data.stunetBanners[0].picUrl);
+                    }
+                })
             },
             initPage() {
                 /*设置tab焦点*/
@@ -84,7 +96,7 @@
                     /*学网*/
                     this.activeName = this.navmenusStu[location.href.split('/')[location.href.split('/').length - 1]];
                 }
-                this._store.commit('SET_BID', this.activeName);
+                this.$store.commit('SET_BID', this.activeName);
             }
         },
         created(){
