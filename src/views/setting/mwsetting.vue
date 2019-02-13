@@ -45,16 +45,26 @@
                 <p>栏目头图编辑</p>
                 <el-row>
                     <el-col :span="3" v-for='(elem, index) in navlist' :key='index'>
-                        <el-button v-if='elem.isDelete != 1' type="text">{{elem.name}}</el-button>
+                        <el-button v-if='elem.isDelete != 1' type="text" @click='compilebg(elem.bid, elem.name)'>{{elem.name}}</el-button>
                     </el-col>
                 </el-row>
             </div>
-            <el-form-item class="btnBox">
+            <el-form-item class="btnBox text-right">
                 <el-button type="primary" @click="onSubmit">确&emsp;&emsp;定</el-button>
             </el-form-item>
         </el-form>
         <app-modal :modalInfo='modalInfo'>
             <app-cutimgdialog v-on:getCutimg='getCutimg'></app-cutimgdialog>
+        </app-modal>
+
+        <app-modal :modalInfo='modalInfo1' v-on:modalClosed='modalaClosed'>
+            <div class="setting_content">
+                <div class="setting_top" style="height: 270px;width: 100%;">
+                    <img :src=bgimg1 style="height: 100%;width: 100%;">
+                </div>
+            </div>
+            <p class="text-right">背景图推荐尺寸1020X370,JPG/GIF/PNG,500K以内<el-button type="text" @click="uploadBg()">浏览/上传</el-button>
+            </p>
         </app-modal>
     </div>
 </template>
@@ -72,14 +82,27 @@
 	        		title:"上传图片",
 	        		modal: false
 	        	},
-        		bid: '',	//区分栏目标签
+                modalInfo1: {
+                    show: false,
+                    title: '',
+                    modal: true
+                },
         		stunetId: '',
-	        	bgimg: this._getUrl('IMGURL') + '/2018/9/6/8e7f64c09fae4e71af7a5accb7a6dffb.jpg',
+	        	bgimg: this._getUrl('IMGURL') + encodeURI(this.$store.state.headImage),
+                bgimg1: '',
                 navlist: '',
                 form: {},
                 checked: true,
+                bid1: ''
 	        }
 	    },
+        computed: {
+            bid: {
+                get() {
+                    return this.$store.state.bid
+                }
+            }
+        },
 	    components: {
 	    	'app-cutimgdialog': Cutimgdialog,
 	    	'app-modal':        modal
@@ -123,21 +146,66 @@
 			getInfo() {
                 /*查询信息*/
                 var params = {
-                    "stunetId": this._store.state.stunetId,
-                    "bid": this._store.state.bid,
-                    "type": 1
+                    stunetId: this._store.state.stunetId,
+                    bid: this._store.state.bid,
+                    type: 1
                 }
                 this._getData(this._getUrl('STUORGINFO'), params, res => {
-                    // console.log('---', this)
-                    // this.banners.type = 'myworld';
                     this.navlist = res.data.stunetMenuConfigs
                 })
 			},
 			getCutimg(data) {
-                console.log(data)
 				this.modalInfo.show = false
-                this.bgimg = this._getUrl('IMGURL') + encodeURI(encodeURI(data.data)); 
+                /*提交头图*/
+                let params = {
+                    bid: this.bid1 ? this.bid1 : this.bid,
+                    stunetId: this.$store.state.stunetId,
+                    type: 1,
+                    banners: [
+                        {
+                            bname: "",
+                            link: "",
+                            picUrl: data.data,
+                            sort: 0
+                        }
+                    ]
+                }
+                this._getData(this._getUrl('SAVEBANNER'), params, res => {
+                    if(res.code === 200){
+                        this._common.showMsg('上传成功', () => {
+                            if(!this.bid1){
+                                this.$store.commit('SET_HEADIMAGE', data.data);
+                                this.bgimg = this._getUrl('IMGURL') + encodeURI(data.data);
+                            }else{
+                                this.modalInfo1.show = false
+                                this.bid1 = ''
+                            }
+                        })
+                    }
+                })
 			},
+            /**
+             * 切换头图编辑
+             */
+            compilebg(bid, headName) {
+                this.bid1 = bid
+                this.modalInfo1.show = true
+                this.modalInfo1.title = headName + `头图编辑`
+                var params = {
+                    "stunetId": this.$store.state.stunetId,
+                    "bid": bid,
+                    "type": 1
+                }
+                /*查询学会信息*/
+                this._getData(this._getUrl('STUORGINFO'), params, res => {
+                    if(res.code === 200){
+                        this.bgimg1 = this._getUrl('IMGURL') + encodeURI(res.data.stunetBanners[0].picUrl)
+                    }
+                })
+            },
+            modalaClosed() {
+                this.bid1 = ''
+            }
 	    }
 	}
 </script>

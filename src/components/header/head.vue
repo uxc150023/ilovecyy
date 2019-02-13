@@ -59,7 +59,7 @@ export default {
             switch (page) {
                 case 'Setting':   /*设置*/
                     // this.$emit('showSetting',true);
-                    this.modalInfo.show = true;
+                    this.modalInfo.show = true
                     // this.$router.push({ name: 'Cutimgdialog' })
                     break
                 case 'Quit': /*退出*/

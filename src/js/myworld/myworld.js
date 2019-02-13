@@ -8,9 +8,16 @@ export default {
                 type: 'myworld',
                 navlist: []
             },
-            // dialogVisible: [false]   /*向子组件传值，因为子组件也需要修改这个值，所以要用数组或者对象的方式 传值*/
-
+            
         };
+    },
+
+    computed: {
+        headImage: {
+            get () {
+                return this._getUrl('IMGURL') + encodeURI(this.$store.state.headImage)
+            }
+        }
     },
 
     mounted() {
@@ -25,13 +32,16 @@ export default {
     methods: {
         init(){
             var params = {
-                "stunetId": this._store.state.stunetId,
-                "bid": 1,
+                "stunetId": this.$store.state.stunetId,
+                "bid": this.$store.state.bid,
                 "type": 1
             }
             /*查询学会信息*/
             this._getData(this._getUrl('STUORGINFO'), params, res => {
-                this.banners.navlist = res.data.stunetMenuConfigs
+                if(res.code === 200){
+                    this.banners.navlist = res.data.stunetMenuConfigs
+                    this.$store.commit('SET_HEADIMAGE',res.data.stunetBanners[0].picUrl);
+                }
             })
         }
     }

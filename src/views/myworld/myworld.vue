@@ -1,7 +1,7 @@
 <template>
     <div class="myworld">
         <div class="myworld_head">
-            <img class="bgImage" src="../../assets/example.jpg">
+            <img class="bgImage" :src='headImage'>
         </div>
         <app-myworldbanner v-bind:banners="banners"></app-myworldbanner>
     </div>
