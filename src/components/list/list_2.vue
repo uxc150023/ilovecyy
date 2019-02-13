@@ -26,6 +26,28 @@
                 </el-row>
             </div>
         </div>
+        <div class="item" v-for="(item, index) in dataListObj.dataList" v-if="item.Type === 'styleOne'">
+            <div class="media-left">
+                <img src="../../assets/meeting.jpg" v-if="item.Tehmatic.length === 0">
+                <img :src="item.Tehmatic">
+            </div>
+            <div class="media-body">
+                <el-row>
+                    <el-col :span="3"><div class="grid-content">{{item.name}}</div></el-col>
+                    <el-col :span="15"><div class="grid-content title">{{item.productionName ? item.productionName : "无题"}} <span class="integral">{{item.Integral}}</span></div></el-col>
+                    <el-col :span="3"><div class="grid-content title">{{item.ForumName}}</div></el-col>
+                    <el-col :span="3"><div class="grid-content">{{item.upload_time.split(" ")[0]}}</div></el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="21"><div class="grid-content">{{item.intro}}</div></el-col>
+                    <el-col :span="3" v-if="dataListObj.btnshow === true">
+                        <div class="grid-content">
+                            <el-button type="text" class="mybtn—text" @click="classify({pid:item.production_id,oldForm:item.oldForm,Type:item.Type,mark:index})">分类收藏</el-button>
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -39,15 +61,17 @@
             dataListObj: {
                 dataList: [],
                 btnshow: '',
-                add: ''
             },
         },
         mounted() {
-
+            console.log(this.dataListObj)
         },
         methods: {
             collectPro(data) {
                 this.$emit('collectPro',data);
+            },
+            classify(data) {
+                this.$emit('classify',data);
             }
         }
     }
@@ -63,7 +87,6 @@
                 background-color: #fafafa;
                 width: 118px;
                 height: 74px;
-                /*margin: 0 8px 40px 12px;*/
                 float: left;
                 img {
                     max-width: 100%;

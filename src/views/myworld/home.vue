@@ -31,8 +31,7 @@
                 id: '',
                 tabOne: ['新学来潮','新学尖峰'],
                 dataListObj: {
-                    dataList: [
-                    ],
+                    dataList: [],
                     btnshow: true,
                     add: 'xxx'
                  },

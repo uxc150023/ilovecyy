@@ -1,10 +1,10 @@
 <template>
     <div id="tabsMeeting">
         <el-tabs v-bind:id="id" v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane v-for="(item, index) in tabItem" :label="item" :name="item" :key="index" v-if="typeof(item) === 'string'">
+            <el-tab-pane v-for="(item, index) in tabItem" :label="item" :name="item" :key="index" v-if="item.indexOf('-')<0">
                 <slot></slot>
             </el-tab-pane>
-            <el-tab-pane v-for="(item, index) in tabItem" :label="item[index].split('-')[0]" :name="item[index].split('-')[0]" :key="index" v-if="typeof(item) === 'object' && item[index].split('-')[1] === 'Y' ">
+            <el-tab-pane v-for="(item, index) in tabItem" :label="item.split('-')[0]" :name="item.split('-')[0]" :key="index" v-if="item.indexOf('-')>=0 && item.split('-')[1] === 'Y' ">
                 <slot></slot>
             </el-tab-pane>
         </el-tabs>
@@ -14,7 +14,7 @@
     export default {
         data() {
             return {
-                activeName:''
+                activeName:'',
             };
         },
         props:{
@@ -25,13 +25,12 @@
         },
         methods: {
             handleClick(tab, event) {
-                console.log(tab)
                 let tabId = tab.$el.parentNode.parentNode.getAttribute('id');
                 this.$emit('change',{tabId: tabId, index: tab.index, tab: tab});
             }
         },
-        created() {
-            this.activeName = this.tabItem[0]
+        mounted() {
+            this.activeName = this.tabItem[0].indexOf('-')>=0 ? this.tabItem[0].split('-')[0] : this.tabItem[0];
         }
     };
 </script>
