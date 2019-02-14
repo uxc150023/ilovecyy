@@ -42,7 +42,7 @@
                     <el-col :span="21"><div class="grid-content">{{item.intro}}</div></el-col>
                     <el-col :span="3" v-if="dataListObj.btnshow === true">
                         <div class="grid-content">
-                            <el-button type="text" class="mybtn—text" @click="classify({pid:item.production_id,oldForm:item.oldForm,Type:item.Type,mark:index})">分类收藏</el-button>
+                            <el-button type="text" class="mybtn—text" @click="sortCollect({pid:item.production_id,mark:index})">分类收藏</el-button>
                         </div>
                     </el-col>
                 </el-row>
@@ -67,11 +67,13 @@
             console.log(this.dataListObj)
         },
         methods: {
+            //收藏
             collectPro(data) {
                 this.$emit('collectPro',data);
             },
-            classify(data) {
-                this.$emit('classify',data);
+            //分类收藏
+            sortCollect(data) {
+                this.$emit('sortCollect',data);
             }
         }
     }

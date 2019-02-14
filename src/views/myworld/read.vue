@@ -5,20 +5,27 @@
                 <div v-if="dataListObj_2.dataList.length === 0">
                     <app-empty></app-empty>
                 </div>
-                <app-listTwo v-bind:dataListObj="dataListObj_2"></app-listTwo>
+                <app-listTwo v-bind:dataListObj="dataListObj_2" v-on:sortCollect="sortCollect"></app-listTwo>
             </app-tabmeeting>
             <div v-if="secondCloumn.length === 0 && dataListObj.dataList.length === 0">
                 <app-empty></app-empty>
             </div>
-            <app-listTwo v-bind:dataListObj="dataListObj" v-if="secondCloumn.length === 0"></app-listTwo>
+            <app-listTwo v-bind:dataListObj="dataListObj" v-if="secondCloumn.length === 0" v-on:sortCollect="sortCollect"></app-listTwo>
         </app-tabmeeting>
+
+        <app-modal v-bind:modalInfo="modalInfo">
+            <app-classify v-bind:modalInfo="modalInfo" v-on:confirm="confirm"></app-classify>
+        </app-modal>
+
     </div>
 </template>
 
 <script>
-    import Tabmeeting from '@/components/tabs/meeting'
+    import tabmeeting from '@/components/tabs/meeting'
+    import classify from '@/components/myread/classify'
     import listTwo from '@/components/list/list_2'
     import empty from '@/components/list/empty'
+    import modal from '@/components/modal/modal'
 
     export default {
         data () {
@@ -36,17 +43,23 @@
                     dataList: [],
                     btnshow: true
                 },
+                modalInfo: {
+                    title: '分类收藏',
+                    show: false
+                },
             }
         },
         components: {
-            "app-tabmeeting": Tabmeeting,
+            "app-tabmeeting": tabmeeting,
+            "app-classify": classify,
             "app-listTwo": listTwo,
             "app-empty": empty,
+            "app-modal": modal,
         },
         methods: {
             getCloumn () {
                 this._getData(this._getUrl('IRSCLOUMN'),{
-                    userid: this._store.state.userid
+                    userid: this.$store.state.userid
                 },res=> {
                     this.irsCloumn = JSON.parse(res.data.column);
                     this.irsCloumn.forEach( (ele,index) => {
@@ -58,7 +71,7 @@
             getMainContent (oneType) {
                 let url = oneType == '已删读品' ? this._getUrl('IRSDEPRO') : this._getUrl('IRSETYPEAL');
                 let param = {
-                    userid: this._store.state.userid,
+                    userid: this.$store.state.userid,
                     oneType: oneType,
                     onePageCount: 150,
                     currentPage: 1
@@ -71,14 +84,14 @@
             initNewRead (orderBy) {
                 this.dataListObj_2.dataList = []
                 this._getData(this._getUrl('IRSNEWPRO'),{
-                    'userid': this._store.state.userid,
+                    'userid': this.$store.state.userid,
                     'orderBy': orderBy,
                     'onePageCount': 150,
                     'currentPage': 1
                 },res=> {
                     console.log(res)
                     this._getData(this._getUrl('IRSNEWPRO'),{
-                        'userid': this._store.state.userid,
+                        'userid': this.$store.state.userid,
                         'orderBy': orderBy,
                         'onePageCount': 150,
                         'currentPage': 1
@@ -121,7 +134,7 @@
                                 if (ele[2]) {
                                     this.secondCloumn = ele[2]
                                 }else {
-
+                                    this.getMainContent();
                                 }
                             }
                         })
@@ -137,9 +150,21 @@
                 }
             },
             //分类收藏
-            classify () {
+            sortCollect (data) {
+                this._getData(this._getUrl('IRSCLOUMN'),{
+                    productionId: data.pid,
+                    userid: this._store.state.userid,
+                },res=>{
+                    console.log(res)
+                    if (res.code === 200) {
+                        this.modalInfo.show = true
+                    }
 
+                })
             },
+            confirm () {
+
+            }
         },
         mounted () {
             this.getCloumn();
