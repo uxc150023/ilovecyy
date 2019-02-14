@@ -72,6 +72,9 @@ export default {
                 case 'Login': /*登陆*/
                     this.$router.push({ name: 'Login' })
                     break
+                case 'Register': /*注册*/
+                    this.$router.push({ name: 'Register' })
+                    break
             }
         },
         closeModal() {

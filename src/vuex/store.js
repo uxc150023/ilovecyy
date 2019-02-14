@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from "vuex-persistedstate"
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -8,28 +8,28 @@ const store = new Vuex.Store({
     strict: true,
     // 定义状态
     state: {
-        userid: '',     //用户id 唯一
-        bid: '',        //区分模块的id
-        isAdmin: '',    //是否是管理员
-        loginStatus: '',//是否登录
-        newStuname: '', //新学名
-        userType: '',   //用户类型 - per 个人 org 单位
-        phone: '',      //用户或单位手机号码
-        username: '',   //用户名称
+        userid: '', // 用户id 唯一
+        bid: '', // 区分模块的id
+        isAdmin: '', // 是否是管理员
+        loginStatus: '', // 是否登录
+        newStuname: '', // 新学名
+        userType: '', // 用户类型 - per 个人 org 单位
+        phone: '', // 用户或单位手机号码
+        username: '', // 用户名称
         stunetName: '',
-        stunetUrl:"",
-        stunetId:"",
-        headImage: '',  //顶部头图
+        stunetUrl: '',
+        stunetId: '',
+        headImage: '', // 顶部头图
         meetInfo: {
             meetId: ''
-        },
+        }
     },
 
     mutations: {
-    	/**
-    	 * 使用
-    	 * store.commit('newAuthor', 'xxxxxx');
-    	 */
+        /**
+        * 使用
+        * store.commit('newAuthor', 'xxxxxx');
+        */
         SET_TUSERID (state, token) {
             state.userid = token
         },
@@ -65,7 +65,7 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-        
+
     }
 })
 

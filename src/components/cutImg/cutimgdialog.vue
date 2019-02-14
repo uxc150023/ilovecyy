@@ -326,7 +326,7 @@ export default {
         #ffd400 90%,
         #3498db);
         color: transparent;
-        -webkit-background-clip: text;
+        background-clip: text;
         background-size: 200% 100%;
         animation: slide 5s infinite linear;
         font-size: 40px;

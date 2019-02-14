@@ -7,24 +7,23 @@
  *
  */
 
-let baseUrl = '';
-let routerMode = 'hash';
-let imgBaseUrl = '';
+let baseUrl = ''
+// let routerMode = 'hash';
+// let imgBaseUrl = '';
 
-if (process.env.NODE_ENV == 'development') {
-	// baseUrl = 'https://console.xinxuejie.com.cn/';
+if (process.env.NODE_ENV === 'development') {
+    // baseUrl = 'https://console.xinxuejie.com.cn/';
     // baseUrl = 'http://192.168.31.188:80/';
-    baseUrl = 'http://p8jtir.natappfree.cc/';
+    baseUrl = 'http://p8jtir.natappfree.cc/'
     // baseUrl = 'http://zwnju4.natappfree.cc/';
     // baseUrl = 'http://7sshe7.natappfree.cc/';
     // imgBaseUrl = '/img/';
-
-}else if(process.env.NODE_ENV == 'production'){
-	baseUrl = 'https://console.xinxuejie.com.cn/';
+} else if (process.env.NODE_ENV === 'production') {
+    baseUrl = 'https://console.xinxuejie.com.cn/'
     // imgBaseUrl = '//elm.cangdu.org/img/';
 }
 export {
-	baseUrl,
-	// routerMode,
-	// imgBaseUrl,
+    baseUrl
+    // routerMode,
+    // imgBaseUrl,
 }
