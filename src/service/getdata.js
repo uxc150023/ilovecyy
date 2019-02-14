@@ -1,6 +1,6 @@
 import axios from 'axios'
-import {baseUrl} from '@/config/env'
-import {Loading} from 'element-ui'
+import { baseUrl } from '@/config/env'
+import { Loading } from 'element-ui'
 
 /*接口地址配置*/
 let postUrl = {
@@ -12,7 +12,7 @@ let postUrl = {
     USER_AUTHENTICATION: 'apply/user_authentication', //用户认证
     USER_GROUP: 'user_group', //学群信息
     USER_FRIEND: 'user_friend',
-    // REGISTER: 'register', //注册
+    REGISTER: 'learn/useLogin/createUser',  //用户注册
     NOTESIMPORT: 'learn/useLogin/NoteSIMPort', //短信验证码
     NOTESIMPORTUSERRESET: 'learn/useLogin/NoteSIMPortUserReset', //重置密码验证码
     CREATEUSER: 'learn/useLogin/createUser', //用户注册
@@ -470,14 +470,14 @@ let postUrl = {
     INCRECLICK: 'learn/meeting/increClick', //记录会议的点击量(参会和共享)
     SELECTIDBYURL: 'learn/meeting/selectIdByUrl', //通过短地址code获取meetId
 
-    SMYWORLDCOLUMN :'learn/MesAGain/SMyworldColumn', //查询我世界共享端栏目
+    SMYWORLDCOLUMN: 'learn/MesAGain/SMyworldColumn', //查询我世界共享端栏目
     EXTENDMEETING: 'learn/share/extendMeeting', //共享端 --会议查询
     STUORG: 'learn/share/stuorg', //共享端 --新学联盟
     STUCONCERN: 'learn/share/stuConcern', //共享端 --新学联盟 --关注/取关
     STUPER: 'learn/share/stuper', //共享端 --新学人物
     STUPERS: 'learn/share/stupers', //管理端 --新学人物
     SEIRKAM: 'learn/MesAGain/SeIRKAM', //共享段 -- 我读
-    SSTUCLOUMN:'learn/MesAGain/SStuCloumn', //共享端 --查询新学界公众端栏目
+    SSTUCLOUMN: 'learn/MesAGain/SStuCloumn', //共享端 --查询新学界公众端栏目
 
     MYMASTERSITE: 'learn/share/myMasterSite', //我世界- 新学联盟 - 我的学网 - 我的主站
     MYSUBSITES: 'learn/share/mySubSites', //我世界- 新学联盟 - 我的学网 - 我的子站
