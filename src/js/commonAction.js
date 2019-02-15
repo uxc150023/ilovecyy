@@ -3,46 +3,46 @@
  * by cyy zb
  * 2018 12 13
  */
-import commonConfig from "./config"
+import commonConfig from './config'
 import _this from '../main.js'
 let commonAction = {
     /**
      * @param  获取URL传参并转化为数组，支持指定参数获取
      */
     getParam: (key) => {
-        let ser = location.search;
+        let ser = location.search
         if (ser) {
-            let arrays = ser.substring(1).split('&');
-            let params = {};
-            arrays.forEach(function(v, k) {
-                let a = v.split('=');
-                params[a[0]] = a[1];
-            });
+            let arrays = ser.substring(1).split('&')
+            let params = {}
+            arrays.forEach(function (v, k) {
+                let a = v.split('=')
+                params[a[0]] = a[1]
+            })
             if (key) {
-                return params[key];
+                return params[key]
             }
-            return params;
+            return params
         }
     },
     /**
      * 存储sessionStorage
      */
     setStorage: (key, data) => {
-        let value = JSON.stringify(data);
-        let name = commonConfig.sessionStore[key];
-        sessionStorage.setItem(name, value);
+        let value = JSON.stringify(data)
+        let name = commonConfig.sessionStore[key]
+        sessionStorage.setItem(name, value)
     },
 
     /**
      * 获取sessionStorage
      */
     getStorage: (key) => {
-        let name = commonConfig.sessionStore[key];
-        let value = sessionStorage.getItem(name);
+        let name = commonConfig.sessionStore[key]
+        let value = sessionStorage.getItem(name)
         if (!value || value === 'undefined') {
-            return {};
+            return {}
         }
-        return JSON.parse(value);
+        return JSON.parse(value)
     },
 
     /**
@@ -50,11 +50,11 @@ let commonAction = {
      */
     removeStorage: (config) => {
         if (typeof config === 'string') {
-            sessionStorage.removeItem(commonConfig.sessionStore[config]);
+            sessionStorage.removeItem(commonConfig.sessionStore[config])
         } else if (typeof config === 'object' && config.length !== 0) {
-            config.forEach(function(item) {
-                sessionStorage.removeItem(commonConfig.sessionStore[item]);
-            });
+            config.forEach(function (item) {
+                sessionStorage.removeItem(commonConfig.sessionStore[item])
+            })
         }
     },
 
@@ -62,34 +62,35 @@ let commonAction = {
      * 写cookies
      */
     setCookie: (name, value, day) => {
+        let time = day
         if (!day) {
-            var day = 1;
+            time = 1
         }
-        var exp = new Date();
-        exp.setTime(exp.getTime() + day * 24 * 60 * 60 * 1000);
-        document.cookie = name + "=" + escape(value) + ";path=/;expires=" + exp.toGMTString();
+        let exp = new Date()
+        exp.setTime(exp.getTime() + time * 24 * 60 * 60 * 1000)
+        document.cookie = name + '=' + escape(value) + ';path=/;expires=' + exp.toGMTString()
     },
     /**
      * 读取cookies
      */
     readCookie: (name) => {
-        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        let arr = ''
+        let reg = new RegExp('(^| )' + name + '=([^;]*)(;|$)')
         if (arr = document.cookie.match(reg)) {
-            return unescape(arr[2]);
+            return unescape(arr[2])
         } else {
-            return null;
+            return null
         }
-
     },
 
     /**
      * 删除cookies
      */
     delCookie: (name) => {
-        var cval = commonAction.readCookie(name);
+        let cval = commonAction.readCookie(name)
         if (cval != null) {
-            document.cookie = name + "=;path=/;expires=" + (new Date(0)).toGMTString();
-            document.cookie = name + "=;expires=" + (new Date(0)).toGMTString();
+            document.cookie = name + '=;path=/;expires=' + (new Date(0)).toGMTString()
+            document.cookie = name + '=;expires=' + (new Date(0)).toGMTString()
         }
     },
 
@@ -98,50 +99,50 @@ let commonAction = {
      * 将对象元素转换成字符串以作比较
      */
     obj2key: (obj, keys) => {
-        var n = keys.length,
-            key = [];
+        let n = keys.length
+        let key = []
         while (n--) {
-            key.push(obj[keys[n]]);
+            key.push(obj[keys[n]])
         }
-        return key.join('|');
+        return key.join('|')
     },
 
     /**
      * 去重操作
      */
     uniqeByKeys: (array, keys) => {
-        var arr = [];
-        var hash = {};
-        for (var i = 0, j = array.length; i < j; i++) {
-            var k = this.obj2key(array[i], keys);
+        let arr = []
+        let hash = {}
+        for (let i = 0, j = array.length; i < j; i++) {
+            let k = this.obj2key(array[i], keys)
             if (!(k in hash)) {
-                hash[k] = true;
-                arr.push(array[i]);
+                hash[k] = true
+                arr.push(array[i])
             }
         }
-        return arr;
+        return arr
     },
 
     /**
      * 格式化时间添加 -
      */
     timeFormat: (str) => {
-        let newstr = "";
-        let tmp1 = str.substring(0, 0 + 4);
-        newstr += tmp1 + '-';
-        let tmp2 = str.substring(4, 4 + 2);
-        newstr += tmp2 + '-';
-        let tmp3 = str.substring(6, 6 + 2);
-        newstr += tmp3;
-        return newstr;
+        let newstr = ''
+        let tmp1 = str.substring(0, 0 + 4)
+        newstr += tmp1 + '-'
+        let tmp2 = str.substring(4, 4 + 2)
+        newstr += tmp2 + '-'
+        let tmp3 = str.substring(6, 6 + 2)
+        newstr += tmp3
+        return newstr
     },
 
     /**
-     * 校验是否全由数字组成 
+     * 校验是否全由数字组成
      * @return {[type]}
      */
     isDigit: (s) => {
-        var patrn = /^[0-9]{1,20}$/;
+        let patrn = /^[0-9]{1,20}$/
         if (!patrn.exec(s)) return false
         return true
     },
@@ -149,16 +150,16 @@ let commonAction = {
      * 清空vuex 中的值
      */
     clearStore: () => {
-        _this._store.commit('SET_TUSERID', '');
-        _this._store.commit('SET_LOGINSTATUS', '');
-        _this._store.commit('SET_USERTYPE', '');
-        _this._store.commit('SET_PHONE', '');
-        _this._store.commit('SET_USERNAME', '');
+        _this.$store.commit('SET_TUSERID', '')
+        _this.$store.commit('SET_LOGINSTATUS', '')
+        _this.$store.commit('SET_USERTYPE', '')
+        _this.$store.commit('SET_PHONE', '')
+        _this.$store.commit('SET_USERNAME', '')
 
-        _this._store.commit('SET_STUNETID', '');
-        _this._store.commit('SET_STUNETURL', '');
-        _this._store.commit('SET_STUNETNAME', '');
-        _this._store.commit('SET_MEETINFO', '');
+        _this.$store.commit('SET_STUNETID', '')
+        _this.$store.commit('SET_STUNETURL', '')
+        _this.$store.commit('SET_STUNETNAME', '')
+        _this.$store.commit('SET_MEETINFO', '')
     },
 
     /**
@@ -171,8 +172,8 @@ let commonAction = {
             message: text,
             duration: 2000,
             center: true,
-            onClose: ()=> {
-                if(fn) fn.call(_this)
+            onClose: () => {
+                if (fn) fn.call(_this)
             }
         })
     },
@@ -183,16 +184,16 @@ let commonAction = {
      * fn1  确定回调
      * fn2  取消回调
      */
-    warnMsg: (text, fn1, fn2, title,btn1, btn2) => {
-        _this.$confirm(text, title?title:'提示', {
-            confirmButtonText: btn1?btn1:'确定',
-            cancelButtonText: btn2?btn2:'取消',
+    warnMsg: (text, fn1, fn2, title, btn1, btn2) => {
+        _this.$confirm(text, title || '提示', {
+            confirmButtonText: btn1 || '确定',
+            cancelButtonText: btn2 || '取消',
             type: 'warning'
         }).then(() => {
-            if(fn1) fn1.call(_this)
+            if (fn1) fn1.call(_this)
         }).catch(() => {
-            if(fn2) fn2() 
-        });
+            if (fn2) fn2()
+        })
     }
 }
 export default commonAction

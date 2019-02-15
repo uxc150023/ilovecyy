@@ -1,67 +1,70 @@
 <template>
     <div class="mystunet">
-        <app-headtop></app-headtop>
         <div class="mystunet_head">
-        	<img src="../../images/snow.gif">
-            <p>xxxxxxx</p>
+            <img class="bgImage"
+                 :src='headImage'>
         </div>
         <app-myworldbanner v-bind:banners="banners"></app-myworldbanner>
     </div>
 </template>
 
 <script>
-	import commonAction from "@/js/commonAction"
-	import store from '@/vuex/store.js'
-	import {_getUrl, _getData} from '@/service/getdata.js'
-	import headTop from '@/components/header/head'
-	import myworldbanner from '@/components/banner/myworldbanner'
-	export default {
-		data() {
-	        return {
-	        	stunetId: commonAction.getStorage("webinfo").stunet_id,
-	        	banners: {
-	        		type: 'stunet',
-	        		navlist: []
-	        	}
-	        }
-	    },
-	    created(){
-	    	this.init()
-	    },
+import myworldbanner from '@/components/banner/myworldbanner'
+export default {
+    data () {
+        return {
+            stunetId: this.$store.state.stunetId,
+            banners: {
+                type: 'stunet',
+                navlist: []
+            }
+        }
+    },
+    computed: {
+        headImage: {
+            get () {
+                return this._getUrl('IMGURL') + encodeURI(this.$store.state.headImage)
+            }
+        }
+    },
+    created () {
+        this.init()
+    },
 
-	    mounted() {
-	        
-	    },
+    mounted () {
 
-	    components: {
-	        "app-headtop":headTop,
-	        "app-myworldbanner": myworldbanner
-	    },
+    },
 
-	    methods: {	
-	    	init(){
-	            var params = {
-	                "stunetId": this.stunetId,
-	                "bid": 1,
-	                "type": 1
-	            }
-	            /*查询学会信息*/
-	            _getData(_getUrl('STUORGINFO'), params, res => {
-	            	// this.banners.type = 'stunet'
-	                this.banners.navlist = res.data.stunetMenuConfigs
-	            })
-	        }
-	    }
-	}
+    components: {
+        'app-myworldbanner': myworldbanner
+    },
+
+    methods: {
+        init () {
+            var params = {
+                'stunetId': this.stunetId,
+                'bid': 1,
+                'type': 1
+            }
+            /* 查询学会信息 */
+            this._getData(this._getUrl('STUORGINFO'), params, res => {
+                // this.banners.type = 'stunet'
+                this.banners.navlist = res.data.stunetMenuConfigs
+            })
+        }
+    }
+}
 </script>
 
 <style lang="scss">
-	.mystunet {
-        .mystunet_head {
-            height: 200px;
-            background-color: #ddd;
+.mystunet {
+    .mystunet_head {
+        height: 200px;
+        width: 100%;
+        .bgImage {
             width: 100%;
+            height: 200px;
         }
     }
-
+}
 </style>

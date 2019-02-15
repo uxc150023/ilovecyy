@@ -21,7 +21,10 @@ module.exports = {
     ],
     // add your custom rules here
     rules: {
-        'indent': ['warn', 4],
+        'indent': ['off', 4, {
+            'SwitchCase': 1 // 针对switch case的缩进
+        }],
+        "no-tabs": 'off',
         "camelcase": [0],
         // allow async-await
         'generator-star-spacing': 'off',

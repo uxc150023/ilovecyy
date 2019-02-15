@@ -76,7 +76,7 @@
                          class="">
                     <el-form-item label=""
                                   prop="smscode"
-                                  :rules="[ 
+                                  :rules="[
                             { required: true, message: '验证码不能为空'},
                         ]">
                         <el-form-item>
@@ -111,7 +111,7 @@
                       placeholder="请输入图形验证码"
                       maxlength="4"></el-input>
             <div id="v_container"
-                 style="width: 100px;height: 40px;top: -61px;left: 220px;">　　　　　　　
+                 style="width: 100px;height: 40px;top: -61px;left: 220px;">
                 <canvas id="verifyCanvas"
                         width="100"
                         height="46"
@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import Login from '@/js/login/login.js';
+import Login from '@/js/login/login.js'
 export default Login
 </script>
 
@@ -147,9 +147,6 @@ export default Login
         position: relative;
         background-color: #fff;
         padding: 30px 30px;
-        .el-input {
-            // width: 100px;
-        }
         .el-tabs__nav {
             width: 100%;
         }
