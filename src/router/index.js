@@ -145,11 +145,5 @@ export default new Router({
 			name: 'Webbuild',
 			component: Webbuild
 		}
-		/* 我世界--会议 */
-		// {
-		//     path: '/mymeeting',
-		//     name: 'hy',
-		//     component: hy
-		// },
 	]
 })

@@ -506,7 +506,7 @@ export const _getData = (url, params, fn) => {
         lock: true,
         text: 'Loading',
         spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
+        background: 'rgba(246, 246, 246, 0.2)'
     })
     axios.post(url, params).then(res => {
         loadingInstance.close()
