@@ -179,6 +179,7 @@ export default {
             selectA: '', // 协议
             selectB: '', // 协议
             count: '', // 验证码倒计时
+            timer: '',
             ruleFormPer: {
                 phone: '', // 手机号码
                 code: '',
@@ -203,7 +204,7 @@ export default {
                     { required: true, validator: v_pass, trigger: 'blur' }
                 ],
                 pass_t: [
-                    { required: true, validator: v_pass, trigger: 'blur' }
+                    { required: true, validator: v_pass_t, trigger: 'blur' }
                 ]
             },
             rules_org: {
@@ -220,9 +221,9 @@ export default {
                     { required: true, validator: v_pass, trigger: 'blur' }
                 ],
                 pass_t: [
-                    { required: true, validator: v_pass, trigger: 'blur' }
+                    { required: true, validator: v_pass_t, trigger: 'blur' }
                 ]
-            },
+            }
         }
     },
     mounted () {
@@ -247,14 +248,21 @@ export default {
                             this._common.showMsg('两次输入的密码不一样')
                             return false
                         }
+                        // this.repetPhone().then((val) => {
+                        //     console.log(val)
+                        //     if (val === true) {
 
+                        //     } else {
+                        //         console.log(this)
+                        //     }
+                        // })
                         this.register('per', this.ruleFormPer.phone, this.ruleFormPer.pass, this.ruleFormPercode, '')
                     } else {
-                        if (this.ruleFormOer.pass !== this.ruleFormOer.pass_t) {
+                        if (this.ruleFormOrg.pass !== this.ruleFormOrg.pass_t) {
                             this._common.showMsg('两次输入的密码不一样')
                             return false
                         }
-                        this.register('org', this.ruleFormOer.phone, this.ruleFormOer.pass, this.ruleFormOer.code, this.ruleFormOer.name)
+                        this.register('org', this.ruleFormOrg.phone, this.ruleFormOrg.pass, this.ruleFormOrg.code, this.ruleFormOrg.name)
                     }
                 } else {
                     console.log('error submit!!')
@@ -297,12 +305,44 @@ export default {
         /**
          * 获取验证码
          */
-        getCode () {
-            if (isRegPer === true || isRegOrg === false) {
-                this._commom.showMsg('您已经注册过了')
-                return false
+        getCode (type) {
+            this.btnshow = true
+            const TIME_COUNT = 60
+            /**
+             * 获取手机号码
+             */
+            var phone = ''
+            if (type === 'per') {
+                phone = this.ruleFormPer.phone
+            } else {
+                phone = this.ruleFormOrg.phone
             }
 
+            let reg = /^[1][3,4,5,7,8][0-9]{9}$/
+            if (phone === '') {
+                this._common.showMsg('请输入手机号码')
+                return false
+            } else if (reg.test(phone)) {
+                this._common.showMsg('请输入正确的手机号码')
+                return false
+            }
+            this._getData(this._getUrl('NOTESIMPORT'), { is_login: 'TRUE', phone: phone }, res => {
+                if (res.code === 200) {
+                    if (!this.timer) {
+                        this.count = TIME_COUNT
+                        this.show = false
+                        this.timer = setInterval(() => {
+                            if (this.count > 0 && this.count <= TIME_COUNT) {
+                                this.count--
+                            } else {
+                                this.btnshow = false
+                                clearInterval(this.timer)
+                                this.timer = null
+                            }
+                        }, 1000)
+                    }
+                }
+            })
         },
         /**
          * 绑定enter事件
@@ -314,6 +354,25 @@ export default {
                     this.submitForm('ruleFormPer')
                 }
             }
+        },
+        /**
+         * 手机号查重
+         */
+        repetPhone (type, phone, stuname) {
+            return new Promise((resolve, reject) => {
+                let params = {
+                    new_stuname: stuname,
+                    phone: phone,
+                    user_type: type
+                }
+                this._getData(this._getUrl('CHECKNAAM'), params, res => {
+                    if (res.code === 200) {
+                        resolve('false')
+                    } else {
+                        resolve('true')
+                    }
+                })
+            })
         }
     }
 }
