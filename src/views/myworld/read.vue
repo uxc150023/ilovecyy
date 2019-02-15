@@ -9,7 +9,7 @@
                     <app-empty></app-empty>
                 </div>
                 <!--二级导航内容-->
-                <app-listTwo v-bind:dataListObj="dataListObj_2" v-on:sortCollect="sortCollect"></app-listTwo>
+                <app-listTwo v-bind:dataListObj="dataListObj_2" v-on:sortCollect="sortCollect" v-on:deletePro="deletePro"></app-listTwo>
             </app-tabmeeting>
 
             <!--一级导航内容（空）-->
@@ -17,11 +17,11 @@
                 <app-empty></app-empty>
             </div>
             <!--一级导航内容-->
-            <app-listTwo v-bind:dataListObj="dataListObj" v-if="secondCloumn.length === 0" v-on:sortCollect="sortCollect"></app-listTwo>
+            <app-listTwo v-bind:dataListObj="dataListObj" v-if="secondCloumn.length === 0" v-on:sortCollect="sortCollect" v-on:deletePro="deletePro"></app-listTwo>
         </app-tabmeeting>
         <!--分类收藏弹层-->
         <app-modal v-bind:modalInfo="modalInfo">
-            <app-classify v-bind:columnList="columnList" v-bind:pid="pid" v-bind:isAgain="isAgain" v-bind:oldForm="oldForm" v-on:confirm="confirm" v-on:changeRadio="changeRadio"></app-classify>
+            <app-classify v-bind:columnList="columnList" v-bind:pid="pid" v-bind:isAgain="isAgain" v-bind:oldForm="oldForm" v-on:confirm="confirm" v-on:changeRadio="changeRadio" v-on:recoverPro="recoverPro"></app-classify>
         </app-modal>
     </div>
 </template>
@@ -59,6 +59,9 @@
                 pid: '',
                 isAgain: '',
                 oldForm: '',
+                oneType: '',
+                twoType: '',
+				isClear: '',
             }
         },
         components: {
@@ -96,7 +99,6 @@
                     currentPage: 1
                 };
                 this._getData(url,param,res => {
-                    console.log(res)
                     let len = res.data.listMap.length;
                     for(let i=0; i<len; i++) {
                         this.dataListObj.oneType = oneType;
@@ -127,14 +129,12 @@
                     'onePageCount': 150,
                     'currentPage': 1
                 },res=> {
-                    console.log(res)
                     this._getData(this._getUrl('IRSNEWPRO'),{
                         'userid': this.$store.state.userid,
                         'orderBy': orderBy,
                         'onePageCount': 150,
                         'currentPage': 1
                     },res=> {
-                        console.log(res)
                         let len = res.data.listMap.length;
                         for(let i=0; i<len; i++) {
                             this.dataListObj_2.oneType = '最新读品';
@@ -158,7 +158,6 @@
                 })
             },
             change (obj) {
-                console.log(obj)
                 //二级导航
                 if (obj.tabId === 'navOne') {
                     this.secondCloumn = [];
@@ -172,7 +171,7 @@
                     }else {
                         this.irsCloumn.forEach((ele,index) => {
                             if (obj.tab.label === ele[1].split('-')[0]) {
-                                if (ele[2]) {
+                                if (ele[2] && ele[2].length > 0) {
                                     this.secondCloumn = ele[2]
                                 }else {
                                     this.getMainContent(obj.tab.label);
@@ -197,7 +196,6 @@
                     userid: this._store.state.userid,
                 },res=>{
                     this.columnList = JSON.parse(res.data.column);
-                    console.log(this.columnList)
                     if (res.code === 200) {
                         this.modalInfo.show = true;
                         this.pid = data.pid;
@@ -206,17 +204,45 @@
                     }
                 })
             },
+			//删除作品
+			deletePro (data) {
+				this._common.warnMsg('确定删除么?', function(){
+					let param = {
+						userid: this._store.state.userid,
+						productionId: data.pid,
+						isClear: this.isClear ? 'Y' : 'N',
+					};
+					let url = this._getUrl('IRDPRO');
+					this._getData(url, param, res=> {
+						if (res .code === 200) {
+
+						}
+					})
+				})
+			},
+			//恢复作品
+			recoverPro (data) {
+
+			},
             confirm (data) {
-                console.log(data)
                 let url = data.isAgain ? this._getUrl('IRAGAINTYPE') : this._getUrl('IRINTYPE');
                 let param = {
                     userid: this._store.state.userid,
                     productionId: data.pid,
                     oldForm: data.oldForm,
+					oneType: this.oneType,
+					form: this.oneType,
+					twoType: this.twoType || '',
                 }
+                this._getData(url, param, res=> {
+					if (res.code === 200) {
+                		this.modalInfo.show = false;
+					}
+				})
             },
             changeRadio (data) {
-                console.log(data)
+				this.oneType = data.oneType;
+				this.twoType = data.twoType;
             }
         },
         mounted () {

@@ -2,16 +2,16 @@
     <div id="classify">
         <el-form ref="form" :model="form" label-width="80px" v-bind:pid="pid">
             <el-form-item>
-                <el-radio v-model="radio" label="暂不分类" v-on:change="changeRadio">暂不分类</el-radio>
+                <el-radio v-model="radio" label="暂不分类" v-on:change="changeRadio({oneType: '暂不分类'})">暂不分类</el-radio>
             </el-form-item>
-            <el-form-item v-for="(item, index) in columnList">
-                <el-radio v-model="radio" :label="item[1].split('-')[0]" v-on:change="changeRadio">{{ item[1].split("-")[0] }}</el-radio>
+            <el-form-item v-for="(item, index) in columnList" :key="item.key">
+                <el-radio v-model="radio" :label="item[1].split('-')[0]" v-on:change="changeRadio({oneType: item[1].split('-')[0]})">{{ item[1].split("-")[0] }}</el-radio>
                 <div v-if="item[2] && item[2].length > 0" class="secondItem">
-                    <div v-for="(ele, i) in item[2]" v-if="ele.split('-')[0] !== '文字读品'" class="item">
-                        <el-radio v-on:changeRadio="changeRadio" v-model="radio" :label="ele.split('-')[0]" >{{ ele.split("-")[0] }}</el-radio>
+                    <div v-for="(ele, i) in item[2]" :key="ele.key" v-if="ele.split('-')[0] !== '文字读品'" class="item">
+                        <el-radio v-on:change="changeRadio({oneType: item[1].split('-')[0],twoType: ele.split('-')[0]})" v-model="radio" :label="ele.split('-')[0]" >{{ ele.split("-")[0] }}</el-radio>
                     </div>
-                    <div v-for="(ele, i) in item[2]" v-if="ele.split('-')[0] === '文字读品'" class="item">
-                        <el-radio v-on:change="changeRadio" v-model="radio" :label="ele.split('-')[0]">{{ ele.split("-")[0] }}</el-radio>
+                    <div v-for="(ele, i) in item[2]" :key="ele.key" v-if="ele.split('-')[0] === '文字读品'" class="item">
+                        <el-radio v-on:change="changeRadio({oneType: item[1].split('-')[0],twoType: ele.split('-')[0]})" v-model="radio" :label="ele.split('-')[0]">{{ ele.split("-")[0] }}</el-radio>
                     </div>
                 </div>
             </el-form-item>
