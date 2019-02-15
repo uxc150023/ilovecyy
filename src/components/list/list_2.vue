@@ -1,6 +1,6 @@
 <template>
     <div id="listTwo">
-        <div class="item" v-for="(item, index) in dataListObj.dataList" v-if="item.Type === 'Pro'">
+        <div class="item" v-for="(item, index) in dataListObj.dataList" :key="index" v-if="item.Type === 'Pro'">
             <div class="media-left">
                 <img src="../../assets/meeting.jpg" v-if="item.Tehmatic.length === 0">
                 <img :src="item.Tehmatic">
@@ -26,7 +26,7 @@
                 </el-row>
             </div>
         </div>
-        <div class="item" v-for="(item, index) in dataListObj.dataList" v-if="item.Type === 'styleOne'">
+        <div class="item" v-for="(item, index) in dataListObj.dataList" :key="index" v-if="item.Type === 'styleOne'">
             <div class="media-left">
                 <img src="../../assets/meeting.jpg" v-if="item.Tehmatic.length === 0">
                 <img :src="item.Tehmatic">
@@ -62,7 +62,7 @@
         </div>
         <div class="item styleTwo">
             <el-row>
-                <el-col :span="6" v-for="(item, index) in dataListObj.dataList" v-if="item.Type === 'styleTwo'">
+                <el-col :span="6" v-for="(item, index) in dataListObj.dataList" :key="index" v-if="item.Type === 'styleTwo'">
                     <div class="grid-content proList">
                         <div class="media-top">
                             <img class="tehmatic" src="../../assets/meeting.jpg" v-if="item.Tehmatic.length === 0">
