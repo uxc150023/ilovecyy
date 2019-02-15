@@ -42,11 +42,32 @@
                     <el-col :span="21"><div class="grid-content">{{item.intro}}</div></el-col>
                     <el-col :span="3" v-if="dataListObj.btnshow === true">
                         <div class="grid-content">
-                            <el-button type="text" class="mybtn—text" @click="sortCollect({pid:item.production_id,mark:index})">分类收藏</el-button>
+                            <el-button type="text" :class="{'mybtn—text': true, 'collectAgain': dataListObj.oneType !== '最新读品'} " @click="sortCollect({pid:item.production_id,mark:index,isAgain:dataListObj.oneType !== '最新读品',oldForm:item.oldForm})">分类收藏</el-button>
                         </div>
                     </el-col>
                 </el-row>
             </div>
+        </div>
+        <div class="item" v-for="(item, index) in dataListObj.dataList" v-if="item.Type === 'styleTwo'">
+            <el-row>
+                <el-col :span="6">
+                    <div class="grid-content">
+                        <div class="media-left">
+                            <img src="../../assets/meeting.jpg" v-if="item.Tehmatic.length === 0">
+                            <img :src="item.Tehmatic">
+                        </div>
+                        <div class="media-body">
+                            <p class="author overHide">{{ item.name }}</p>
+                            <p class="bookname overHide">{{ item.productionName ? item.productionName : "无题"}}</p>
+                            <div class="intro" style="display: none">{{ item.intro }}</div>
+                            <div class="btnBox" v-if="dataListObj.btnshow === true">
+                                <el-button type="text" class="mybtn—text" :class="{'mybtn—text': true, 'collectAgain': dataListObj.oneType !== '最新读品'} "  @click="sortCollect({pid:item.production_id,mark:index,isAgain:dataListObj.oneType !== '最新读品',oldForm:item.oldForm})">重新分类</el-button>
+                                <el-button type="text" class="mybtn—text" @click="sortCollect({pid:item.production_id,mark:index})">删除</el-button>
+                            </div>
+                        </div>
+                    </div>
+                </el-col>
+            </el-row>
         </div>
     </div>
 </template>
