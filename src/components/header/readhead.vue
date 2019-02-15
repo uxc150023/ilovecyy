@@ -2,34 +2,23 @@
     <div>
         <div class="top-header">
             <el-row>
-                <img src="../../images/icon.gif"
-                     class="top-img">
                 <el-button class='btn-0'
                            v-if='!this._store.state.userid'
-                           @click="gopage('share')">雪花勇闯天涯</el-button>
-
+                           @click="gopage('read')">read</el-button>
                 <el-button class='btn-0'
-                           v-if='this._store.state.userType === "per"'
-                           @click="gopage('Mysorld')">我世界</el-button>
-                <el-button class='btn-0'
-                           v-if='this._store.state.userType === "org"'
-                           @click="gopage('Mystunet')">我团队</el-button>
+                           v-if='!this._store.state.userid'
+                           @click="gopage('write')">write</el-button>
 
-                <el-button @click="gopage('Mystunet')">我的学网</el-button>
-                <el-button @click="gopage('MyGroupFriend')">学群学友</el-button>
-                <el-button @click="gopage('Recome')">推介</el-button>
-                <el-button @click="gopage('Director')">理事</el-button>
-                <el-button @click="gopage('Uercenter')">办公室</el-button>
-                <el-button @click="gopage('Financial')">财务室</el-button>
-                <el-button @click="gopage('Archive')">资料馆</el-button>
-                <el-button v-if='this._store.state.userid'
-                           @click="gopage('Setting')">设置</el-button>
-                <el-button v-if='!this._store.state.userid'
-                           @click="gopage('Register')">注册</el-button>
-                <el-button v-if='this._store.state.userid'
-                           @click="gopage('Quit')">退出</el-button>
-                <el-button v-if='!this._store.state.userid'
-                           @click="gopage('Login')">登陆</el-button>
+                <el-button v-if='this.type === 0'
+                           @click="gopage('wddp')">wddp</el-button>
+                <el-button v-if='this.type === 0'
+                           @click="gopage('wysc')">wysc</el-button>
+                <el-button v-if='this.type === 1'
+                           @click="gopage('wdzp')">wdzp</el-button>
+                <el-button v-if='this.type === 1'
+                           @click="gopage('wxwx')">wxwx</el-button>
+                <el-button v-if='this.type === 1'
+                           @click="gopage('xzzs')">xzzs</el-button>
             </el-row>
         </div>
         <app-modal :modalInfo='modalInfo'>
@@ -39,28 +28,21 @@
     </div>
 </template>
 <script>
-import modal from '@/components/modal/modal'
-import mwsetting from '@/views/setting/mwsetting'
-
 export default {
 
     data () {
         return {
-            loginStatus: '', // 是否登陆
-            cutImgdialog: false, // 图片裁剪
-            modalInfo: {
-                title: '设置',
-                show: false
-            }
+
         }
+    },
+    props: {
+        type: 0 /* 0我读1我写 */
     },
     mounted () {
 
     },
 
     components: {
-        'app-mwsetting': mwsetting,
-        'app-modal': modal
     },
 
     methods: {
@@ -106,12 +88,6 @@ export default {
         #5044ec 100%
     );
     font-size: 0;
-    .top-img {
-        width: 46px;
-        height: 46px;
-        float: left;
-        margin-left: 2px;
-    }
     .btn-0 {
         float: left;
     }
