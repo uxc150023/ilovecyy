@@ -94,7 +94,12 @@ body {
 .el-dialog {
     width: 900px;
 }
-
+/* 设置输入框的高度 */
+.el-input {
+    .el-input__inner {
+        height: 46px;
+    }
+}
 /*设置消息提示框样式*/
 .el-message--info {
     padding: 20px;

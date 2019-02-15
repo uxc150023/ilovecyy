@@ -7,17 +7,24 @@
                              name="ruleFormPer">
                     <el-form :model="ruleFormPer"
                              status-icon
-                             :rules="rules_per"
+                             :rules="rules"
                              ref="ruleFormPer"
                              label-width="100px"
                              class="demo-dynamic">
-                        <el-form-item label="手机号："
-                                      prop="phone">
-                            <el-input type="tel"
-                                      v-model="ruleFormPer.phone"
-                                      autocomplete="off"
-                                      placeholder="请输入个人手机"></el-input>
-                        </el-form-item>
+                        <el-form :model="phonePer"
+                                 status-icon
+                                 :rules="rules"
+                                 ref="phonePer"
+                                 label-width="100px"
+                                 class="demo-dynamic">
+                            <el-form-item label="手机号："
+                                          prop="phone">
+                                <el-input type="tel"
+                                          v-model="phonePer.phone"
+                                          autocomplete="off"
+                                          placeholder="请输入个人手机"></el-input>
+                            </el-form-item>
+                        </el-form>
                         <el-form-item label="验证码："
                                       prop="code">
                             <el-input type="text"
@@ -30,7 +37,7 @@
                                            disabled
                                            slot="append">&emsp;&emsp;{{count}}&emsp;&emsp;</el-button>
                                 <el-button type
-                                           @click="getCode"
+                                           @click="getCode('phonePer')"
                                            v-else
                                            slot="append">获取验证码</el-button>
                             </el-input>
@@ -44,19 +51,21 @@
                                       placeholder="请输入密码"></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码："
-                                      prop="pass">
+                                      prop="pass_t">
                             <el-input type="password"
                                       v-model="ruleFormPer.pass_t"
                                       autocomplete="off"
                                       placeholder="请输入密码"></el-input>
                         </el-form-item>
-                        <el-form-item label=""
-                                      prop="">
-                            <el-checkbox-group v-model="selectA">
-                                <el-checkbox label="新学界协议"
-                                             name="selectA"></el-checkbox>
+
+                        <el-form-item label="协议："
+                                      prop="select">
+                            <el-checkbox-group v-model="ruleFormPer.select">
+                                <el-checkbox label="同意和平相处协议"
+                                             name="ruleFormPer.select"></el-checkbox>
                             </el-checkbox-group>
                         </el-form-item>
+
                     </el-form>
                 </el-tab-pane>
 
@@ -64,7 +73,7 @@
                              name="ruleFormOrg">
                     <el-form :model="ruleFormOrg"
                              status-icon
-                             :rules="rules_org"
+                             :rules="rules"
                              ref="ruleFormOrg"
                              label-width="100px"
                              class="demo-ruleForm">
@@ -75,13 +84,20 @@
                                       autocomplete="off"
                                       placeholder="请输入用户名"></el-input>
                         </el-form-item>
-                        <el-form-item label="手机号："
-                                      prop="phone">
-                            <el-input type="tel"
-                                      v-model="ruleFormOrg.phone"
-                                      autocomplete="off"
-                                      placeholder="请输入个人手机号"></el-input>
-                        </el-form-item>
+                        <el-form :model="phoneOrg"
+                                 status-icon
+                                 :rules="rules"
+                                 ref="phoneOrg"
+                                 label-width="100px"
+                                 class="demo-dynamic">
+                            <el-form-item label="手机号："
+                                          prop="phone">
+                                <el-input type="tel"
+                                          v-model="phoneOrg.phone"
+                                          autocomplete="off"
+                                          placeholder="请输入个人手机号"></el-input>
+                            </el-form-item>
+                        </el-form>
                         <el-form-item label="验证码："
                                       prop="code">
                             <el-input type="text"
@@ -94,7 +110,7 @@
                                            disabled
                                            slot="append">&emsp;&emsp;{{count}}&emsp;&emsp;</el-button>
                                 <el-button type
-                                           @click="getCode"
+                                           @click="getCode('phoneOrg')"
                                            v-else
                                            slot="append">获取验证码</el-button>
                             </el-input>
@@ -108,18 +124,18 @@
                                       placeholder="请输入密码"></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码："
-                                      prop="pass">
+                                      prop="pass_t">
                             <el-input type="password"
                                       v-model="ruleFormOrg.pass_t"
                                       autocomplete="off"
                                       placeholder="请输入密码"></el-input>
                         </el-form-item>
 
-                        <el-form-item label=""
-                                      prop="">
-                            <el-checkbox-group v-model="selectA">
-                                <el-checkbox label="美食/餐厅线上活动"
-                                             name=""></el-checkbox>
+                        <el-form-item label="协议："
+                                      prop="select">
+                            <el-checkbox-group v-model="ruleFormOrg.select">
+                                <el-checkbox label="同意和平相处协议"
+                                             name="ruleFormOrg.select"></el-checkbox>
                             </el-checkbox-group>
                         </el-form-item>
                     </el-form>
@@ -136,6 +152,9 @@
 <script>
 export default {
     data () {
+        /**
+         * 手机号校验
+         */
         let v_phone = (rule, value, callback) => {
             let reg = /^[1][3,4,5,7,8][0-9]{9}$/
             if (value === '') {
@@ -146,6 +165,9 @@ export default {
                 callback()
             }
         }
+        /**
+         * 密码校验
+         */
         let v_pass = (rule, value, callback) => {
             let reg = /^(?!([a-zA-Z]+|\d+)$)[a-zA-Z\d]{8,20}$/
             if (value === '') {
@@ -156,12 +178,37 @@ export default {
                 callback()
             }
         }
+        /**
+         * 密码校验
+         */
         let v_pass_t = (rule, value, callback) => {
             let reg = /^(?!([a-zA-Z]+|\d+)$)[a-zA-Z\d]{8,20}$/
             if (value === '') {
                 callback(new Error('请输密码'))
             } else if (!reg.test(value)) {
                 callback(new Error('密码格式为8-20位数字加字母'))
+            } else {
+                if (this.regType === 'ruleFormPer') {
+                    if (value !== this.ruleFormPer.pass) {
+                        callback(new Error('两次输入的密码不一致'))
+                    } else {
+                        callback()
+                    }
+                } else {
+                    if (value !== this.ruleFormOrg.pass) {
+                        callback(new Error('两次输入的密码不一致'))
+                    } else {
+                        callback()
+                    }
+                }
+            }
+        }
+        /**
+         * 协议校验
+         */
+        let v_select = (rule, value, callback) => {
+            if (value === false) {
+                callback(new Error('请先同意协议'))
             } else {
                 callback()
             }
@@ -176,52 +223,47 @@ export default {
             btnshow: false,
             isRegPer: false,
             isRegOrg: false,
-            selectA: '', // 协议
-            selectB: '', // 协议
             count: '', // 验证码倒计时
             timer: '',
+            phonePer: {
+                phone: ''
+            },
+            phoneOrg: {
+                phone: ''
+            },
             ruleFormPer: {
-                phone: '', // 手机号码
+                phone: '',
                 code: '',
                 pass: '',
-                pass_t: ''
+                pass_t: '',
+                select: false
             },
             ruleFormOrg: {
                 name: '',
-                phone: '', // 手机号码
+                phone: '',
                 code: '',
                 pass: '',
-                pass_t: ''
+                pass_t: '',
+                select: false
             },
-            rules_per: {
-                phone: [
-                    { required: true, validator: v_phone, trigger: 'blur' }
-                ],
-                code: [
-                    { required: true, message: '请输入手机验证码', trigger: 'blur' }
-                ],
-                pass: [
-                    { required: true, validator: v_pass, trigger: 'blur' }
-                ],
-                pass_t: [
-                    { required: true, validator: v_pass_t, trigger: 'blur' }
-                ]
-            },
-            rules_org: {
+            rules: {
                 name: [
-                    { required: true, message: '请输入用户名', trigger: 'blur' }
+                    { required: true, message: '请输入用户名', trigger: 'change' }
                 ],
                 phone: [
-                    { required: true, validator: v_phone, trigger: 'blur' }
+                    { required: true, validator: v_phone, trigger: 'change' }
                 ],
                 code: [
-                    { required: true, message: '请输入手机验证码', trigger: 'blur' }
+                    { required: true, message: '请输入手机验证码', trigger: 'change' }
                 ],
                 pass: [
-                    { required: true, validator: v_pass, trigger: 'blur' }
+                    { required: true, validator: v_pass, trigger: 'change' }
                 ],
                 pass_t: [
-                    { required: true, validator: v_pass_t, trigger: 'blur' }
+                    { required: true, validator: v_pass_t, trigger: 'change' }
+                ],
+                select: [
+                    { required: true, validator: v_select, trigger: 'change' }
                 ]
             }
         }
@@ -235,39 +277,37 @@ export default {
     methods: {
         handleClick (tab, even) {
             this.regType = tab.name
-            console.log(tab.name)
         },
         /**
          * 提交注册
          */
         submitForm () {
+            let rulePhone = ''
+            if (this.regType === 'ruleFormPer') {
+                rulePhone = 'phonePer'
+            } else {
+                rulePhone = 'phoneOrg'
+            }
             this.$refs[this.regType].validate(valid => {
-                if (valid) {
-                    if (this.regType === 'ruleFormPer') {
-                        if (this.ruleFormPer.pass !== this.ruleFormPer.pass_t) {
-                            this._common.showMsg('两次输入的密码不一样')
-                            return false
+                this.$refs[rulePhone].validate(valid_1 => {
+                    if (valid_1) {
+                        if (valid) {
+                            if (this.regType === 'ruleFormPer') {
+                                if (this.ruleFormPer.pass !== this.ruleFormPer.pass_t) {
+                                    this._common.showMsg('两次输入的密码不一样')
+                                    return false
+                                }
+                                this.register('per', this.phonePer.phone, this.ruleFormPer.pass, this.ruleFormPercode, '')
+                            } else {
+                                if (this.ruleFormOrg.pass !== this.ruleFormOrg.pass_t) {
+                                    this._common.showMsg('两次输入的密码不一样')
+                                    return false
+                                }
+                                this.register('org', this.phoneOrg.phone, this.ruleFormOrg.pass, this.ruleFormOrg.code, this.ruleFormOrg.name)
+                            }
                         }
-                        // this.repetPhone().then((val) => {
-                        //     console.log(val)
-                        //     if (val === true) {
-
-                        //     } else {
-                        //         console.log(this)
-                        //     }
-                        // })
-                        this.register('per', this.ruleFormPer.phone, this.ruleFormPer.pass, this.ruleFormPercode, '')
-                    } else {
-                        if (this.ruleFormOrg.pass !== this.ruleFormOrg.pass_t) {
-                            this._common.showMsg('两次输入的密码不一样')
-                            return false
-                        }
-                        this.register('org', this.ruleFormOrg.phone, this.ruleFormOrg.pass, this.ruleFormOrg.code, this.ruleFormOrg.name)
                     }
-                } else {
-                    console.log('error submit!!')
-                    return false
-                }
+                })
             })
         },
         /**
@@ -306,41 +346,38 @@ export default {
          * 获取验证码
          */
         getCode (type) {
-            this.btnshow = true
-            const TIME_COUNT = 60
+            let phone = ''
             /**
              * 获取手机号码
              */
-            var phone = ''
-            if (type === 'per') {
-                phone = this.ruleFormPer.phone
+            if (type === 'phonePer') {
+                phone = this.phonePer.phone
             } else {
-                phone = this.ruleFormOrg.phone
+                phone = this.phoneOrg.phone
             }
-
-            let reg = /^[1][3,4,5,7,8][0-9]{9}$/
-            if (phone === '') {
-                this._common.showMsg('请输入手机号码')
-                return false
-            } else if (reg.test(phone)) {
-                this._common.showMsg('请输入正确的手机号码')
-                return false
-            }
-            this._getData(this._getUrl('NOTESIMPORT'), { is_login: 'TRUE', phone: phone }, res => {
-                if (res.code === 200) {
-                    if (!this.timer) {
-                        this.count = TIME_COUNT
-                        this.show = false
-                        this.timer = setInterval(() => {
-                            if (this.count > 0 && this.count <= TIME_COUNT) {
-                                this.count--
-                            } else {
-                                this.btnshow = false
-                                clearInterval(this.timer)
-                                this.timer = null
+            this.$refs[type].validate((valid) => {
+                if (valid) {
+                    this.btnshow = true
+                    const TIME_COUNT = 60
+                    this._getData(this._getUrl('NOTESIMPORT'), { is_login: 'TRUE', phone: phone }, res => {
+                        if (res.code === 200) {
+                            if (!this.timer) {
+                                this.count = TIME_COUNT
+                                this.show = false
+                                this.timer = setInterval(() => {
+                                    if (this.count > 0 && this.count <= TIME_COUNT) {
+                                        this.count--
+                                    } else {
+                                        this.btnshow = false
+                                        clearInterval(this.timer)
+                                        this.timer = null
+                                    }
+                                }, 1000)
                             }
-                        }, 1000)
-                    }
+                        } else {
+                            this._common.showMsg(res.message)
+                        }
+                    })
                 }
             })
         },
@@ -351,12 +388,12 @@ export default {
             document.onkeydown = e => {
                 let _key = window.event.keyCode
                 if (_key === 13) {
-                    this.submitForm('ruleFormPer')
+                    this.submitForm()
                 }
             }
         },
         /**
-         * 手机号查重
+         * 手机号查重 / 暂时不用
          */
         repetPhone (type, phone, stuname) {
             return new Promise((resolve, reject) => {

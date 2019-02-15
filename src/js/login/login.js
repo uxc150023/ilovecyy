@@ -144,11 +144,11 @@ export default {
                         message: '登陆成功',
                         type: 'success'
                     })
-                    this._store.commit('SET_TUSERID', res.data.userid)
-                    this._store.commit('SET_LOGINSTATUS', 'TRUE')
-                    this._store.commit('SET_USERTYPE', type)
-                    this._store.commit('SET_PHONE', res.data.phone)
-                    this._store.commit('SET_USERNAME', res.data.username)
+                    this.$store.commit('SET_TUSERID', res.data.userid)
+                    this.$store.commit('SET_LOGINSTATUS', 'TRUE')
+                    this.$store.commit('SET_USERTYPE', type)
+                    this.$store.commit('SET_PHONE', res.data.phone)
+                    this.$store.commit('SET_USERNAME', res.data.username)
 
                     let paramsa = {
                         userid: res.data.userid
@@ -156,14 +156,20 @@ export default {
                     /**
                      * 判断用户是否存在未完成订单
                      */
-                    this._getData(this._getUrl('ISLIVORDERS'), paramsa, res => {
-                        this._store.commit('SET_STUNETID', res.data.stunet_id)
-                        this._store.commit('SET_STUNETURL', res.data.stunet_url)
-                        this._store.commit('SET_STUNETNAME', res.data.stunet_name)
-                        if (type === 'per') {
-                            this.$router.push({ name: 'Myworld' })
-                        } else {
-                            this.$router.push({ name: 'Mystunet' })
+                    this._getData(this._getUrl('ISLIVORDERS'), paramsa, res_1 => {
+                        this.$store.commit('SET_STUNETID', res_1.data.stunet_id)
+                        this.$store.commit('SET_STUNETURL', res_1.data.stunet_url)
+                        this.$store.commit('SET_STUNETNAME', res_1.data.stunet_name)
+                        if (res_1.code === 200) {
+                            this.$router.push({ name: 'Webbuild' })
+                        } else if (res_1.code === 353) {
+                            this.$router.push({ name: 'Index' })
+                        } else if (res_1.code === 358) {
+                            if (type === 'per') {
+                                this.$router.push({ name: 'Myworld' })
+                            } else {
+                                this.$router.push({ name: 'Mystunet' })
+                            }
                         }
                     })
                 } else if (res.code === 315) { // 登陆频繁
@@ -252,34 +258,34 @@ export default {
         /**
          * 图形验证码切换时间
          */
-        changeImg () {
-            var imgSrc = $('#imgObj')
-            var src = imgSrc.attr('src')
-            imgSrc.attr('src', this.changeUrl(src))
-        },
+        // changeImg () {
+        //     var imgSrc = $('#imgObj')
+        //     var src = imgSrc.attr('src')
+        //     imgSrc.attr('src', this.changeUrl(src))
+        // },
 
         /**
          * 为了使每次生成图片不一致，即不让浏览器读缓存，所以需要加上时间戳
          */
-        changeUrl (url) {
-            var timestamp = (new Date()).valueOf()
-            var index = url.indexOf('?', url)
-            if (index > 0) {
-                url = url.substring(index, url.indexOf(url, '?'))
-            }
-            var logname = $('#tel_per').val()
-            if (tabVal === 1) {
-                user_type = 'org'
-                logname = $('#username_org').val()
-            }
+        // changeUrl (url) {
+        //     var timestamp = (new Date()).valueOf()
+        //     var index = url.indexOf('?', url)
+        //     if (index > 0) {
+        //         url = url.substring(index, url.indexOf(url, '?'))
+        //     }
+        //     var logname = $('#tel_per').val()
+        //     if (tabVal === 1) {
+        //         user_type = 'org'
+        //         logname = $('#username_org').val()
+        //     }
 
-            if ((url.indexOf('&') >= 0)) {
-                url = url + '&timestamp=' + timestamp + '&logname=' + logname
-            } else {
-                url = url + '?timestamp=' + timestamp + '&logname=' + logname
-            }
-            return url
-        },
+        //     if ((url.indexOf('&') >= 0)) {
+        //         url = url + '&timestamp=' + timestamp + '&logname=' + logname
+        //     } else {
+        //         url = url + '?timestamp=' + timestamp + '&logname=' + logname
+        //     }
+        //     return url
+        // },
         /**
          * 抹除登录信息
          */
