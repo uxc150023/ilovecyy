@@ -7,10 +7,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 import './style/theme-base.scss'
-import commonAction         from "@/js/commonAction.js"
-import store                from '@/vuex/store'
-import {_getUrl, _getData}  from '@/service/getdata.js'
-
+import commonAction from '@/js/commonAction.js'
+import store from '@/vuex/store'
+import { _getUrl, _getData } from '@/service/getdata.js'
 
 Vue.use(ElementUI)
 
@@ -22,12 +21,11 @@ Vue.prototype._common = commonAction
 
 /* eslint-disable no-new */
 let that = new Vue({
-	el: '#app',
-	router,
-	components: { App },
-	template: '<App/>',
-	store
+    el: '#app',
+    router,
+    components: { App },
+    template: '<App/>',
+    store
 })
 
-export default that 
-
+export default that

@@ -196,9 +196,9 @@ export default {
             /**
              * 获取手机号码
              */
-            this._getData(this._getUrl('GETUSERS'), {userid: this._store.state.userid}, res => {
+            this._getData(this._getUrl('GETUSERS'), { userid: this._store.state.userid }, res => {
                 if (res.code === 200) {
-                    this._getData(this._getUrl('NOTESIMPORT'), {is_login: 'TRUE', phone: res.data.phone}, res => {
+                    this._getData(this._getUrl('NOTESIMPORT'), { is_login: 'TRUE', phone: res.data.phone }, res => {
                         if (res.code === 200) {
                             if (!this.timer) {
                                 this.count = TIME_COUNT
