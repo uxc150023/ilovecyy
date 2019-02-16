@@ -17,7 +17,26 @@
                 <!--二级导航内容-->
                 <app-listTwo v-bind:dataListObj="dataListObj_2"
                              v-on:sortCollect="sortCollect"
-                             v-on:deletePro="deletePro"></app-listTwo>
+                             v-on:deletePro="deletePro">
+
+				</app-listTwo>
+
+				<!--三级导航-->
+				<app-tabmeeting v-if="thirdCloumn.length > 0"
+								v-bind:id="id_3"
+								v-bind:tabItem="thirdCloumn"
+								v-on:change="change">
+					<!--三级导航内容（空）-->
+					<div v-if="dataListObj_3.dataList.length === 0">
+						<app-empty></app-empty>
+					</div>
+					<!--三级导航内容-->
+					<app-listTwo v-bind:dataListObj="dataListObj_3"
+								 v-on:sortCollect="sortCollect"
+								 v-on:deletePro="deletePro">
+
+					</app-listTwo>
+				</app-tabmeeting>
             </app-tabmeeting>
 
             <!--一级导航内容（空）-->
@@ -28,7 +47,9 @@
             <app-listTwo v-bind:dataListObj="dataListObj"
                          v-if="secondCloumn.length === 0"
                          v-on:sortCollect="sortCollect"
-                         v-on:deletePro="deletePro"></app-listTwo>
+                         v-on:deletePro="deletePro">
+
+			</app-listTwo>
         </app-tabmeeting>
         <!--分类收藏弹层-->
         <app-modal v-bind:modalInfo="modalInfo">
@@ -55,9 +76,11 @@ export default {
         return {
             id: 'navOne',
             id_2: 'navTwo',
+            id_3: 'navThree',
             firstCloumn: [],
             irsCloumn: [],
             secondCloumn: ['读品来潮', '读品尖峰', '读品专列'],
+			thirdCloumn: [],
             dataListObj: {
                 dataList: [],
                 btnshow: true
@@ -66,6 +89,9 @@ export default {
                 dataList: [],
                 btnshow: true
             },
+			dataListObj_3: {
+
+			},
             modalInfo: {
                 title: '分类收藏',
                 show: false
@@ -102,7 +128,7 @@ export default {
         },
         // 获取一级导航内容
         getMainContent (oneType) {
-            let url = oneType == '已删读品' ? this._getUrl('IRSDEPRO') : this._getUrl('IRSETYPEAL')
+            let url = oneType === '已删读品' ? this._getUrl('IRSDEPRO') : this._getUrl('IRSETYPEAL')
             let style = ''
             if (oneType === '收藏读品' || oneType === '已阅读品' || oneType === '已删读品') {
                 style = 'styleOne'
@@ -146,32 +172,26 @@ export default {
                 'onePageCount': 150,
                 'currentPage': 1
             }, res => {
-                this._getData(this._getUrl('IRSNEWPRO'), {
-                    'userid': this.$store.state.userid,
-                    'orderBy': orderBy,
-                    'onePageCount': 150,
-                    'currentPage': 1
-                }, res => {
-                    let len = res.data.listMap.length
-                    for (let i = 0; i < len; i++) {
-                        this.dataListObj_2.oneType = '最新读品'
-                        this.dataListObj_2.dataList.push({
-                            production_id: res.data.listMap[i].production_id,
-                            oldForm: res.data.listMap[i].oldForm,
-                            Tehmatic: res.data.listMap[i].Tehmatic,
-                            name: res.data.listMap[i].name,
-                            productionName: res.data.listMap[i].productionName,
-                            ForumName: res.data.listMap[i].ForumName,
-                            upload_time: res.data.listMap[i].upload_time,
-                            intro: res.data.listMap[i].intro,
-                            Integral: res.data.listMap[i].Integral,
-                            money: res.data.listMap[i].money,
-                            productionUrl: res.data.listMap[i].productionUrl,
-                            Type: 'styleOne'
-                        })
-                        this.dataListObj_2.dataList[i].Tehmatic = JSON.parse(this.dataListObj_2.dataList[i].Tehmatic).length > 0 ? this._getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(this.dataListObj_2.dataList[i].Tehmatic)[0])) : []
-                    }
-                })
+            	console.log(res)
+				let len = res.data.listMap.length
+				for (let i = 0; i < len; i++) {
+					this.dataListObj_2.oneType = '最新读品'
+					this.dataListObj_2.dataList.push({
+						production_id: res.data.listMap[i].production_id,
+						oldForm: res.data.listMap[i].oldForm,
+						Tehmatic: res.data.listMap[i].Tehmatic,
+						name: res.data.listMap[i].name,
+						productionName: res.data.listMap[i].productionName,
+						ForumName: res.data.listMap[i].ForumName,
+						upload_time: res.data.listMap[i].upload_time,
+						intro: res.data.listMap[i].intro,
+						Integral: res.data.listMap[i].Integral,
+						money: res.data.listMap[i].money,
+						productionUrl: res.data.listMap[i].productionUrl,
+						Type: 'styleOne'
+					})
+					this.dataListObj_2.dataList[i].Tehmatic = JSON.parse(this.dataListObj_2.dataList[i].Tehmatic).length > 0 ? this._getUrl('SMALLIMGURL') + encodeURI(encodeURI(JSON.parse(this.dataListObj_2.dataList[i].Tehmatic)[0])) : []
+				}
             })
         },
         change (obj) {
@@ -190,6 +210,7 @@ export default {
                         if (obj.tab.label === ele[1].split('-')[0]) {
                             if (ele[2] && ele[2].length > 0) {
                                 this.secondCloumn = ele[2]
+								console.log(this.secondCloumn)
                             } else {
                                 this.getMainContent(obj.tab.label)
                             }
@@ -203,7 +224,20 @@ export default {
                     this.initNewRead('Integral')
                 } else if (obj.tab.label === '读品专列') {
                     this.initNewRead('Money')
-                }
+                }else {
+                	//获取三级导航
+					this._getData(this._getUrl('IRSCLOUMNLE3'),{
+						userid: this._store.state.userid,
+						le2Column: obj.tab.label,
+					},res=> {
+						console.log(res)
+						if (res.data.length > 0) {
+							res.data.forEach((ele,index)=>{
+								this.thirdCloumn.push(ele.typeName);
+							})
+						}
+					})
+				}
             }
         },
         // 分类收藏
