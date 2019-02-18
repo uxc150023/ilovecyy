@@ -1,11 +1,14 @@
 <template>
     <div id="tabsMeeting">
         <el-tabs v-bind:id="id" v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane v-for="(item, index) in tabItem" :label="item" :name="item" :key="index" v-if="item.indexOf('-')<0">
-                <slot></slot>
+            <el-tab-pane v-for="(item, index) in tabItem" ttttt="rrrrrr" :label="item" :name="item" :key="index" v-if="item.indexOf('-')<0">
+                <!--<slot name='rrr'></slot>-->
+				<!--<slot name='ppp'></slot>-->
             </el-tab-pane>
-            <el-tab-pane v-for="(item, index) in tabItem" :label="item.split('-')[0]" :name="item.split('-')[0]" :key="index" v-if="item.indexOf('-')>=0 && item.split('-')[1] === 'Y' ">
-                <slot></slot>
+            <el-tab-pane v-for="(item, index) in tabItem" ttttt="ppppppp" :label="item.split('-')[0]" :name="item.split('-')[0]" :key="index" v-if="item.indexOf('-')>=0 && item.split('-')[1] === 'Y' ">
+				<!--<slot name='rrr-r'></slot>-->
+				<!--<slot name='ppp-p'></slot>-->
+				<slot ></slot>
             </el-tab-pane>
         </el-tabs>
     </div>

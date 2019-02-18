@@ -1,41 +1,28 @@
 <template>
     <div>
         <!--一级导航-->
-        <app-tabmeeting v-bind:id="id"
-                        :tabItem="firstCloumn"
-                        v-on:change="change"
-                        v-if="firstCloumn.length > 0">
+        <app-tabmeeting v-bind:id="id" :tabItem="firstCloumn" v-on:change="change" v-if="firstCloumn.length > 0">
             <!--二级导航-->
-            <app-tabmeeting v-if="secondCloumn.length > 0"
-                            v-bind:id="id_2"
-                            v-bind:tabItem="secondCloumn"
-                            v-on:change="change">
+            <app-tabmeeting v-if="secondCloumn.length > 0" v-bind:id="id_2" v-bind:tabItem="secondCloumn" v-on:change="change">
                 <!--二级导航内容（空）-->
                 <div v-if="dataListObj_2.dataList.length === 0">
                     <app-empty></app-empty>
                 </div>
                 <!--二级导航内容-->
-                <app-listTwo v-bind:dataListObj="dataListObj_2"
-                             v-on:sortCollect="sortCollect"
-                             v-on:deletePro="deletePro">
+                <app-listTwo v-bind:dataListObj="dataListObj_2" v-on:sortCollect="sortCollect" v-on:deletePro="deletePro"></app-listTwo>
 
-				</app-listTwo>
+				<el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
 
 				<!--三级导航-->
-				<app-tabmeeting v-if="thirdCloumn.length > 0"
-								v-bind:id="id_3"
-								v-bind:tabItem="thirdCloumn"
-								v-on:change="change">
+				<app-tabmeeting v-if="thirdCloumn.length > 0" v-bind:id="id_3" v-bind:tabItem="thirdCloumn" v-on:change="change">
 					<!--三级导航内容（空）-->
 					<div v-if="dataListObj_3.dataList.length === 0">
 						<app-empty></app-empty>
 					</div>
 					<!--三级导航内容-->
-					<app-listTwo v-bind:dataListObj="dataListObj_3"
-								 v-on:sortCollect="sortCollect"
-								 v-on:deletePro="deletePro">
+					<app-listTwo v-bind:dataListObj="dataListObj_3" v-on:sortCollect="sortCollect" v-on:deletePro="deletePro"></app-listTwo>
+					<el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
 
-					</app-listTwo>
 				</app-tabmeeting>
             </app-tabmeeting>
 
@@ -44,22 +31,15 @@
                 <app-empty></app-empty>
             </div>
             <!--一级导航内容-->
-            <app-listTwo v-bind:dataListObj="dataListObj"
-                         v-if="secondCloumn.length === 0"
-                         v-on:sortCollect="sortCollect"
-                         v-on:deletePro="deletePro">
+            <app-listTwo v-if="secondCloumn.length === 0" v-bind:dataListObj="dataListObj" v-on:sortCollect="sortCollect" v-on:deletePro="deletePro"></app-listTwo>
+			<el-pagination v-if="secondCloumn.length === 0" background layout="prev, pager, next" :total="1000"></el-pagination>
 
-			</app-listTwo>
         </app-tabmeeting>
         <!--分类收藏弹层-->
         <app-modal v-bind:modalInfo="modalInfo">
-            <app-classify v-bind:columnList="columnList"
-                          v-bind:pid="pid"
-                          v-bind:isAgain="isAgain"
-                          v-bind:oldForm="oldForm"
-                          v-on:confirm="confirm"
-                          v-on:changeRadio="changeRadio"
-                          v-on:recoverPro="recoverPro"></app-classify>
+            <app-classify v-bind:columnList="columnList" v-bind:pid="pid" v-bind:isAgain="isAgain" v-bind:oldForm="oldForm"
+						  v-on:confirm="confirm" v-on:changeRadio="changeRadio" v-on:recoverPro="recoverPro">
+			</app-classify>
         </app-modal>
     </div>
 </template>
@@ -169,7 +149,7 @@ export default {
             this._getData(this._getUrl('IRSNEWPRO'), {
                 'userid': this.$store.state.userid,
                 'orderBy': orderBy,
-                'onePageCount': 150,
+                'onePageCount': 10,
                 'currentPage': 1
             }, res => {
             	console.log(res)
@@ -273,7 +253,12 @@ export default {
         },
         // 恢复作品
         recoverPro (data) {
-
+			this._getData(this._getUrl('DIWREADD'), {
+				userid: this._store.state.userid,
+				productionId: data.pid,
+			}, res=> {
+				console.log(res.message)
+			})
         },
         confirm (data) {
             let url = data.isAgain ? this._getUrl('IRAGAINTYPE') : this._getUrl('IRINTYPE')
