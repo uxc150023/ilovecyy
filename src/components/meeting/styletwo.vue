@@ -16,7 +16,7 @@
                     <el-col :span="12"><div class="grid-content">{{item.place}}</div></el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="2" :offset="22"><div class="grid-content"><el-button type="text" class="mybtn—text">文字按钮</el-button></div></el-col>
+                    <el-col :span="4" :offset="20"><div class="grid-content"><el-button type="text" class="mybtn—text">文字按钮</el-button></div></el-col>
                 </el-row>
             </div>
         </div>

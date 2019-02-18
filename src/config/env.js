@@ -13,8 +13,8 @@ let baseUrl = ''
 
 if (process.env.NODE_ENV === 'development') {
     // baseUrl = 'https://console.xinxuejie.com.cn/';
-    // baseUrl = 'http://192.168.31.188:80/'
-    baseUrl = 'http://p8jtir.natappfree.cc/'
+    baseUrl = 'http://192.168.31.188:80/'
+    // baseUrl = 'http://p8jtir.natappfree.cc/'
     // imgBaseUrl = '/img/';
 } else if (process.env.NODE_ENV === 'production') {
     baseUrl = 'https://console.xinxuejie.com.cn/'

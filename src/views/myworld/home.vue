@@ -88,7 +88,6 @@
                 })
             },
             change (obj) {
-                let type = 2;
                 type = obj.index === '0' ? 2 : 3
                 this.getDataList(type);
             },

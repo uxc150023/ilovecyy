@@ -243,6 +243,7 @@
                 }
                 .btnBox {
                     text-align: right;
+					padding: 10px 0;
                 }
             }
         }

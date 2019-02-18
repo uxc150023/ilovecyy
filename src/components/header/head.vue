@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="top-header">
-            <el-row>
+            <el-row class="wrap">
                 <img src="../../images/icon.gif"
                      class="top-img">
                 <el-button class='btn-0'
@@ -98,6 +98,9 @@ export default {
 .top-header {
     text-align: right;
     height: 46px;
+	position: fixed;
+	width: 100%;
+	z-index: 1000;
     background-image: linear-gradient(
         90deg,
         #59ace7 0%,
@@ -106,11 +109,14 @@ export default {
         #5044ec 100%
     );
     font-size: 0;
+	.wrap {
+		max-width: 1050px;
+		margin: 0 auto;
+	}
     .top-img {
         width: 46px;
         height: 46px;
         float: left;
-        margin-left: 2px;
     }
     .btn-0 {
         float: left;

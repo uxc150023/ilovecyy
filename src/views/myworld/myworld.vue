@@ -1,10 +1,17 @@
 <template>
     <div class="myworld">
-        <div class="myworld_head">
-            <img class="bgImage"
-                 :src='headImage'>
-        </div>
-        <app-myworldbanner v-bind:banners="banners"></app-myworldbanner>
+		<div class="wrap">
+			<div class="content-left">
+				<div class="myworld_head">
+					<img class="bgImage"
+						 :src='headImage'>
+				</div>
+				<app-myworldbanner v-bind:banners="banners"></app-myworldbanner>
+			</div>
+			<div class="content-right">
+
+			</div>
+		</div>
     </div>
 </template>
 
@@ -60,14 +67,33 @@ export default {
 
 <style lang="scss">
 .myworld {
-    .myworld_head {
-        height: 200px;
-        // background-color: #7FFF8EFF;
-        width: 100%;
-        .bgImage {
-            width: 100%;
-            height: 200px;
-        }
-    }
+	padding-top: 46px;
+	.wrap {
+		max-width: 1050px;
+		margin: 0 auto;
+		display: flex;
+		background-color: #FAFAFA;
+		padding: 9px 14px 0;
+	}
+	.content-left {
+		flex-shrink: 0;
+		width: 690px;
+		margin-right: 10px;
+	}
+	.myworld_head {
+		height: 200px;
+		z-index: 1000;
+		.bgImage {
+			width: 100%;
+			height: 200px;
+		}
+	}
+	.content-right {
+		flex: 1 1;
+		flex-grow: 1;
+		flex-shrink: 1;
+		flex-basis: 0%;
+		background-color: #fff;
+	}
 }
 </style>

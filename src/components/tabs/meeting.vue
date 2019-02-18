@@ -40,6 +40,7 @@
             background-color: #fff;
             margin-bottom: 10px;
             .el-tabs__header {
+				padding: 0 10px;
                 .el-tabs__active-bar {
                     background-color: #3366CC;
                 }

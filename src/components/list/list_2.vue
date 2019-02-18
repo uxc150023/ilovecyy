@@ -15,13 +15,13 @@
                     <el-col :span="3">
                         <div class="grid-content">{{item.name || item.Writer}}</div>
                     </el-col>
-                    <el-col :span="15">
+                    <el-col :span="14">
                         <div class="grid-content title">{{item.productionName ? item.productionName : "无题"}} <span class="integral">{{item.Integral}}</span></div>
                     </el-col>
                     <el-col :span="3">
                         <div class="grid-content title">{{item.ForumName}}</div>
                     </el-col>
-                    <el-col :span="3">
+                    <el-col :span="4">
                         <div class="grid-content">{{item.upload_time.split(" ")[0]}}</div>
                     </el-col>
                 </el-row>
@@ -65,13 +65,13 @@
                     <el-col :span="3">
                         <div class="grid-content">{{item.name}}</div>
                     </el-col>
-                    <el-col :span="15">
+                    <el-col :span="14">
                         <div class="grid-content title">{{item.productionName ? item.productionName : "无题"}} <span class="integral">{{item.Integral}}</span></div>
                     </el-col>
                     <el-col :span="3">
                         <div class="grid-content title">{{item.ForumName}}</div>
                     </el-col>
-                    <el-col :span="3">
+                    <el-col :span="4">
                         <div class="grid-content">{{item.upload_time.split(" ")[0]}}</div>
                     </el-col>
                 </el-row>
@@ -231,6 +231,7 @@ export default {
                         font-weight: 400;
                         color: #707070;
                         text-align: left;
+						overflow: hidden;
                     }
                     .title {
                         font-size: 16px;

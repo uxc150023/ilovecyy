@@ -137,13 +137,13 @@
                 </el-row>
                 <el-row class="lastRow">
                     <el-tabs v-model="activeName" @tab-click="handleClick">
-                        <el-tab-pane label="引语或提要：点此可以编写" name="first" prop="intro">
+                        <el-tab-pane label="引语：点此编辑" name="first" prop="intro">
                             <el-input type="textarea" v-model="form.intro"></el-input>
                         </el-tab-pane>
-                        <el-tab-pane label="关键词：点此可以编写" name="third" prop="antistop">
+                        <el-tab-pane label="关键词：点此编辑" name="third" prop="antistop">
                             <el-input v-model="form.antistop"></el-input>
                         </el-tab-pane>
-                        <el-tab-pane label="题图： 点此可以上传、编辑" name="fourth" prop="tehmatic">
+                        <el-tab-pane label="题图： 点此上传" name="fourth" prop="tehmatic">
                             <div class="btnBox uploadBtn">
                                 <el-button @click="uploadTehmatic" class="uploadTehmatic mybtn">浏览/上传</el-button>
                             </div>
@@ -502,9 +502,8 @@
 <style lang="scss">
     #writeOne {
         background-color: #fff;
-        padding: 20px 50px 80px;
+        padding: 20px 20px 30px;
         .formBox {
-            width: 1020px;
             margin: 0 auto;
             .probox {
                 margin-bottom: 25px;
