@@ -35,6 +35,7 @@ import Register from '@/views/register/register'
 import ResetPass from '@/views/login/resetPass'
 import Webbuild from '@/views/webbuild/Webbuild' // 建站
 
+import Read from '@/views/myread/read' // 阅读
 Vue.use(Router)
 
 export default new Router({
@@ -144,6 +145,12 @@ export default new Router({
 			path: '/webbuild',
 			name: 'Webbuild',
 			component: Webbuild
+		},
+		/* 阅读 */
+		{
+			path: '/read',
+			name: 'Read',
+			component: Read
 		}
 	]
 })
