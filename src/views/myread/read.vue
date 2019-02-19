@@ -3,15 +3,15 @@
         <div class="read-content">
             <div class="read-content-a"
                  :style="{background: 'url('+bgimg+') no-repeat 100% 100%' }">
-                <el-carousel indicator-position=''
+                <el-carousel indicator-position='none'
                              :height=height
                              :loop=false
-                             :prev='handleClick(4)'
-                             :next='handleClick(5)'
-                             ref='carousel'>
-                    <el-carousel-item v-for="item in mainList"
-                                      :key="item">
-                        <h3>item.main</h3>
+                             ref='carousel'
+                             :autoplay=false>
+                    <el-carousel-item v-for="(ele, index) in mainList"
+                                      :key="index">
+                        <div v-html="ele"
+                             :style="{fontSize: fontsize, lineHeight: lineheight}"></div>
                     </el-carousel-item>
                 </el-carousel>
             </div>
@@ -36,17 +36,25 @@ export default {
     data () {
         return {
             npage: 0, // 当前章节所处的页数
-            pageCount: '', // 当前章节总页数
+            pageCount: 0, // 当前章节总页数
             proreadId: '', // 章节id
             minprid: '', // 最小章节
             maxprid: '', // 最大章节
-            proId: '', // 作评id
+            proId: '1589', // 作评id
             mainList: [], // 章节内容
             paymoney: '', // 付费
             proUserid: '', // 作者
             quillkey: '', // 彩笺
             bgimg: '', // 背景图片
-            height: String(Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - 100) + 'px' // 文档高
+            height: String(Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - 100) + 'px', // 文档高
+            fontsize: '16px', //
+            lineheight: '1.75', //
+        }
+    },
+    mounted () {
+        this.getDetails()
+        window.onresize = () => {
+            this.height = String(Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - 100) + 'px'
         }
     },
     methods: {
@@ -93,7 +101,7 @@ export default {
         /**
          * 获取章节内容 页面跳转
          */
-        getMain (page) {
+        getMain () {
             /* 下一页 在此轮播 内 */
             if (this.npage < this.pageCount - 1) {
                 this.$refs.carousel.setActiveItem(this.npage)
@@ -108,10 +116,11 @@ export default {
                 userid: this.$store.state.userid
             }
             this._getData(this._getUrl('SPMREADAI'), params, res => {
-                if (res === 200) {
+                if (res.code === 200) {
                     this.pageCount = res.data.pageCount // 获取 此章多少页
-                    this.mainList = {}
-                    this.mainList.push({
+                    this.mainList = []
+                    res.data.Pro_Content.forEach(element => {
+                        this.mainList.push(element)
                     })
                 }
             })
@@ -120,15 +129,17 @@ export default {
          * 获取作品详情
          */
         getDetails () {
-            this._getData(this._getUrl('SPMREADAI'), { production_id: this.proId }, res => {
-                if (res === 200) {
+            this._getData(this._getUrl('SPRODITAI'), { production_id: this.proId }, res => {
+                if (res.code === 200) {
                     this.minprid = res.data.ReadIDs[0].pro_readID
                     this.maxprid = res.data.ReadIDs[res.data.ReadIDs.length - 1].pro_readID
+                    this.proreadId = this.minprid
                     this.paymoney = res.data.money
                     this.proUserid = res.data.ProUserid
                     if (this.proUserid === this.$store.state.userid) {
                         /* 是否可以修改 */
                     }
+                    this.getMain()
                     /* 彩笺 */
                     if (res.data.quillKey !== '') {
                         this.quillkey = (JSON.parse(res.data.quillKey)).quillKey
@@ -158,28 +169,23 @@ export default {
     .read-content-a {
         width: 667px;
         margin: auto;
+        text-align: left;
         background: #3d3e45;
         .el-carousel {
             height: 100%;
+            padding: 30px;
+            background-color: #fbfaf8;
             .el-carousel__container {
                 height: 100%;
             }
         }
-        .el-carousel__item h3 {
-            color: #475669;
-            font-size: 18px;
-            opacity: 0.75;
-            line-height: 300px;
-            margin: 0;
-        }
+        // .el-carousel__item:nth-child(2n) {
+        //     background-color: #99a9bf;
+        // }
 
-        .el-carousel__item:nth-child(2n) {
-            background-color: #99a9bf;
-        }
-
-        .el-carousel__item:nth-child(2n + 1) {
-            background-color: #d3dce6;
-        }
+        // .el-carousel__item:nth-child(2n + 1) {
+        //     background-color: #d3dce6;
+        // }
     }
     .j-md-ctrl {
         position: fixed;
