@@ -12,9 +12,10 @@ let baseUrl = ''
 // let imgBaseUrl = '';
 
 if (process.env.NODE_ENV === 'development') {
-    // baseUrl = 'https://console.xinxuejie.com.cn/';
+    // baseUrl = 'https://console.xinxuejie.com.cn/'
     // baseUrl = 'http://192.168.31.188:80/'
-    baseUrl = 'http://9vd4ck.natappfree.cc/'
+    baseUrl = 'http://192.168.31.116:80/'
+    // baseUrl = 'http://9vd4ck.natappfree.cc/'
     // imgBaseUrl = '/img/';
 } else if (process.env.NODE_ENV === 'production') {
     baseUrl = 'https://console.xinxuejie.com.cn/'
