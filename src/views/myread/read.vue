@@ -3,6 +3,12 @@
         <div class="read-content">
             <div class="read-content-a"
                  :style="{background: 'url('+bgimg+') no-repeat 100% 100%' }">
+                <i class="iconfont boolmark"
+                   @click="addBookM()"
+                   v-if="(npage === 1 && minprid !== proreadId) || npage !== 1 && bookmarkT === false">&#xe996;</i>
+                <i class="iconfont boolmark"
+                   @click="clearBookM()"
+                   v-if="(npage === 1 && minprid !== proreadId) || npage !== 1 && bookmarkT === true">&#xe6bf;</i>
                 <el-carousel indicator-position='none'
                              :height=height
                              :loop=false
@@ -23,11 +29,44 @@
                 <i class="el-icon-arrow-right"
                    @click='handleClick(1)'></i>
                 <p></p>
-                <i class="el-icon-message"
-                   @click='handleClick(2)'></i>
+                <!-- 目录 -->
+                <el-popover placement="left"
+                            width=""
+                            trigger="click">
+                    <el-button type="text"
+                               v-for="(ele, index) in ditector"
+                               :key="index"
+                               v-html="ele.Pro_Archives"
+                               @click="goPage(ele.pro_readID)"></el-button>
+                    <i class="el-icon-message"
+                       slot="reference"></i>
+                </el-popover>
                 <p></p>
-                <i class="el-icon-date"
-                   @click='handleClick(3)'></i>
+                <!-- 书架 -->
+                <el-popover placement="left"
+                            width=""
+                            trigger="click"
+                            @show="bookrack()">
+                    <el-button type="text"
+                               v-for="(ele, index) in bookracks"
+                               :key="index"
+                               v-html="ele.productionName"
+                               @click="getDetails(ele.production_id)"></el-button>
+                    <i class="el-icon-message"
+                       slot="reference"></i>
+                </el-popover>
+                <!-- 书签 -->
+                <el-popover placement="left"
+                            width=""
+                            trigger="click">
+                    <el-button type="text"
+                               v-for="(ele, index) in bookmarks"
+                               :key="index"
+                               v-html="ele.main.replace(/<\/?[^>]*>/g,'').substr(0, 40)"
+                               @click="goPage(ele.proReadID, ele.page)"></el-button>
+                    <i class="el-icon-message"
+                       slot="reference"></i>
+                </el-popover>
             </div>
         </div>
     </div>
@@ -41,7 +80,6 @@ export default {
             proreadId: '', // 章节id
             minprid: '', // 最小章节
             maxprid: '', // 最大章节
-            proId: '1662', // 作评id
             mainList: [], // 章节内容
             paymoney: '', // 付费
             proUserid: '', // 作者
@@ -53,37 +91,44 @@ export default {
             firstbg: '', // 作品说明 bg
             title: '', // 作评名称
             intro: '', //
-            writer: '' // 作者
+            writer: '', // 作者
+            ditector: [], // 目录
+            bookracks: [], // 书架
+            bookmarks: [], // 书签
+            bookmarkT: false, // 此页是否加入书签
+            bookmarkTs: [] //
+        }
+    },
+    computed: {
+        // 作品ID
+        productionId: {
+            get () {
+                return this.$store.state.readInfo.productionId
+            }
         }
     },
     mounted () {
         this.getDetails()
+        this.bookMark()
         window.onresize = () => {
             this.height = String(Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - 100) + 'px'
         }
     },
     methods: {
         /**
-         * 加载页面
-         * page_i 页数
-         */
-        loadPage (page_i) {
-            if (page_i === 0) {
-
-            } else {
-
-            }
-        },
-        /**
          * 功能按钮
          */
         handleClick (key) {
             switch (key) {
                 case 0: /* 前一页 */
-
-                    if (this.npage > 2) {
+                    /* 第一章 */
+                    if (this.proreadId === this.minprid && this.npage === 1) {
+                        this._common.showMsg('已经是第一页')
+                        return false
+                    }
+                    if (this.npage > 1) {
                         this.npage--
-                        this.$refs.carousel.setActiveItem(this.npage)
+                        this.$refs.carousel.setActiveItem(this.npage - 1)
                     } else {
                         if (this.minprid === this.proreadId) { /* 第一章 */
                             this._common.showMsg('已经是第一页')
@@ -92,22 +137,24 @@ export default {
                             this.getMain(0)
                         }
                     }
+                    this.checkBookM()
                     break
                 case 1: /* 后一页 */
-                    console.log(this.npage, this.pageCount)
                     /* 第一章 */
                     if (this.proreadId === this.minprid) {
-                        if (this.npage < this.pageCount - 1) {
+                        if (this.npage < this.pageCount) {
                             this.npage++
-                            this.$refs.carousel.setActiveItem(this.npage)
+                            this.$refs.carousel.setActiveItem(this.npage - 1)
+                            this.checkBookM()
                             return false
                         }
                     }
 
                     /* 不是第一章 */
-                    if (this.npage < this.pageCount - 1 && this.proreadId !== this.minprid) {
+                    if (this.npage < this.pageCount && this.proreadId !== this.minprid) {
                         this.npage++
-                        this.$refs.carousel.setActiveItem(this.npage)
+                        this.$refs.carousel.setActiveItem(this.npage - 1)
+                        this.checkBookM()
                         return false
                     }
 
@@ -117,13 +164,13 @@ export default {
                         this.npage = 1
                         this.proreadId++
                         this.getMain(1)
+                        this.checkBookM()
                     }
-
                     break
                 case 2: /* 评论 */
 
                     break
-                case 3: /*  */
+                case 3: /* 目录 */
 
                     break
                 case 4: /* 前一页 */
@@ -142,7 +189,7 @@ export default {
          */
         getMain (type) {
             let params = {
-                production_id: this.proId,
+                production_id: this.productionId,
                 pro_readID: this.proreadId,
                 page: -1, // 取章节所有页面内容
                 userid: this.$store.state.userid
@@ -151,6 +198,7 @@ export default {
                 if (res.code === 200) {
                     this.pageCount = res.data.pageCount // 获取 此章多少页
                     this.mainList = []
+                    this.bookmarkTs = res.data.BookMark
                     /* 若是第一章 插入作品说明 */
                     if (this.proreadId === this.minprid) {
                         let html = '<div id="page-first">'
@@ -189,8 +237,12 @@ export default {
         /**
          * 获取作品详情
          */
-        getDetails () {
-            this._getData(this._getUrl('SPRODITAI'), { production_id: this.proId }, res => {
+        getDetails (productionId) {
+            if (productionId) {
+                this.productionId = productionId
+                document.querySelector('#app').click()
+            }
+            this._getData(this._getUrl('SPRODITAI'), { production_id: this.productionId }, res => {
                 if (res.code === 200) {
                     this.minprid = res.data.ReadIDs[0].pro_readID
                     this.maxprid = res.data.ReadIDs[res.data.ReadIDs.length - 1].pro_readID
@@ -202,6 +254,7 @@ export default {
                     this.title = res.data.title
                     this.intro = res.data.intro
                     this.writer = res.data.Writer
+                    this.ditector = res.data.ReadIDs
                     if (this.proUserid === this.$store.state.userid) {
                         /* 是否可以修改 */
                     }
@@ -222,11 +275,123 @@ export default {
                     }
                 }
             })
+        },
+        /**
+         * 跳转页面
+         */
+        goPage (productionId, page) {
+            if (page) {
+                this.npage = page
+            }
+            this.proreadId = productionId
+            this.getMain(1)
+            document.querySelector('#app').click()
+        },
+        /**
+         * 书架
+         */
+        bookrack () {
+            let params = {
+                currentPage: 1,
+                onePageCount: 999,
+                orderBy: 'Time',
+                userid: this.$store.state.userid
+            }
+            this._getData(this._getUrl('IRSNEWPRO'), params, res => {
+                if (res.code === 200) {
+                    this.bookracks = res.data.listMap
+                }
+            })
+        },
+        /**
+         * 添加书签
+         */
+        addBookM () {
+            let index = 0
+            if (this.proreadId === this.minprid) {
+                index = this.npage - 1
+            } else {
+                index = this.npage
+            }
+            let params = {
+                main: this.mainList[index],
+                page: this.npage,
+                proReadID: this.proreadId,
+                productionId: this.productionId,
+                userid: this.$store.state.userid
+            }
+            this._getData(this._getUrl('IRINBOOKMARK'), params, res => {
+                if (res.code === 200) {
+                    this._common.showMsg('书签添加成功')
+                }
+            })
+        },
+        /**
+         * 删除书签
+         */
+        clearBookM () {
+            this._common.warnMsg('确定删除该书签么')
+            let index = 0
+            if (this.proreadId === this.minprid) {
+                index = this.npage - 1
+            } else {
+                index = this.npage
+            }
+            let params = {
+                main: this.mainList[index],
+                page: this.npage,
+                proReadID: this.proreadId,
+                productionId: this.productionId,
+                userid: this.$store.state.userid
+            }
+            this._getData(this._getUrl('IRDEBOOKMARK'), params, res => {
+                if (res.code === 200) {
+                    this._common.showMsg('书签删除成功')
+                }
+            })
+        },
+        /**
+         * 查询书签
+         */
+        bookMark () {
+            this._getData(this._getUrl('IRSEBOOKMARK'), { productionId: this.productionId, userid: this.$store.state.userid }, res => {
+                if (res.code === 200) {
+                    this.bookmarks = res.data
+                }
+            })
+        },
+        /**
+         * 判断是否有书签
+         */
+        checkBookM () {
+            let index = 0
+            console.log(this.npage)
+            // 判断是否有书签
+            if (this.proreadId === this.minprid) {
+                index = this.npage - 1
+            } else {
+                index = this.npage
+            }
+            if (this.bookmarkTs[index - 1] === 'Y') {
+                this.bookmarkT = true
+            } else {
+                this.bookmarkT = false
+            }
         }
     }
 }
 </script>
 <style lang='scss'>
+.el-popover {
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.el-button {
+    margin-left: 10px;
+    display: block;
+    margin-right: 30px;
+}
 .top-header {
     display: none;
 }
@@ -237,6 +402,9 @@ export default {
         margin: auto;
         text-align: left;
         background: #3d3e45;
+        .boolmark {
+            float: right;
+        }
         .el-carousel {
             height: 100%;
             padding: 30px;

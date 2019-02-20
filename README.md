@@ -25,6 +25,7 @@ vuex 同步插件 vuex-persistedstate
 
 js 中设置背景图片 用require('./../assets/banner_top2.png') ，否则 找不到路径
 
+页面顶部进度条用的是NProgress.js 
 
 ## Build Setup
 
