@@ -20,6 +20,10 @@ const store = new Vuex.Store({
         stunetUrl: '',
         stunetId: '',
         headImage: '', // 顶部头图
+        readInfo: {
+            productionId: '1662', // 读品id
+            form: '' // 读品类型
+        },
         meetInfo: {
             meetId: ''
         }
