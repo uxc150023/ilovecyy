@@ -288,7 +288,9 @@ export default {
          */
         goPage (productionId, page) {
             if (page) {
-                this.npage = this.proreadId === this.minprid ? page + 1 : page
+                this.npage = (this.proreadId === this.minprid ? page : page)
+            } else {
+                this.npage = 1
             }
             this.proreadId = productionId
             this.getMain(2)
@@ -322,7 +324,7 @@ export default {
             }
             let params = {
                 main: this.mainList[index],
-                page: index,
+                page: this.npage,
                 proReadID: this.proreadId,
                 productionId: this.productionId,
                 userid: this.$store.state.userid
@@ -418,6 +420,7 @@ export default {
         background: #3d3e45;
         .boolmark {
             float: right;
+            cursor: pointer;
         }
         .el-carousel {
             height: 100%;
