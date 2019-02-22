@@ -21,6 +21,7 @@
                              :style="{fontSize: fontsize, lineHeight: lineheight}"></div>
                     </el-carousel-item>
                 </el-carousel>
+                <p class="rd_footer">第{{proreadId - minprid + 1}}章&emsp;第{{npage}}页</p>
             </div>
             <div class="j-md-ctrl">
                 <i class="el-icon-arrow-left"
@@ -104,7 +105,7 @@ export default {
         // 作品ID
         productionId: {
             get () {
-                return this.$store.state.readInfo.productionId
+                return this.$store.state.productionId
             }
         }
     },
@@ -173,12 +174,6 @@ export default {
                     break
                 case 3: /* 目录 */
 
-                    break
-                case 4: /* 前一页 */
-                    alert(1)
-                    break
-                case 5: /* 后一页 */
-                    alert(2)
                     break
                 default:
                     break
@@ -271,13 +266,6 @@ export default {
                         this.quillkey = (JSON.parse(res.data.quillKey)).quillKey
                         if (this.quillkey !== 'wu') {
                             this.bgimg = require('../../images/texture/' + this.quillkey + '.png')
-                            // $('#read-read-artcle').css({
-                            //     'background-image': 'url("../../../images/texture/' + quillkey + '.png")',
-                            //     'background-size': '100% 100%',
-                            //     'background-repeat': 'no-repeat'
-                            // }).attr({
-                            //     'data-key': quillkey
-                            // });
                         }
                     }
                 }
@@ -418,6 +406,10 @@ export default {
         margin: auto;
         text-align: left;
         background: #3d3e45;
+        .rd_footer {
+            position: absolute;
+            margin-top: -16px;
+        }
         .boolmark {
             float: right;
             cursor: pointer;
