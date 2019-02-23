@@ -85,6 +85,9 @@ export default {
 </script>
 
 <style lang="scss">
+.top-header {
+    display: none;
+}
 $background: red;
 html,
 body {

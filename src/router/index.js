@@ -36,6 +36,9 @@ import ResetPass from '@/views/login/resetPass'
 import Webbuild from '@/views/webbuild/Webbuild' // 建站
 
 import Read from '@/views/myread/read' // 阅读
+import Videoread from '@/views/myread/videoread' // video阅读
+import Imageread from '@/views/myread/imageread' // video阅读
+
 Vue.use(Router)
 
 export default new Router({
@@ -150,8 +153,19 @@ export default new Router({
         {
             path: '/read',
             name: 'Read',
-            component: Read,
-            redirect: '/index'
+            component: Read
+        },
+        /* video阅读 */
+        {
+            path: '/videoread',
+            name: 'videoRead',
+            component: Videoread
+        },
+        /* image阅读 */
+        {
+            path: '/imageread',
+            name: 'imageRead',
+            component: Imageread
         }
     ]
 })
