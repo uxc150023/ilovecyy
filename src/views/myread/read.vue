@@ -5,10 +5,10 @@
                  :style="{background: 'url('+bgimg+') no-repeat 100% 100%' }">
                 <i class="iconfont boolmark"
                    @click="addBookM()"
-                   v-if="(npage === 1 && minprid !== proreadId) || npage !== 1 && bookmarkT === false">&#xe996;</i>
+                   v-if="((npage === 1 && minprid !== proreadId) && bookmarkT === false) || npage !== 1 && bookmarkT === false">&#xe996;</i>
                 <i class="iconfont boolmark"
                    @click="clearBookM()"
-                   v-if="(npage === 1 && minprid !== proreadId) || npage !== 1 && bookmarkT === true">&#xe6bf;</i>
+                   v-if="((npage === 1 && minprid !== proreadId) && bookmarkT === true) || npage !== 1 && bookmarkT === true">&#xe6bf;</i>
                 <el-carousel indicator-position='none'
                              :height=height
                              :loop=false
@@ -21,6 +21,7 @@
                              :style="{fontSize: fontsize, lineHeight: lineheight}"></div>
                     </el-carousel-item>
                 </el-carousel>
+                <p class="rd_footer">第{{proreadId - minprid + 1}}章&emsp;第{{npage}}页</p>
             </div>
             <div class="j-md-ctrl">
                 <i class="el-icon-arrow-left"
@@ -58,7 +59,8 @@
                 <!-- 书签 -->
                 <el-popover placement="left"
                             width=""
-                            trigger="click">
+                            trigger="click"
+                            @show="bookMark()">
                     <el-button type="text"
                                v-for="(ele, index) in bookmarks"
                                :key="index"
@@ -103,7 +105,7 @@ export default {
         // 作品ID
         productionId: {
             get () {
-                return this.$store.state.readInfo.productionId
+                return this.$store.state.productionId
             }
         }
     },
@@ -173,19 +175,13 @@ export default {
                 case 3: /* 目录 */
 
                     break
-                case 4: /* 前一页 */
-                    alert(1)
-                    break
-                case 5: /* 后一页 */
-                    alert(2)
-                    break
                 default:
                     break
             }
         },
         /**
          * 获取章节内容 页面跳转
-         * type 1后 0前
+         * type 1后 0前 2书签跳转
          */
         getMain (type) {
             let params = {
@@ -198,6 +194,7 @@ export default {
                 if (res.code === 200) {
                     this.pageCount = res.data.pageCount // 获取 此章多少页
                     this.mainList = []
+                    this.bookmarkT = false
                     this.bookmarkTs = res.data.BookMark
                     /* 若是第一章 插入作品说明 */
                     if (this.proreadId === this.minprid) {
@@ -227,10 +224,15 @@ export default {
                         setTimeout(() => {
                             this.$refs.carousel.setActiveItem(this.npage - 1)
                         }, 100)
+                    } else if (type === 2) {
+                        setTimeout(() => {
+                            this.$refs.carousel.setActiveItem(this.npage - 1)
+                        }, 100)
                     } else {
                         this.$refs.carousel.setActiveItem(0)
                         this.npage = 1
                     }
+                    this.checkBookM()
                 }
             })
         },
@@ -264,13 +266,6 @@ export default {
                         this.quillkey = (JSON.parse(res.data.quillKey)).quillKey
                         if (this.quillkey !== 'wu') {
                             this.bgimg = require('../../images/texture/' + this.quillkey + '.png')
-                            // $('#read-read-artcle').css({
-                            //     'background-image': 'url("../../../images/texture/' + quillkey + '.png")',
-                            //     'background-size': '100% 100%',
-                            //     'background-repeat': 'no-repeat'
-                            // }).attr({
-                            //     'data-key': quillkey
-                            // });
                         }
                     }
                 }
@@ -281,10 +276,12 @@ export default {
          */
         goPage (productionId, page) {
             if (page) {
-                this.npage = page
+                this.npage = (this.proreadId === this.minprid ? page : page)
+            } else {
+                this.npage = 1
             }
             this.proreadId = productionId
-            this.getMain(1)
+            this.getMain(2)
             document.querySelector('#app').click()
         },
         /**
@@ -311,7 +308,7 @@ export default {
             if (this.proreadId === this.minprid) {
                 index = this.npage - 1
             } else {
-                index = this.npage
+                index = this.npage - 1
             }
             let params = {
                 main: this.mainList[index],
@@ -323,6 +320,8 @@ export default {
             this._getData(this._getUrl('IRINBOOKMARK'), params, res => {
                 if (res.code === 200) {
                     this._common.showMsg('书签添加成功')
+                    this.bookmarkT = true
+                    this.bookmarkTs[index - 1] = 'Y'
                 }
             })
         },
@@ -330,24 +329,28 @@ export default {
          * 删除书签
          */
         clearBookM () {
-            this._common.warnMsg('确定删除该书签么')
-            let index = 0
-            if (this.proreadId === this.minprid) {
-                index = this.npage - 1
-            } else {
-                index = this.npage
-            }
-            let params = {
-                main: this.mainList[index],
-                page: this.npage,
-                proReadID: this.proreadId,
-                productionId: this.productionId,
-                userid: this.$store.state.userid
-            }
-            this._getData(this._getUrl('IRDEBOOKMARK'), params, res => {
-                if (res.code === 200) {
-                    this._common.showMsg('书签删除成功')
+            let _this = this
+            this._common.warnMsg('确定删除该书签么', function () {
+                let index = 0
+                if (_this.proreadId === _this.minprid) {
+                    index = _this.npage - 1
+                } else {
+                    index = _this.npage
                 }
+                let params = {
+                    main: _this.mainList[index],
+                    page: index,
+                    proReadID: _this.proreadId,
+                    productionId: _this.productionId,
+                    userid: _this.$store.state.userid
+                }
+                _this._getData(_this._getUrl('IRDEBOOKMARK'), params, res => {
+                    if (res.code === 200) {
+                        _this._common.showMsg('书签删除成功')
+                        _this.bookmarkT = false
+                        _this.bookmarkTs[index - 1] = 'N'
+                    }
+                })
             })
         },
         /**
@@ -386,12 +389,13 @@ export default {
     max-height: 400px;
     overflow-y: scroll;
     overflow-x: hidden;
+    .el-button {
+        margin-left: 10px;
+        display: block;
+        margin-right: 30px;
+    }
 }
-.el-button {
-    margin-left: 10px;
-    display: block;
-    margin-right: 30px;
-}
+
 .top-header {
     display: none;
 }
@@ -402,8 +406,13 @@ export default {
         margin: auto;
         text-align: left;
         background: #3d3e45;
+        .rd_footer {
+            position: absolute;
+            margin-top: -16px;
+        }
         .boolmark {
             float: right;
+            cursor: pointer;
         }
         .el-carousel {
             height: 100%;

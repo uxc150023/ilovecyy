@@ -36,121 +36,136 @@ import ResetPass from '@/views/login/resetPass'
 import Webbuild from '@/views/webbuild/Webbuild' // 建站
 
 import Read from '@/views/myread/read' // 阅读
+import Videoread from '@/views/myread/videoread' // video阅读
+import Imageread from '@/views/myread/imageread' // video阅读
+
 Vue.use(Router)
 
 export default new Router({
-	mode: 'history',
-	routes: [
-		{
-			path: '/',
-			name: 'Index',
-			component: Index
-		},
-		/* 登陆 */
-		{
-			path: '/login',
-			name: 'Login',
-			component: Login
-		},
-		/* 我世界 */
-		{
-			path: '/myworld',
-			name: 'Myworld',
-			component: Myworld,
-			redirect: '/myworld/home', // 重定向
-			children: [
-				{ path: '/myworld/home', name: 'Worldhome', component: Worldhome },
-				{ path: '/myworld/read', name: 'Worldread', component: Worldread },
-				{ path: '/myworld/write', name: 'Worldwrite', component: Worldwrite },
-				{ path: '/myworld/mymeeting', name: 'Worldmeeting', component: Worldmeeting },
-				{ path: '/myworld/version', name: 'Worldversion', component: Worldversion },
-				{ path: '/myworld/alliance', name: 'Worldalliance', component: Worldalliance },
-				{ path: '/myworld/person', name: 'Worldperson', component: Worldperson }
-			]
-		},
-		/* 我的学网 */
-		{
-			path: '/mystunet',
-			name: 'Mystunet',
-			component: Mystunet,
-			redirect: '/mystunet/home', // 重定向
-			children: [
-				{ path: '/mystunet/home', name: 'Stuhome', component: Stuhome },
-				{ path: '/mystunet/survey', name: 'Stusurvey', component: Stusurvey },
-				{ path: '/mystunet/leader', name: 'Stuleader', component: Stuleader },
-				{ path: '/mystunet/member', name: 'Stumember', component: Stumember },
-				{ path: '/mystunet/meeting', name: 'Stumeeting', component: Stumeeting },
-				{ path: '/mystunet/paper', name: 'Stupaper', component: Stupaper },
-				{ path: '/mystunet/share', name: 'Stushare', component: Stushare },
-				{ path: '/mystunet/join', name: 'Stujoin', component: Stujoin },
-				{ path: '/mystunet/cert', name: 'Stucert', component: Stucert }
-			]
-		},
-		/* 学群学友 */
-		{
-			path: '/myGroupFriend',
-			name: 'MyGroupFriend',
-			component: MyGroupFriend
-		},
-		/* 推介 */
-		{
-			path: '/recome',
-			name: 'Recome',
-			component: Recome
-		},
-		/* 理事 */
-		{
-			path: '/director',
-			name: 'Director',
-			component: Director
-		},
-		/* 用户中心 */
-		{
-			path: '/uercenter',
-			name: 'Uercenter',
-			component: Uercenter
-		},
-		/* 财务室 */
-		{
-			path: '/financial',
-			name: 'Financial',
-			component: Financial
-		},
-		/* 资料馆 */
-		{
-			path: '/archive',
-			name: 'Archive',
-			component: Archive
-		},
-		/* 设置 */
-		{
-			path: '/mwsetting',
-			name: 'Mwsetting',
-			component: Mwsetting
-		},
-		/* 注册 */
-		{
-			path: '/register',
-			name: 'Register',
-			component: Register
-		},
-		/* 重置密码 */
-		{
-			path: '/resetPass',
-			name: 'ResetPass',
-			component: ResetPass
-		},
-		/* 建站 */
-		{
-			path: '/webbuild',
-			name: 'Webbuild',
-			component: Webbuild
-		},
-		/* 阅读 */
-		{
-			path: '/read',
-			name: 'Read',
-			component: Read
-		}
-	]
+    mode: 'history',
+    routes: [
+        {
+            path: '/',
+            name: 'Index',
+            component: Index
+        },
+        /* 登陆 */
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
+        },
+        /* 我世界 */
+        {
+            path: '/myworld',
+            name: 'Myworld',
+            component: Myworld,
+            redirect: '/myworld/home', // 重定向
+            children: [
+                { path: '/myworld/home', name: 'Worldhome', component: Worldhome },
+                { path: '/myworld/read', name: 'Worldread', component: Worldread },
+                { path: '/myworld/write', name: 'Worldwrite', component: Worldwrite },
+                { path: '/myworld/mymeeting', name: 'Worldmeeting', component: Worldmeeting },
+                { path: '/myworld/version', name: 'Worldversion', component: Worldversion },
+                { path: '/myworld/alliance', name: 'Worldalliance', component: Worldalliance },
+                { path: '/myworld/person', name: 'Worldperson', component: Worldperson }
+            ]
+        },
+        /* 我的学网 */
+        {
+            path: '/mystunet',
+            name: 'Mystunet',
+            component: Mystunet,
+            redirect: '/mystunet/home', // 重定向
+            children: [
+                { path: '/mystunet/home', name: 'Stuhome', component: Stuhome },
+                { path: '/mystunet/survey', name: 'Stusurvey', component: Stusurvey },
+                { path: '/mystunet/leader', name: 'Stuleader', component: Stuleader },
+                { path: '/mystunet/member', name: 'Stumember', component: Stumember },
+                { path: '/mystunet/meeting', name: 'Stumeeting', component: Stumeeting },
+                { path: '/mystunet/paper', name: 'Stupaper', component: Stupaper },
+                { path: '/mystunet/share', name: 'Stushare', component: Stushare },
+                { path: '/mystunet/join', name: 'Stujoin', component: Stujoin },
+                { path: '/mystunet/cert', name: 'Stucert', component: Stucert }
+            ]
+        },
+        /* 学群学友 */
+        {
+            path: '/myGroupFriend',
+            name: 'MyGroupFriend',
+            component: MyGroupFriend
+        },
+        /* 推介 */
+        {
+            path: '/recome',
+            name: 'Recome',
+            component: Recome
+        },
+        /* 理事 */
+        {
+            path: '/director',
+            name: 'Director',
+            component: Director
+        },
+        /* 用户中心 */
+        {
+            path: '/uercenter',
+            name: 'Uercenter',
+            component: Uercenter
+        },
+        /* 财务室 */
+        {
+            path: '/financial',
+            name: 'Financial',
+            component: Financial
+        },
+        /* 资料馆 */
+        {
+            path: '/archive',
+            name: 'Archive',
+            component: Archive
+        },
+        /* 设置 */
+        {
+            path: '/mwsetting',
+            name: 'Mwsetting',
+            component: Mwsetting
+        },
+        /* 注册 */
+        {
+            path: '/register',
+            name: 'Register',
+            component: Register
+        },
+        /* 重置密码 */
+        {
+            path: '/resetPass',
+            name: 'ResetPass',
+            component: ResetPass
+        },
+        /* 建站 */
+        {
+            path: '/webbuild',
+            name: 'Webbuild',
+            component: Webbuild
+        },
+        /* 阅读 */
+        {
+            path: '/read',
+            name: 'Read',
+            component: Read
+        },
+        /* video阅读 */
+        {
+            path: '/videoread',
+            name: 'videoRead',
+            component: Videoread
+        },
+        /* image阅读 */
+        {
+            path: '/imageread',
+            name: 'imageRead',
+            component: Imageread
+        }
+    ]
 })
