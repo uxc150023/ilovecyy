@@ -381,7 +381,7 @@ let postUrl = {
     SUCA_OTHER: 'learn/SchGConfig/SUcAOther', // 学长小页修改 -- 其他
     SASE_PERPEL: 'learn/SchGConfig/SASePerpel', // 学长/学员 小页 --查询 我粉与粉我用户
     SUCA_INPERPLE: 'learn/SchGConfig/SUcAInPerpel', // 学长小页 -- 添加群友
-    SCHLIST_QUIT: 'learn/SchGShow/SchListQuit', /// /学长小页 -- 删除群友
+    SCHLIST_QUIT: 'learn/SchGShow/SchListQuit', // / /学长小页 -- 删除群友
     SU_AUDIT: 'learn/SchGConfig/SUAudit', // 学长小页 -- 入会审核 查询
     SU_AUDITPD: 'learn/SchGConfig/SUAuditPd', // 学长小页 -- 推荐入会审核 查询
     SU_AUDITSTA: 'learn/SchGConfig/SUAuditSta', // 学长小页 -- 入会审核 通过 不通过
