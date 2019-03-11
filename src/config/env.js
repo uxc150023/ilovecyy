@@ -15,10 +15,10 @@ if (process.env.NODE_ENV === 'development') {
     // baseUrl = 'https://console.xinxuejie.com.cn/'
     // baseUrl = 'http://192.168.31.188:80/'
     // baseUrl = 'http://192.168.31.116:80/'
-    baseUrl = 'http://eqk39k.natappfree.cc/'
+    baseUrl = 'http://127.0.0.1:10060/'
     // imgBaseUrl = '/img/';
 } else if (process.env.NODE_ENV === 'production') {
-    baseUrl = 'https://console.xinxuejie.com.cn/'
+    // baseUrl = 'https://console.xinxuejie.com.cn/'
     // imgBaseUrl = '//elm.cangdu.org/img/';
 }
 export {
