@@ -1,14 +1,20 @@
 <template>
-    <div class="block">
+    <div id="index">
         <div>
-            周斌喜欢程雲雲~
+            <img class="img_0"
+                 src="../images/live.png" />
+            <img class="img_1"
+                 src="../images/quan.png" />
         </div>
-        <el-button type="text"
-                   @click="goLogin()">去登陆</el-button>
+        <p class="index-label">智能互联时代</p>
+        <p class="index-label-b">学人，学子，学会，学校，学术单位</p>
+        <p class="index-label-b">怎么可以没有“新一代智能互联网”</p>
+        <div style="padding-bottom: 300px;">
+            <img src="../images/flower.png">
+        </div>
     </div>
 </template>
 <script>
-
 export default {
     name: 'GOGOGO',
     data () {
@@ -85,34 +91,32 @@ export default {
 </script>
 
 <style lang="scss">
-.top-header {
-    display: none;
-}
-$background: red;
-html,
-body {
-    width: 100%;
-    height: 100%;
-}
-body::-webkit-scrollbar {
-    width: 1px;
-    height: 1px;
-}
-.block {
-    width: 100%;
-    height: 100%;
-    // background: url("./image/bg.png")0 0 no-repeat;
-    -webkit-background-size: 100% 100%;
-    background-size: 100% 100%;
-}
-.snow {
-    position: absolute;
-}
-.login {
-    text-align: center;
-    .demo-input-suffix {
-        width: 300px;
-        margin: auto;
+#index {
+    padding-top: 47px;
+    background: url("../images/bg.jpg") no-repeat;
+    background-size: cover;
+    min-width: 1129px;
+    .img_0 {
+        position: absolute;
+        left: 50%;
+        margin-left: -243.5px;
+        top: 170px;
+    }
+    .img_1 {
+        vertical-align: middle;
+    }
+    .index-label {
+        color: #316eea;
+        font-size: 32px;
+        text-align: center;
+        margin-bottom: 16px;
+        margin-top: 50px;
+    }
+    .index-label-b {
+        font-size: 18px;
+        color: #f19300;
+        text-align: center;
+        margin-bottom: 20px;
     }
 }
 </style>

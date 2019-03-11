@@ -61,7 +61,7 @@
                         <el-form-item label="协议："
                                       prop="select">
                             <el-checkbox-group v-model="ruleFormPer.select">
-                                <el-checkbox label="同意和平相处协议"
+                                <el-checkbox label="同意协议"
                                              name="ruleFormPer.select"></el-checkbox>
                             </el-checkbox-group>
                         </el-form-item>
@@ -134,7 +134,7 @@
                         <el-form-item label="协议："
                                       prop="select">
                             <el-checkbox-group v-model="ruleFormOrg.select">
-                                <el-checkbox label="同意和平相处协议"
+                                <el-checkbox label="同意协议"
                                              name="ruleFormOrg.select"></el-checkbox>
                             </el-checkbox-group>
                         </el-form-item>
@@ -418,7 +418,7 @@ export default {
 <style lang="scss">
 #register {
     text-align: center;
-    margin-top: 70px;
+    padding-top: 120px;
     .register_content {
         width: 550px;
         margin: 0 auto;

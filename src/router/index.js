@@ -47,28 +47,28 @@ export default new Router({
         {
             path: '/',
             name: 'Index',
-            component: Index
+            component: resolve => require(['@/views/index'], resolve)
         },
         /* 登陆 */
         {
             path: '/login',
             name: 'Login',
-            component: Login
+            component: resolve => require(['@/views/login/login'], resolve)
         },
         /* 我世界 */
         {
             path: '/myworld',
             name: 'Myworld',
-            component: Myworld,
+            component: resolve => require(['@/views/myworld/myworld'], resolve),
             redirect: '/myworld/home', // 重定向
             children: [
-                { path: '/myworld/home', name: 'Worldhome', component: Worldhome },
-                { path: '/myworld/read', name: 'Worldread', component: Worldread },
-                { path: '/myworld/write', name: 'Worldwrite', component: Worldwrite },
-                { path: '/myworld/mymeeting', name: 'Worldmeeting', component: Worldmeeting },
-                { path: '/myworld/version', name: 'Worldversion', component: Worldversion },
-                { path: '/myworld/alliance', name: 'Worldalliance', component: Worldalliance },
-                { path: '/myworld/person', name: 'Worldperson', component: Worldperson }
+                { path: '/myworld/home', name: 'Worldhome', component: resolve => require(['@/views/myworld/home'], resolve) },
+                { path: '/myworld/read', name: 'Worldread', component: resolve => require(['@/views/myworld/read'], resolve) },
+                { path: '/myworld/write', name: 'Worldwrite', component: resolve => require(['@/views/myworld/write'], resolve) },
+                { path: '/myworld/mymeeting', name: 'Worldmeeting', component: resolve => require(['@/views/myworld/mymeeting'], resolve) },
+                { path: '/myworld/version', name: 'Worldversion', component: resolve => require(['@/views/myworld/version'], resolve) },
+                { path: '/myworld/alliance', name: 'Worldalliance', component: resolve => require(['@/views/myworld/alliance'], resolve) },
+                { path: '/myworld/person', name: 'Worldperson', component: resolve => require(['@/views/myworld/person'], resolve) }
             ]
         },
         /* 我的学网 */

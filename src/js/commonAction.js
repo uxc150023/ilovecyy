@@ -1,7 +1,5 @@
 /**
  * 全局方法
- * by cyy zb
- * 2018 12 13
  */
 import commonConfig from './config'
 import _this from '../main.js'
