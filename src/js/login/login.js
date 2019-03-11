@@ -105,6 +105,12 @@ export default {
             this.$refs[formName].resetFields()
         },
         /**
+         * 去注册
+         */
+        regiter () {
+            this.$router.push({ name: 'Register' })
+        },
+        /**
          * @return {tab点击}
          */
         handleClick (tab, even) {

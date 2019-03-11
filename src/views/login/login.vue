@@ -1,5 +1,5 @@
 <template>
-    <div class="login">
+    <div id="login">
         <div class="login_content">
             <el-tabs v-model="activeName"
                      @tab-click="handleClick">
@@ -132,11 +132,11 @@ import Login from '@/js/login/login.js'
 export default Login
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 /*登陆*/
-.login {
+#login {
     text-align: center;
-    margin-top: 70px;
+    padding-top: 120px;
     .login_content {
         width: 550px;
         height: 400px;
